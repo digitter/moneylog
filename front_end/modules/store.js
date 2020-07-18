@@ -12,9 +12,9 @@ const enhancers = []
 
 const middlewares = [ routerMiddleware(history), reduxThunk ]
 
-if (window.__REDUX_DEVTOOLS_EXTENTION__) {
+if (window.__REDUX_DEVTOOLS_EXTENSION__) {
   // Browserの拡張機能にReduxDevToolが存在するか
-  enhancers.push(window.__REDUX_DEVTOOLS_EXTENTION__())
+  enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__())
 }
 
 const composedEnhancers = compose(
