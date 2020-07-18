@@ -66,6 +66,7 @@ export default {
     host: '0.0.0.0',
     port: 8080,
     historyApiFallback: true,
+    inline: true,
     // before(app) {
       // デフォルトだと、url末尾にスラッシュがないときに追加しリダイレクトするため、それを防ぐ
       // app.set('strict routing', true);
