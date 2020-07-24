@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class Api::V1::SessionsController < ApplicationController
   include CurrentUserConcern
 
-  def create
-    user = User
-            .find_by(email: params[:user][:email])
-            .try(:authenticate, params[:user][:password])
+  def signin
+    # session固定攻撃を防ぐためにログイン時には必ず、ユーザーをemail, passwordで参照してセッションに値を代入する
+    user = User.find_by(email: params[:user][:email])
+               .try(:authenticate, params[:user][:password])
 
     if user
       session[:user_id] = user.id
@@ -15,12 +17,8 @@ class Api::V1::SessionsController < ApplicationController
         user: user
       }
     else
-      # unauthrized
       render json: { status: 401 }
     end
-  end
-
-  def destroy
   end
 
   def logged_in
@@ -38,9 +36,13 @@ class Api::V1::SessionsController < ApplicationController
 
   def logout
     reset_session
-    render json: {
-      status: 200,
-      logged_out: true
-    }
+    render json: { status: 200, logged_out: true }
   end
+
+  private
+    def user_signin_params
+      params.require(:user).permit(
+        :email, :password
+      )
+    end
 end

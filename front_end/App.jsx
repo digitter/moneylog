@@ -7,6 +7,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { Route, Switch } from 'react-router'
 
 import Hello from './modules/Hello'
+import Auth from './components/auth/Auth'
 
 export default class App extends Component {
   render() {
@@ -14,7 +15,9 @@ export default class App extends Component {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' render={() => <Hello></Hello>} />
+            <Auth>
+              <Route path='/' render={() => <Hello></Hello>} />
+            </Auth>
           </Switch>
         </ConnectedRouter>
       </Provider>

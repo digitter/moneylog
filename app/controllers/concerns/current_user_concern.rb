@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module CurrentUserConcern
   extend ActiveSupport::Concern
 
-  include do
+  included do
     before_action :set_current_user
   end
 
