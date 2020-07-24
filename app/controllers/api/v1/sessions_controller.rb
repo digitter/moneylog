@@ -4,6 +4,7 @@ class Api::V1::SessionsController < ApplicationController
   include CurrentUserConcern
 
   def create
+    # session固定攻撃を防ぐためにログイン時には必ず、ユーザーをemail, passwordで参照してセッションに値を代入する
     user = User.find_by(email: params[:user][:email])
                .try(:authenticate, params[:user][:password])
 

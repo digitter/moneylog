@@ -7,18 +7,36 @@ import axios from 'axios'
 interface Props {
 }
 interface State {
+  loggedInStatus: string
+  user: any
 }
+
+const http = axios.create({ withCredentials: true })
+
+http.interceptors.request.use((config) => {
+  const token = window.localStorage.getItem('auth-token')
+  config.headers['X-CSRF-Token'] = token
+  config.headers['Content-Type'] = 'application/json'
+
+  return config
+})
+
+http.interceptors.response.use((response) => {
+  const token = response.headers['x-csrf-token']
+  window.localStorage.setItem('auth-token', token)
+
+  return response
+})
 
 export default class Auth extends React.Component<Props, State> {
   state = {
     loggedInStatus: "NOT_LOGGED_IN",
-    user: {}
+    user: null
   }
 
   checkLoginStatus() {
-    axios.get(
+    http.get(
       'http://localhost:3000/api/v1/logged_in',
-      { withCredentials: true }
       ).then(response => {
         if (response.data.logged_in && this.state.loggedInStatus == 'NOT_LOGGED_IN') {
           this.setState({
@@ -49,7 +67,6 @@ export default class Auth extends React.Component<Props, State> {
 
   handleSuccessfullAuth = (data: any) => {
     this.handleLogin(data);
-    console.log('auth successfully !!!')
   }
 
   render() {
@@ -57,6 +74,8 @@ export default class Auth extends React.Component<Props, State> {
       <React.Fragment>
         <Route children={this.props.children} />
         <Login handleSuccessfullAuth={this.handleSuccessfullAuth} />
+        <h1>{this.state.user ? this.state.user.name : null}</h1>
+        <h1>{this.state.loggedInStatus ? this.state.loggedInStatus : null}</h1>
         {/* <Registration handleSuccessfullAuth={this.handleSuccessfullAuth} /> */}
       </React.Fragment>
     )

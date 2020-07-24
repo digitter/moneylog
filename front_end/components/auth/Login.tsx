@@ -9,6 +9,23 @@ interface LoginState {
   password: string
 }
 
+const http = axios.create({ withCredentials: true })
+
+http.interceptors.request.use((config) => {
+  const token = window.localStorage.getItem('auth-token')
+  config.headers['X-CSRF-Token'] = token
+  config.headers['Content-Type'] = 'application/json'
+
+  return config
+})
+
+http.interceptors.response.use((response) => {
+  const token = response.headers['x-csrf-token']
+  window.localStorage.setItem('auth-token', token)
+
+  return response
+})
+
 export default class Login extends React.Component<LoginProps, LoginState> {
   state = {
     email: '',
@@ -28,7 +45,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
       password
     } = this.state
 
-    axios.post(
+    http.post(
       'http://localhost:3000/api/v1/sessions',
       {
         user: {
@@ -38,13 +55,11 @@ export default class Login extends React.Component<LoginProps, LoginState> {
       },
       { withCredentials: true }
     ).then(response => {
-      console.log('login response', response)
-
       if (response.data.logged_in) {
         this.props.handleSuccessfullAuth(response.data)
       }
     }).catch(error => {
-      console.log('login error', error)
+      console.error('login error', error)
     })
 
     event.preventDefault()
