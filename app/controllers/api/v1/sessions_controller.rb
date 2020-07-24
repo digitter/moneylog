@@ -28,7 +28,6 @@ class Api::V1::SessionsController < ApplicationController
         user: @current_user
       }
     else
-      # ここではエラーを起こさない
       render json: {
         logged_in: false
       }
@@ -39,4 +38,11 @@ class Api::V1::SessionsController < ApplicationController
     reset_session
     render json: { status: 200, logged_out: true }
   end
+
+  private
+    def user_signin_params
+      params.require(:user).permit(
+        :email, :password
+      )
+    end
 end
