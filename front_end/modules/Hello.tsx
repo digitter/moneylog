@@ -26,7 +26,6 @@ class Hello extends React.Component<HelloProps, HelloState> {
       <React.Fragment>
         <h2>Hello boilerplate</h2>
         <img src ="/public/hello.png" style={{width: 200, height: 200}} />
-
         <p><button onClick={this.setLoading}>start loading</button></p>
         <p><button onClick={this.unsetLoading}>stop loading</button></p>
         <LoadingIcon />

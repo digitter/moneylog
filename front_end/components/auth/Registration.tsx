@@ -1,18 +1,19 @@
 import * as React from 'react'
 import Axios from '../../Axios'
 
-interface LoginProps {
+interface Props {
   handleSuccessfullAuth: (data: any) => void
 }
-interface LoginState {
+interface State {
 }
 
-export default class Login extends React.Component<LoginProps, LoginState> {
+export default class Registration extends React.Component<Props, State> {
   state = {
     user: null,
+    name: '',
     email: '',
     password: '',
-    loginErrors: ''
+    password_confirmation: ''
   }
 
   handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -21,20 +22,24 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     })
   }
 
-  handleSubmit = (event: any) => {
+  handleSubmit = () => {
     event.preventDefault()
 
     const {
+      name,
       email,
-      password
+      password,
+      password_confirmation
     } = this.state
 
     Axios.post(
-      'http://localhost:3000/api/v1/sessions',
+      'http://localhost:3000/api/v1/registrations',
       {
         user: {
-          email,
-          password
+          name: name,
+          email: email,
+          password: password,
+          password_confirmation: password_confirmation
         }
       }
     ).then(response => {
@@ -50,10 +55,18 @@ export default class Login extends React.Component<LoginProps, LoginState> {
   render() {
     return (
       <React.Fragment>
-        <h2>Login</h2>
-        { this.state.user ? this.state.user.name : null}
-
+        <h2>Signup</h2>
+        {this.state.user ? this.state.user.name : null}
         <form onSubmit={this.handleSubmit}>
+          <input
+            type='text'
+            name='name'
+            placeholder='Name'
+            defaultValue={this.state.name}
+            onChange={this.handleChange}
+            required
+          />
+
           <input
             type='email'
             name='email'
@@ -72,7 +85,16 @@ export default class Login extends React.Component<LoginProps, LoginState> {
             required
           />
 
-          <button type='submit'>Login</button>
+          <input
+            type='password'
+            name='password_confirmation'
+            placeholder='Passowrd_confirmation'
+            defaultValue={this.state.password_confirmation}
+            onChange={this.handleChange}
+            required
+          />
+
+          <button type='submit'>Signup</button>
         </form>
       </React.Fragment>
     )

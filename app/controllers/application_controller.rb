@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :verify_csrf_token, only: %i[create update destroy]
+  before_action :verify_csrf_token, only: %i[create update destroy logout cancel]
   after_action :set_csrf_token
 
   def verify_csrf_token
@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
     else
       # TODO: エラーヘルパーにまとめる
       puts "Unauthorized !"
-      raise
     end
   end
 
