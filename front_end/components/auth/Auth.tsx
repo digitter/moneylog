@@ -6,7 +6,7 @@ import { fetchUser } from '../../services/UserService'
 import { setUser } from '../../modules/UserModule'
 import Login from './Login'
 import Registration from './Registration'
-// import Logout from './Logout'
+import Logout from './Logout'
 
 interface Props {
   setUser: typeof setUser
@@ -68,7 +68,7 @@ class Auth extends React.Component<Props, State> {
         <h1>{this.state.loggedInStatus ? this.state.loggedInStatus : null}</h1>
         <Login handleSuccessfullAuth={this.handleSuccessfullAuth} />
         <Registration handleSuccessfullAuth={this.handleSuccessfullAuth} />
-        {/* <Logout handleSuccessfullAuth={this.handleSuccessfullAuth} /> */}
+        <Logout />
       </React.Fragment>
     )
   }

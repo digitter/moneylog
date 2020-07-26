@@ -1,74 +1,54 @@
-// import * as React from 'react'
-// import Axios from '../../Axios'
+import * as React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { userSignout } from '../../services/UserService'
+import { unsetUser } from '../../modules/UserModule'
 
-// interface Props {
-//   handleSuccessfullAuth: (data: any) => void
-// }
+interface Props {
+  unsetUser: typeof unsetUser
+  user: any
+}
 
-// interface State {
-// }
+interface State {
+}
 
-// export default class Logout extends React.Component<Props, State> {
-//   state = {
-//     email: '',
-//     password: ''
-//   }
+class Logout extends React.Component<Props, State> {
 
-//   handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-//     this.setState({
-//       [event.currentTarget.name]: event.currentTarget.value
-//     })
-//   }
+  handleSignoutClick = () => {
+    userSignout()
+      .then(res => {
+        this.props.unsetUser()
+        console.log('res >>>', res)
+      })
+    // event.preventDefault()
+  }
 
-//   handleSubmit = (event: any) => {
-//     // event.preventDefault()
+  render() {
+    return (
+      <React.Fragment>
+        <h2>Signout</h2>
+        <button onClick={this.handleSignoutClick} >
+          Signout
+        </button>
+        {this.props.user ? this.props.user.name : null}
+      </React.Fragment>
+    )
+  }
+}
 
-//     const {
-//       email,
-//       password
-//     } = this.state
+const mapStateToProps = state => {
+  return {
+    user: state.user.user
+  }
+}
 
-//     Axios.delete(
-//       'http://localhost:3000/api/v1/logout',
-//       {
-//         data: {
-//           email,
-//           password
-//         }
-//       }
-//     ).then(res => {
-//       console.log('res >>>', res)
-//     })
-//   }
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      unsetUser: unsetUser
+    },
+    dispatch
+  )
+}
 
-//   render() {
-//     return (
-//       <div>
-//         <React.Fragment>
-//           <h2>Logout</h2>
-//           <form onSubmit={this.handleSubmit}>
-//             <input
-//               type='email'
-//               name='email'
-//               placeholder='Email'
-//               defaultValue={this.state.email}
-//               onChange={this.handleChange}
-//               required
-//             />
-
-//             <input
-//               type='password'
-//               name='password'
-//               placeholder='Passowrd'
-//               defaultValue={this.state.password}
-//               onChange={this.handleChange}
-//               required
-//             />
-
-//             <button type='submit'>Logout</button>
-//           </form>
-//         </React.Fragment>
-//       </div>
-//     )
-//   }
-// }
+export default connect(mapStateToProps, mapDispatchToProps)(Logout)

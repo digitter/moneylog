@@ -14,7 +14,6 @@ interface LoginState {
 
 class Login extends React.Component<LoginProps, LoginState> {
   state = {
-    user: null,
     email: '',
     password: '',
     loginErrors: ''
@@ -39,7 +38,6 @@ class Login extends React.Component<LoginProps, LoginState> {
     userSignin(user)
       .then(response => {
         if (response.data.user) {
-          // this.setState({ user: response.data.user })
           this.props.setUser(response.data.user)
           this.props.handleSuccessfullAuth(response.data)
         }
