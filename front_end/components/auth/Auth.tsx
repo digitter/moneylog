@@ -26,7 +26,6 @@ class Auth extends React.Component<Props, State> {
   checkLoginStatus() {
     fetchUser()
       .then(response => {
-        console.log('res >>>', response)
         if (response.data.user && this.state.loggedInStatus == 'NOT_LOGGED_IN') {
           this.setState({
             loggedInStatus: 'LOGGED_IN',
