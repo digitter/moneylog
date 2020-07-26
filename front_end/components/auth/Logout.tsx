@@ -20,7 +20,6 @@ class Logout extends React.Component<Props, State> {
         this.props.unsetUser()
         console.log('res >>>', res)
       })
-    // event.preventDefault()
   }
 
   render() {
