@@ -16,7 +16,7 @@ export const fetchUser = () => {
   })
 }
 
-export const signup = (user) => {
+export const registUser = (user) => {
   return new Promise((resolve, reject) => {
     const url = 'http://localhost:3000/api/v1/registrations'
 
