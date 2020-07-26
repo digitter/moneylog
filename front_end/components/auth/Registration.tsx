@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { registUser } from '../../services/UserService'
+import { userSignup } from '../../services/UserService'
 import { setUser } from '../../modules/UserModule'
 
 interface Props {
@@ -38,7 +38,7 @@ class Registration extends React.Component<Props, State> {
 
     const user = { name, email, password, password_confirmation }
 
-    registUser(user)
+    userSignup(user)
       .then(response => {
         if (response.data.user) {
           this.props.setUser(response.data.user)

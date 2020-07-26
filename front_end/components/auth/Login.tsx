@@ -1,13 +1,18 @@
 import * as React from 'react'
-import Axios from '../../Axios'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { userSignin } from '../../services/UserService'
+import { setUser } from '../../modules/UserModule'
 
 interface LoginProps {
   handleSuccessfullAuth: (data: any) => void
+  setUser: typeof setUser
+  user: any
 }
 interface LoginState {
 }
 
-export default class Login extends React.Component<LoginProps, LoginState> {
+class Login extends React.Component<LoginProps, LoginState> {
   state = {
     user: null,
     email: '',
@@ -29,29 +34,25 @@ export default class Login extends React.Component<LoginProps, LoginState> {
       password
     } = this.state
 
-    Axios.post(
-      'http://localhost:3000/api/v1/sessions',
-      {
-        user: {
-          email,
-          password
+    const user = { email, password }
+
+    userSignin(user)
+      .then(response => {
+        if (response.data.user) {
+          // this.setState({ user: response.data.user })
+          this.props.setUser(response.data.user)
+          this.props.handleSuccessfullAuth(response.data)
         }
-      }
-    ).then(response => {
-      if (response.data.user) {
-        this.setState({ user: response.data.user })
-        this.props.handleSuccessfullAuth(response.data)
-      }
-    }).catch(error => {
-      console.error('login error', error)
-    })
+      }).catch(error => {
+        console.error('login error', error)
+      })
   }
 
   render() {
     return (
       <React.Fragment>
         <h2>Login</h2>
-        { this.state.user ? this.state.user.name : null}
+        { this.props.user ? this.props.user.name : null}
 
         <form onSubmit={this.handleSubmit}>
           <input
@@ -78,3 +79,20 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.user.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      setUser: setUser
+    },
+    dispatch
+  )
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
