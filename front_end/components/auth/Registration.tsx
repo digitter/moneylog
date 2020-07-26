@@ -1,15 +1,19 @@
 import * as React from 'react'
-import Axios from '../../Axios'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { userSignup } from '../../services/UserService'
+import { setUser } from '../../modules/UserModule'
 
 interface Props {
   handleSuccessfullAuth: (data: any) => void
+  setUser: typeof setUser
+  user: any
 }
 interface State {
 }
 
-export default class Registration extends React.Component<Props, State> {
+class Registration extends React.Component<Props, State> {
   state = {
-    user: null,
     name: '',
     email: '',
     password: '',
@@ -32,31 +36,24 @@ export default class Registration extends React.Component<Props, State> {
       password_confirmation
     } = this.state
 
-    Axios.post(
-      'http://localhost:3000/api/v1/registrations',
-      {
-        user: {
-          name: name,
-          email: email,
-          password: password,
-          password_confirmation: password_confirmation
+    const user = { name, email, password, password_confirmation }
+
+    userSignup(user)
+      .then(response => {
+        if (response.data.user) {
+          this.props.setUser(response.data.user)
+          this.props.handleSuccessfullAuth(response.data)
         }
-      }
-    ).then(response => {
-      if (response.data.user) {
-        this.setState({ user: response.data.user })
-        this.props.handleSuccessfullAuth(response.data)
-      }
-    }).catch(error => {
-      console.error('login error', error)
-    })
+      }).catch(error => {
+        console.error('login error', error)
+      })
   }
 
   render() {
     return (
       <React.Fragment>
         <h2>Signup</h2>
-        {this.state.user ? this.state.user.name : null}
+        {this.props.user ? this.props.user.name : null}
         <form onSubmit={this.handleSubmit}>
           <input
             type='text'
@@ -100,3 +97,21 @@ export default class Registration extends React.Component<Props, State> {
     )
   }
 }
+
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {
+      setUser: setUser
+    },
+    dispatch
+  )
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registration)

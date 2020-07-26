@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import LoadingIcon from '../components/LoadingIcon'
+import LoadingIcon from './LoadingIcon'
 import { setInLoading } from '../modules/CommonModule'
 
 interface HelloProps {

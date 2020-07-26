@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { Provider } from 'react-redux'
 import store, { history } from './modules/store'
 
@@ -6,10 +6,15 @@ import store, { history } from './modules/store'
 import { ConnectedRouter } from 'connected-react-router'
 import { Route, Switch } from 'react-router'
 
-import Hello from './modules/Hello'
+import Hello from './components/Hello'
 import Auth from './components/auth/Auth'
 
-export default class App extends Component {
+interface state {
+}
+interface props {
+}
+
+export default class App extends React.Component<state, props> {
   render() {
     return (
       <Provider store={store}>
