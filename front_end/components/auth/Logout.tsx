@@ -7,6 +7,7 @@ import { unsetUser } from '../../modules/UserModule'
 interface Props {
   unsetUser: typeof unsetUser
   user: any
+  history: any
 }
 
 interface State {
@@ -16,9 +17,9 @@ class Logout extends React.Component<Props, State> {
 
   handleSignoutClick = () => {
     userSignout()
-      .then(res => {
+      .then(() => {
         this.props.unsetUser()
-        console.log('res >>>', res)
+        window.location.href = '/top'
       })
   }
 

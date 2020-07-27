@@ -1,7 +1,8 @@
 // Actions
 const actionTypes = {
   setUser: 'SET_USER',
-  unsetUser: 'UNSET_USER'
+  unsetUser: 'UNSET_USER',
+  isLoggedIn: 'IS_LOGGED_IN'
 }
 // Action Creators
 export function setUser(user) {
@@ -21,14 +22,14 @@ export function unsetUser() {
 }
 
 // Reducer
-const initialState = {}
+const initialState = { }
 
 export default function UserReducer(state = initialState, action = {}) {
   switch (action.type) {
     case actionTypes.setUser:
-      return  Object.assign({}, state, { user: action.payload })
+      return  Object.assign({}, state, { user: action.payload, isLoggedIn: true })
     case actionTypes.unsetUser:
-      return {}
+      return { }
     default: return state;
   }
 }

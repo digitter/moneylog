@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import LoadingIcon from './LoadingIcon'
 import { setInLoading } from '../modules/CommonModule'
+import Logout from './auth/Logout'
 
 interface HelloProps {
   setInLoading: typeof setInLoading
@@ -29,6 +30,7 @@ class Hello extends React.Component<HelloProps, HelloState> {
         <p><button onClick={this.setLoading}>start loading</button></p>
         <p><button onClick={this.unsetLoading}>stop loading</button></p>
         <LoadingIcon />
+        <Logout />
       </React.Fragment>
     )
   }

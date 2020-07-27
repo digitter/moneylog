@@ -8,6 +8,7 @@ import { Route, Switch } from 'react-router'
 
 import Hello from './components/Hello'
 import Auth from './components/auth/Auth'
+import Top from './components/Top.'
 
 interface state {
 }
@@ -20,9 +21,12 @@ export default class App extends React.Component<state, props> {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <Switch>
+              <Route exact path="/" render={()=> history.push('/top')}/>
+              <Route path="/top" component={() => <Top history={history} />} />
             <Auth>
-              <Route path='/' render={() => <Hello></Hello>} />
+                <Route path='/hello' render={() => <Hello />} />
             </Auth>
+            <Route render={() => (<h3>Error404Page: No pages to show...</h3>)} />
           </Switch>
         </ConnectedRouter>
       </Provider>
