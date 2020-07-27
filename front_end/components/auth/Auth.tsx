@@ -14,13 +14,11 @@ interface Props {
 }
 interface State {
   loggedInStatus: string
-  user: any
 }
 
 class Auth extends React.Component<Props, State> {
   state = {
     loggedInStatus: "NOT_LOGGED_IN",
-    user: null
   }
 
   checkLoginStatus() {
@@ -29,14 +27,12 @@ class Auth extends React.Component<Props, State> {
         if (response.data.user && this.state.loggedInStatus == 'NOT_LOGGED_IN') {
           this.setState({
             loggedInStatus: 'LOGGED_IN',
-            user: response.data.user
           })
 
           this.props.setUser(response.data.user)
         } else if (!response.data.logged_in && this.state.loggedInStatus == 'NOT_LOGGED_IN') {
           this.setState({
             loggedInStatus: 'NOT_LOGGED_IN',
-            user: {}
           })
         }
       }).catch(error => {
@@ -51,7 +47,6 @@ class Auth extends React.Component<Props, State> {
   handleLogin = (data) => {
     this.setState({
       loggedInStatus: "LOGGED_IN",
-      user: data
     })
   }
 
@@ -74,13 +69,13 @@ class Auth extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     user: state.user.user
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       setUser: setUser
