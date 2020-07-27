@@ -7,11 +7,11 @@ interface LoadingIconProps {
 }
 
 const LoadingIcon: React.FC<LoadingIconProps> = props => {
-    if (!props.inLoading) { return null }
+    // if (!props.inLoading) { return null }
 
     return (
       <React.Fragment>
-        <img src ="/public/loading.gif" />
+        <img src ="/public/loading.gif" style={{zIndex: 999}} />
       </React.Fragment>
     )
 }

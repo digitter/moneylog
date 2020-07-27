@@ -6,7 +6,6 @@ import { setUser } from '../../modules/UserModule'
 
 interface Props {
   history: any
-  handleSuccessfullAuth: (data: any) => void
   setUser: typeof setUser
   user: any
 }
@@ -43,7 +42,7 @@ class Registration extends React.Component<Props, State> {
       .then(response => {
         if (response.data.user) {
           this.props.setUser(response.data.user)
-          this.props.history.push('/hello')
+          window.location.href = '/hello'
         }
       }).catch(error => {
         console.error('login error', error)
