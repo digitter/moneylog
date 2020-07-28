@@ -16,18 +16,18 @@ interface State {
 
 class Top extends React.Component<Props, State> {
   render() {
+    if (this.props.user) {
+      return (
+        <Redirect to='/hello' />
+      )
+    }
+
     return (
       <React.Fragment>
-        {
-          this.props.user
-            ? <Redirect to='/hello' />
-            : (
-              <React.Fragment>
-                <Login history={this.props.history} />
-                <Registration history={this.props.history} />
-              </React.Fragment>
-            )
-        }
+        <React.Fragment>
+          <Login history={this.props.history} />
+          <Registration history={this.props.history} />
+        </React.Fragment>
       </React.Fragment>
     )
   }
