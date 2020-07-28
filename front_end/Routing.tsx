@@ -9,7 +9,6 @@ import { setUser } from './modules/UserModule'
 import Top from './components/Top.'
 import Auth from './components/auth/Auth'
 import Hello from './components/Hello'
-import LoadingIcon from './components/LoadingIcon'
 
 interface Props {
   history: any
@@ -17,6 +16,7 @@ interface Props {
   setUser: typeof setUser
 }
 interface State {
+  loggedInStatus: string
 }
 
 class Routing extends React.Component<Props, State> {
@@ -51,13 +51,9 @@ class Routing extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <Switch>
-          {
-            this.state.loggedInStatus === 'LOGGED_IN' ?
-              this.props.user
-                ? <Route exact path="/" render={()=> this.props.history.push('/hello')}/>
-                : <LoadingIcon />
+          this.props.user
+            ? <Route exact path="/" render={()=> this.props.history.push('/hello')}/>
             : <Route exact path="/" render={()=> this.props.history.push('/top')}/>
-          }
 
           <Route path="/top" component={() => <Top history={this.props.history} />} />
 

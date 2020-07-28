@@ -16,12 +16,6 @@ interface State {
 
 class Top extends React.Component<Props, State> {
   render() {
-    if (this.props.user) {
-      return (
-        <Redirect to='/hello' />
-      )
-    }
-
     return (
       <React.Fragment>
         <React.Fragment>
