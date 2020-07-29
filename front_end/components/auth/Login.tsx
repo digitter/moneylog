@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { userSignin } from '../../services/UserService'
 import { setUser } from '../../modules/UserModule'
+import { showMessage } from '../../modules/CommonModule'
+import { notify } from '../../GlobalMessage'
 
 interface LoginProps {
   history: any
@@ -39,9 +41,13 @@ class Login extends React.Component<LoginProps, LoginState> {
       .then(response => {
         if (response.data.user) {
           this.props.setUser(response.data.user)
-          window.location.href = '/hello'
+
+          notify(`こんにちは ${response.data.user.name} !`)
         }
-      }).catch(error => {
+      }).then(() => {
+        this.props.history.push('/hello')
+      })
+      .catch(error => {
         console.error('login error', error)
       })
   }
@@ -87,7 +93,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setUser: setUser
+      setUser: setUser,
     },
     dispatch
   )

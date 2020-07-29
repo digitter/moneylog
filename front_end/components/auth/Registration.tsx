@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { userSignup } from '../../services/UserService'
 import { setUser } from '../../modules/UserModule'
+import { notify } from '../../GlobalMessage'
 
 interface Props {
   history: any
@@ -42,9 +43,13 @@ class Registration extends React.Component<Props, State> {
       .then(response => {
         if (response.data.user) {
           this.props.setUser(response.data.user)
-          window.location.href = '/hello'
+
+          notify(`はじめまして ${response.data.user.name} !`)
         }
-      }).catch(error => {
+      }).then(() => {
+        this.props.history.push('/hello')
+      })
+      .catch(error => {
         console.error('login error', error)
       })
   }

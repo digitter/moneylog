@@ -8,7 +8,7 @@ export const fetchUser = () => {
       .then(response => {
         resolve(response)
       })
-      .catch(res => {
+      .catch(response => {
         reject(response)
       })
   })

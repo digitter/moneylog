@@ -1,10 +1,13 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router'
-
 import { bindActionCreators } from 'redux'
+import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.min.css'
+
 import { fetchUser } from './services/UserService'
 import { setUser } from './modules/UserModule'
+import { showMessage } from './modules/CommonModule'
 
 import Top from './components/Top.'
 import Auth from './components/auth/Auth'
@@ -20,31 +23,19 @@ interface State {
 }
 
 class Routing extends React.Component<Props, State> {
-  state = {
-    loggedInStatus: "LOGGED_IN",
-  }
-
-  async checkLoginStatus() {
+   async checkUserLoggedIn() {
     fetchUser()
       .then(response => {
         if (response.data.user) {
-          this.setState({
-            loggedInStatus: 'LOGGED_IN',
-          })
-
           this.props.setUser(response.data.user)
-        } else if (!response.data.user) {
-          this.setState({
-            loggedInStatus: 'NOT_LOGGED_IN',
-          })
         }
       }).catch(error => {
         console.error('check login error', error)
       })
   }
 
-  componentDidMount() {
-    this.checkLoginStatus()
+  async componentDidMount() {
+    await this.checkUserLoggedIn()
   }
 
   render() {
@@ -57,7 +48,7 @@ class Routing extends React.Component<Props, State> {
 
           <Route path="/top" component={() => <Top history={this.props.history} />} />
 
-          <Auth loggedInStatus={this.state.loggedInStatus}>
+          <Auth>
             <Switch>
               <Route path='/hello' render={() => <Hello />} />
               <Route render={() => (<h3>Error404Page: No pages to show...</h3>)} />
@@ -70,13 +61,13 @@ class Routing extends React.Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.user
+  user: state.user.user,
 })
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setUser: setUser
+      setUser: setUser,
     },
     dispatch
   )

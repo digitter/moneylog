@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { setUser } from '../../modules/UserModule'
 import { setInLoading } from '../../modules/CommonModule'
 import LoadingIcon from '../LoadingIcon'
+import { fetchUser } from '../../services/UserService'
 
 interface Props {
   setUser: typeof setUser
@@ -16,11 +17,38 @@ interface State {
 }
 
 class Auth extends React.Component<Props, State> {
+  state = {
+    loggedInStatus: "LOGGED_IN",
+  }
+
+  async checkLoginStatus() {
+    fetchUser()
+      .then(response => {
+        if (response.data.user) {
+          this.props.setUser(response.data.user)
+
+          this.setState({
+            loggedInStatus: 'LOGGED_IN',
+          })
+        } else if (!response.data.user) {
+          this.setState({
+            loggedInStatus: 'NOT_LOGGED_IN',
+          })
+        }
+      }).catch(error => {
+        console.error('check login error', error)
+      })
+  }
+
+  async componentDidMount() {
+    await this.checkLoginStatus()
+  }
+
   render() {
     return (
       <React.Fragment>
         {
-          this.props.loggedInStatus === 'LOGGED_IN' ?
+          this.state.loggedInStatus === 'LOGGED_IN' ?
             this.props.user
               ? <Route children={this.props.children} />
               : <LoadingIcon />
