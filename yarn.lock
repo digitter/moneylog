@@ -3718,6 +3718,13 @@ jsesc@~0.5.0:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
+json-api-serializer@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/json-api-serializer/-/json-api-serializer-2.6.0.tgz#6624e2b4af12085350ec39a91ecfe372a2674dbe"
+  integrity sha512-4pLbIVXUtQ5gqvLu4k+55p4l8dQK4MZJ9zoq0T7uE7DzVvDuAFM+pvvw/bdZttkMogFJRZlRRZkZKc9X78DJdQ==
+  dependencies:
+    setimmediate "^1.0.5"
+
 json-parse-better-errors@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
@@ -5465,7 +5472,7 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
 
-setimmediate@^1.0.4:
+setimmediate@^1.0.4, setimmediate@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=

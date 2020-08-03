@@ -6,7 +6,6 @@ import { unsetUser } from '../../modules/UserModule'
 
 interface Props {
   unsetUser: typeof unsetUser
-  user: any
   history: any
 }
 
@@ -30,16 +29,13 @@ class Logout extends React.Component<Props, State> {
         <button onClick={this.handleSignoutClick} >
           Signout
         </button>
-        {this.props.user ? this.props.user.name : null}
       </React.Fragment>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return {
-    user: state.user.user
-  }
+  return {}
 }
 
 const mapDispatchToProps = dispatch => {

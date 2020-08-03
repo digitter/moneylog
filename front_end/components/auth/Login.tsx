@@ -3,14 +3,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { userSignin } from '../../services/UserService'
 import { setUser } from '../../modules/UserModule'
-import { showMessage } from '../../modules/CommonModule'
-import { notify } from '../../GlobalMessage'
+import User from '../../models/User'
 
 interface LoginProps {
-  history: any
   setUser: typeof setUser
-  user: any
+  user: User
 }
+
 interface LoginState {
 }
 
@@ -38,14 +37,9 @@ class Login extends React.Component<LoginProps, LoginState> {
     const user = { email, password }
 
     userSignin(user)
-      .then(response => {
-        if (response.data.user) {
-          this.props.setUser(response.data.user)
-
-          notify(`こんにちは ${response.data.user.name} !`)
-        }
-      }).then(() => {
-        this.props.history.push('/hello')
+      .then(user => {
+        if (user) { this.props.setUser(user) }
+        window.location.pathname = '/hello'
       })
       .catch(error => {
         console.error('login error', error)
@@ -56,7 +50,6 @@ class Login extends React.Component<LoginProps, LoginState> {
     return (
       <React.Fragment>
         <h2>Login</h2>
-        { this.props.user ? this.props.user.name : null}
 
         <form onSubmit={this.handleSubmit}>
           <input
@@ -93,7 +86,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setUser: setUser,
+      setUser: setUser
     },
     dispatch
   )

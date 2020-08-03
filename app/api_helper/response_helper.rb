@@ -20,8 +20,12 @@ module ResponseHelper
   end
 
   # 401 Unauthorized
-  def response_unauthorized
+  def check_login_response_unauthorized
     render json: { status: 401, message: 'Unauthorized', logged_in: false }
+  end
+
+  def response_unauthorized
+    render status: 401, json: { status: 401, message: 'Unauthorized', logged_in: false }
   end
 
   # 404 Not Found

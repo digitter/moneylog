@@ -6,54 +6,73 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 
 import { fetchUser } from './services/UserService'
-import { setUser } from './modules/UserModule'
-import { showMessage } from './modules/CommonModule'
+import { setUser, unsetUser } from './modules/UserModule'
+import User from './models/User'
 
 import Top from './components/Top.'
-import Auth from './components/auth/Auth'
 import Hello from './components/Hello'
+import LoadingIcon from './components/LoadingIcon'
 
 interface Props {
   history: any
-  user: any
+  user: User
   setUser: typeof setUser
+  unsetUser: typeof unsetUser
 }
 interface State {
   loggedInStatus: string
 }
 
 class Routing extends React.Component<Props, State> {
-   async checkUserLoggedIn() {
+  state = {
+    loggedInStatus: 'LOGGED_IN'
+  }
+
+  async checkLoginStatus() {
     fetchUser()
-      .then(response => {
-        if (response.data.user) {
-          this.props.setUser(response.data.user)
+      .then(user => {
+        if (user) {
+          this.props.setUser(user)
+          this.setState({ loggedInStatus: 'LOGGED_IN' })
+        }
+        else if (!user) {
+          this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
+          this.props.unsetUser()
         }
       }).catch(error => {
+        this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
+        this.props.unsetUser()
         console.error('check login error', error)
       })
   }
 
   async componentDidMount() {
-    await this.checkUserLoggedIn()
+    await this.checkLoginStatus()
   }
 
   render() {
     return (
       <React.Fragment>
         <Switch>
-          this.props.user
-            ? <Route exact path="/" render={()=> this.props.history.push('/hello')}/>
-            : <Route exact path="/" render={()=> this.props.history.push('/top')}/>
+          <Route exact path="/" component={
+              this.state.loggedInStatus === 'LOGGED_IN' ?
+                this.props.user
+                  ? Hello
+                  : LoadingIcon
+                : Top
+          }/>
 
-          <Route path="/top" component={() => <Top history={this.props.history} />} />
+          <Route path="/hello" component={
+              this.state.loggedInStatus === 'LOGGED_IN' ?
+                this.props.user
+                  ? Hello
+                  : LoadingIcon
+                : Top
+          }/>
 
-          <Auth>
-            <Switch>
-              <Route path='/hello' render={() => <Hello />} />
-              <Route render={() => (<h3>Error404Page: No pages to show...</h3>)} />
-            </Switch>
-          </Auth>
+          {/* <Route path="/top" render={() => <Top />} /> */}
+          <Route path="/top" component={Top} />
+          <Route render={() => (<h3>Error404Page: No pages to show...</h3>)} />
         </Switch>
       </React.Fragment>
     )
@@ -68,6 +87,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       setUser: setUser,
+      unsetUser: unsetUser,
     },
     dispatch
   )

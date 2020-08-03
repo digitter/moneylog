@@ -10,7 +10,10 @@ export const history = createBrowserHistory({ basename })
 const initialState = {}
 const enhancers = []
 
-const middlewares = [ routerMiddleware(history), reduxThunk ]
+const middlewares = [
+  routerMiddleware(history),
+  reduxThunk
+]
 
 if (window.__REDUX_DEVTOOLS_EXTENSION__) {
   // Browserの拡張機能にReduxDevToolが存在するか

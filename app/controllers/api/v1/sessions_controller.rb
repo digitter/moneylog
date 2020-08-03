@@ -7,15 +7,12 @@ module Api
 
       def signin
         # session固定攻撃を防ぐためにログイン時には必ず、ユーザーをemail, passwordで参照してセッションに値を代入する
-        user = User.find_by(email: params[:user][:email])
-                  .try(:authenticate, params[:user][:password])
+        user = User.find_by(email: user_signin_params[:email])
+                   .try(:authenticate, user_signin_params[:password])
 
         if user
           session[:user_id] = user.id
-
-          render json: {
-            user: user
-          }
+          render json: json_serialized(user)
         else
           response_unauthorized
         end
@@ -23,11 +20,9 @@ module Api
 
       def logged_in
         if @current_user
-          render json: {
-            user: @current_user
-          }
+          render json: json_serialized(@current_user)
         else
-          response_unauthorized
+          check_login_response_unauthorized
         end
       end
 
@@ -41,6 +36,10 @@ module Api
           params.require(:user).permit(
             :email, :password
           )
+        end
+
+        def json_serialized(user)
+          UserSerializer.new(user).serialized_json
         end
     end
   end

@@ -5,7 +5,6 @@ import Login from './auth/Login'
 import Registration from './auth/Registration'
 
 interface Props {
-  history: any
   user: any
   isLoggedIn: any
 }
@@ -18,8 +17,8 @@ class Top extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <React.Fragment>
-          <Login history={this.props.history} />
-          <Registration history={this.props.history} />
+          <Login />
+          <Registration />
         </React.Fragment>
       </React.Fragment>
     )
