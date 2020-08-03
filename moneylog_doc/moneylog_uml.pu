@@ -1,0 +1,44 @@
+@startuml
+  title moneylog_ER_Diagram
+
+  ' Relationship
+  User "1" - "1" Deposit : > owns
+  User "1" --- "many" ExpenditureLog
+  User "1" --- "many" IncomeLog
+
+  class User {
+    id
+    name
+    email
+    password_digest
+    created_at
+    updated_at
+  }
+
+  class Deposit {
+    id
+    user_id (foreign_key)
+    amount
+    content
+    created_at
+    updated_at
+  }
+
+  class ExpenditureLog {
+    id
+    user_id (foreign_key)
+    amount
+    content
+    created_at
+    updated_at
+  }
+
+  class IncomeLog {
+    id
+    user_id (foreign_key)
+    amount
+    content
+    created_at
+    updated_at
+  }
+@enduml
