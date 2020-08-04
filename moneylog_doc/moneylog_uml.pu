@@ -9,8 +9,8 @@
   Asset "1" ---{ "many" ExpenditureLog
   Asset "1" ---{ "many" IncomeLog
 
-  ' IncomeLog "1" ---{ "many" Tag
-  ' ExpenditureLog "1" ---{ "many" Tag
+  IncomeLog "1" ---{ "many" Tag
+  ExpenditureLog "1" ---{ "many" Tag
 
   class User {
     id
@@ -31,7 +31,9 @@
   class IncomeLog {
     id
     user_id (foreign_key)
+    asset_id (foreign_key)
     amount
+    title
     content
     created_at
     updated_at
@@ -39,17 +41,19 @@
   class ExpenditureLog {
     id
     user_id (foreign_key)
+    asset_id (foreign_key)
     amount
+    title
     content
     created_at
     updated_at
   }
-  ' class Tag {
-  '   id
-  '   income_log_id (foreign_key)
-  '   expenditure_log_id (foreign_key)
-  '   name
-  '   created_at
-  '   updated_at
-  ' }
+  class Tag {
+    id
+    income_log_id (foreign_key)
+    expenditure_log_id (foreign_key)
+    name
+    created_at
+    updated_at
+  }
 @enduml
