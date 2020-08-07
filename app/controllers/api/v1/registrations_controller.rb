@@ -10,7 +10,7 @@ module Api
 
         if user.save
           session[:user_id] = user.id
-          asset = Asset.create(user_id: user.id)
+          Asset.create(user_id: user.id)
 
           render json: to_json_api_format(user)
         else
