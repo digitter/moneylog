@@ -39,8 +39,7 @@ module Api
         end
 
         def to_json_api_format(user)
-          # UserSerializer.new(user, { include: %i[asset] }).serializable_hash
-          UserSerializer.new(user).serializable_hash
+          UserSerializer.new(user, { include: %i[asset] })
         end
     end
   end

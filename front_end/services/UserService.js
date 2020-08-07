@@ -8,7 +8,7 @@ export const fetchUser = () => {
 
     Axios.get(url)
       .then(response => {
-        resolve(User.fromJson(response.data))
+        resolve(response.data)
       })
       .catch(response => {
         reject(response)
@@ -22,7 +22,7 @@ export const userSignup = (user) => {
 
     Axios.post(url, { user })
       .then(response => {
-        resolve(User.fromJson(response.data))
+        resolve(response.data)
       })
       .catch(response => {
         errorMessage(response)

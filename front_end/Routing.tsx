@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.min.css'
 
 import { fetchUser } from './services/UserService'
 import { setUser, unsetUser } from './modules/UserModule'
+import { editAsset } from './modules/AssetModule'
 import User from './models/User'
 
 import Top from './components/Top.'
@@ -18,6 +19,7 @@ interface Props {
   user: User
   setUser: typeof setUser
   unsetUser: typeof unsetUser
+  editAsset: typeof editAsset
 }
 interface State {
   loggedInStatus: string
@@ -30,12 +32,15 @@ class Routing extends React.Component<Props, State> {
 
   async checkLoginStatus() {
     fetchUser()
-      .then(user => {
-        if (user) {
-          this.props.setUser(user)
+      .then(response => {
+        if (response.data.type === 'user') {
+          this.props.setUser(response.data.attributes)
+          if (response.data.relationships.asset) {
+            this.props.editAsset(response.included)
+          }
           this.setState({ loggedInStatus: 'LOGGED_IN' })
         }
-        else if (!user) {
+        else if (response.data.type !== 'user') {
           this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
           this.props.unsetUser()
         }
@@ -88,6 +93,7 @@ const mapDispatchToProps = dispatch => {
     {
       setUser: setUser,
       unsetUser: unsetUser,
+      editAsset: editAsset
     },
     dispatch
   )

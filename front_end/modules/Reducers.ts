@@ -4,11 +4,13 @@ import { History } from 'history'
 
 import commonReducer from './CommonModule'
 import userReducer from './UserModule'
+import assetsReducer from './AssetModule'
 
 const reducers = (history: History) => combineReducers({
   router: connectRouter(history),
   common: commonReducer,
-  user: userReducer
+  user: userReducer,
+  assets: assetsReducer
 })
 
 export default reducers

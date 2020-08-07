@@ -10,7 +10,7 @@ export default class User {
   ) {}
 
   static fromJson(jsonApiFormat: any): User {
-    if (jsonApiFormat.data.type !== 'user') { return null }
+    if (jsonApiFormat.data.data.type !== 'user') { return null }
 
     Serializer.register('user', jsonApiFormat)
 
