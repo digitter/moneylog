@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router'
+import { Route, Switch, Redirect } from 'react-router'
 import { bindActionCreators } from 'redux'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -77,7 +77,8 @@ class Routing extends React.Component<Props, State> {
 
           {/* <Route path="/top" render={() => <Top />} /> */}
           <Route path="/top" component={Top} />
-          <Route render={() => (<h3>Error404Page: No pages to show...</h3>)} />
+          <Redirect to='/' />
+          {/* <Route render={() => (<h3>Error404Page: No pages to show...</h3>)} /> */}
         </Switch>
       </React.Fragment>
     )
