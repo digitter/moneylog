@@ -1,24 +1,23 @@
 module Api
   module V1
     class AssetsController < ApplicationController
-      def show
-      end
-
-      def create
-        # if
-        # else
-        # end
-      end
+      include CurrentUserConcern
+      include ResponseHelper
 
       def update
-        # if
-        # else
-        # end
+        if @current_user
+          @current_user.asset.update(asset_params)
+        else
+          response_unauthorized
+        end
       end
 
-      def destroy
-        # .destroy
-      end
+      private
+        def asset_params
+          params.require(:asset).permit(
+            :amount, :title, :content
+          )
+        end
     end
   end
 end
