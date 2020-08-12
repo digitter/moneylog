@@ -37,7 +37,7 @@ export const userSignin = (user) => {
 
     Axios.post(url, { user })
       .then(response => {
-        resolve(User.fromJson(response.data))
+        resolve(response.data)
       })
       .catch(response => {
         errorMessage(response)
