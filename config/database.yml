@@ -19,14 +19,14 @@ default: &default
 
 development:
   <<: *default
-  database: simple_mone_development
+  database: money_log_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: simple_mone_test
+  database: money_log_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: simple_mone_production
-  username: simple_mone
-  password: <%= ENV['SIMPLE_MONE_DATABASE_PASSWORD'] %>
+  database: money_log_production
+  username: money_log
+  password: <%= ENV['MONEY_LOG_DATABASE_PASSWORD'] %>

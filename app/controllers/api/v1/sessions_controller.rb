@@ -12,7 +12,7 @@ module Api
 
         if user
           session[:user_id] = user.id
-          render json: json_serialized(user)
+          render json: to_json_api_format(user)
         else
           response_unauthorized
         end
@@ -20,7 +20,7 @@ module Api
 
       def logged_in
         if @current_user
-          render json: json_serialized(@current_user)
+          render json: to_json_api_format(@current_user)
         else
           check_login_response_unauthorized
         end
@@ -38,8 +38,8 @@ module Api
           )
         end
 
-        def json_serialized(user)
-          UserSerializer.new(user).serialized_json
+        def to_json_api_format(user)
+          UserSerializer.new(user, { include: %i[asset] })
         end
     end
   end

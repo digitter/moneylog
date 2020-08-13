@@ -6,8 +6,7 @@ class ApplicationController < ActionController::API
     if session[:auth_token] == request.headers['X-CSRF-Token']
       puts "Authorized !"
     else
-      # TODO: エラーヘルパーにまとめる
-      puts "Unauthorized !"
+      response_unauthorized
     end
   end
 

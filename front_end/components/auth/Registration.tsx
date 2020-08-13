@@ -3,11 +3,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { userSignup } from '../../services/UserService'
 import { setUser } from '../../modules/UserModule'
+import { editAsset } from '../../modules/AssetModule'
 import User from '../../models/User'
 
 interface Props {
   history: any
   setUser: typeof setUser
+  editAsset: typeof editAsset
   user: User
 }
 interface State {
@@ -40,8 +42,11 @@ class Registration extends React.Component<Props, State> {
     const user = { name, email, password, password_confirmation }
 
     userSignup(user)
-      .then(user => {
-        if (user) { this.props.setUser(user) }
+      .then(response => {
+        if (response.data.type === 'user') { this.props.setUser(response.data) }
+          if (response.data.relationships.asset) {
+            this.props.editAsset(response.included)
+          }
       }).then(() => {
         window.location.href = '/hello'
       })
@@ -109,7 +114,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setUser: setUser
+      setUser: setUser,
+      editAsset: editAsset
     },
     dispatch
   )

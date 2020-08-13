@@ -1,0 +1,55 @@
+@startuml
+  title moneylog_ER_Diagram
+
+  ' Relationship
+  User "1" --- "1" Asset: owns >
+  User "1" ---{ "many" ExpenditureLog
+  User "1" ---{ "many" IncomeLog
+
+  Asset "1" ---{ "many" ExpenditureLog
+  Asset "1" ---{ "many" IncomeLog
+
+  ' IncomeLog "1" ---{ "many" Tag
+  ' ExpenditureLog "1" ---{ "many" Tag
+
+  class User {
+    id
+    name
+    email
+    password_digest
+    created_at
+    updated_at
+  }
+  class Asset {
+    id
+    user_id (foreign_key)
+    amount
+    content
+    created_at
+    updated_at
+  }
+  class IncomeLog {
+    id
+    user_id (foreign_key)
+    amount
+    content
+    created_at
+    updated_at
+  }
+  class ExpenditureLog {
+    id
+    user_id (foreign_key)
+    amount
+    content
+    created_at
+    updated_at
+  }
+  ' class Tag {
+  '   id
+  '   income_log_id (foreign_key)
+  '   expenditure_log_id (foreign_key)
+  '   name
+  '   created_at
+  '   updated_at
+  ' }
+@enduml
