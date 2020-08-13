@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       post :sessions, to: 'sessions#signin'
       delete :logout, to: "sessions#logout"
       get :logged_in, to: "sessions#logged_in"
+
+      resource :assets, only: %i[update]
     end
   end
 
