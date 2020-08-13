@@ -3,13 +3,10 @@ module Api
     class AssetsController < ApplicationController
       include CurrentUserConcern
       include ResponseHelper
+      before_action :authenticate_user!
 
       def update
-        if @current_user
-          @current_user.asset.update(asset_params)
-        else
-          response_unauthorized
-        end
+        @current_user.asset.update(asset_params)
       end
 
       private
