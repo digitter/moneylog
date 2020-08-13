@@ -15,7 +15,9 @@ module Api
       private
         def asset_params
           params.require(:asset).permit(
-            :amount, :title, :content
+            :amount,
+            :title,
+            :content
           )
         end
     end

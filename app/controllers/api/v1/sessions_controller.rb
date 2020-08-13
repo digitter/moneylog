@@ -34,7 +34,8 @@ module Api
       private
         def user_signin_params
           params.require(:user).permit(
-            :email, :password
+            :email,
+            :password
           )
         end
 
