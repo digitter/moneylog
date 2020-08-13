@@ -1,13 +1,9 @@
 class ApplicationController < ActionController::API
-  before_action :verify_csrf_token, only: %i[create update destroy logout cancel]
+  before_action :verify_csrf_token
   after_action :set_csrf_token
 
   def verify_csrf_token
-    if session[:auth_token] == request.headers['X-CSRF-Token']
-      puts "Authorized !"
-    else
-      response_unauthorized
-    end
+    reset_session unless session[:auth_token] == request.headers['X-CSRF-Token']
   end
 
   def set_csrf_token
