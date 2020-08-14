@@ -9,7 +9,6 @@ module Api
         # session固定攻撃を防ぐためにログイン時には必ず、ユーザーをemail, passwordで参照してセッションに値を代入する
         user = User.find_by(email: user_signin_params[:email])
                    .try(:authenticate, user_signin_params[:password])
-
         if user
           session[:user_id] = user.id
           render json: to_json_api_format(user)
