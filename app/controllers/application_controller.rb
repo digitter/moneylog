@@ -3,11 +3,8 @@ class ApplicationController < ActionController::API
   after_action :set_csrf_token
 
   def verify_csrf_token
-    # 認証トークンが不一致ならばセッションをリセット & リダイレクト
-    unless session[:auth_token] == request.headers['X-CSRF-Token']
-      reset_session
-      redirect_to api_v1_logged_in_path
-    end
+    # 認証トークンが不一致ならばセッションをリセット
+    reset_session unless session[:auth_token] == request.headers['X-CSRF-Token']
   end
 
   def set_csrf_token
