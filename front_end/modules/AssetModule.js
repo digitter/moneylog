@@ -18,7 +18,7 @@ const initialState = {}
 export default function AssetsReducer(state = initialState, action = {}) {
   switch (action.type) {
     case actionTypes.editAssets:
-      return Object.assign({}, state, action.payload)
+      return action.payload
     default: return state;
   }
 }

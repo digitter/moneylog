@@ -55,6 +55,12 @@ export default function EdtingExpenditureLog(props){
     event.preventDefault()
 
     updateExpenditureLog({ id, title, amount, content })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(response => {
+        console.error(response)
+      })
 
     console.log('Submitting !!!')
   }

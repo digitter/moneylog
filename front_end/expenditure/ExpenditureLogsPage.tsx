@@ -5,7 +5,7 @@ import { expenditureLogParams } from '../models/ExpenditureLog'
 import { deleteExpenditureLog } from '../services/ExpenditureLogService'
 
 interface Props {
-  expenditureLogs: any
+  expenditureLogs: expenditureLogParams[]
 }
 
 const ExpenditureLogsPage = (props: Props) => {
@@ -40,16 +40,16 @@ const ExpenditureLogsPage = (props: Props) => {
               props.expenditureLogs.map((expendtureLog: expenditureLogParams, index: number) =>{
                 return (
                   <tr key={index}>
-                    <td key={expendtureLog.title}>
+                    <td>
                         {expendtureLog.title}
                     </td>
-                    <td key={expendtureLog.amount}>
+                    <td>
                       {expendtureLog.amount}
                     </td>
-                    <td key={expendtureLog.content}>
+                    <td>
                       {expendtureLog.content}
                     </td>
-                    <td key={expendtureLog.id}>
+                    <td>
                       <EdtingExpenditureLog expenditureLog={expendtureLog} />
                     </td>
                     <td>

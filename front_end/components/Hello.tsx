@@ -4,14 +4,15 @@ import { connect } from 'react-redux'
 import Logout from './auth/Logout'
 import Cancellation from './auth/Cancellation'
 import User from '../models/User'
-import Asset from '../models/Asset'
+import { assetParams } from '../models/Asset'
 import AssetPage from './asset/AssetPage'
 import ExpenditureLogsPage from '../expenditure/ExpenditureLogsPage'
+import { expenditureLogParams } from '../models/ExpenditureLog'
 
 interface HelloProps {
   user: User
-  asset: Asset
-  expenditureLogs: any
+  assets: assetParams[]
+  expenditureLogs: expenditureLogParams[]
 }
 
 interface HelloState {
@@ -20,17 +21,14 @@ interface HelloState {
 class Hello extends React.Component<HelloProps, HelloState> {
 
   render() {
-    const asset = this.props.asset
-    const expenditureLogs = this.props.expenditureLogs
-
     return (
       <React.Fragment>
         <h2>Hello {this.props.user.name} ! This is boilerplate</h2>
         <img src ="/public/hello.png" style={{width: 200, height: 200}} />
         <Logout />
         <Cancellation />
-        <AssetPage asset={asset} />
-        <ExpenditureLogsPage expenditureLogs={expenditureLogs} />
+        <AssetPage assets={this.props.assets} />
+        <ExpenditureLogsPage expenditureLogs={this.props.expenditureLogs} />
         {/* IN */}
       </React.Fragment>
     )
@@ -40,7 +38,7 @@ class Hello extends React.Component<HelloProps, HelloState> {
 const mapStateToProps = (state: any) => {
   return {
     user: state.user,
-    asset: state.assets,
+    assets: state.assets,
     expenditureLogs: state.expenditureLogs
   }
 }

@@ -1,8 +1,9 @@
 import * as React from 'react'
 import EditingAsset from './EditingAsset'
+import { assetParams } from '../../models/Asset'
 
 interface Props {
-  asset: any
+  assets: assetParams[]
 }
 
 const AssetPage = (props: Props) => {
@@ -10,10 +11,19 @@ const AssetPage = (props: Props) => {
   return (
     <React.Fragment>
       <h2>Asset</h2>
-      <p>{props.asset.title}</p>
-      <p>Description: {props.asset.content}</p>
-      <p><strong>{props.asset.amount}</strong></p>
-      <EditingAsset />
+
+      {Object.keys(props.assets).length !== 0 ?
+        props.assets.map((asset: assetParams, index: number) => {
+          return (
+            <div key={index}>
+              <p>{asset.title}</p>
+              <p>Description: {asset.content}</p>
+              <p><strong>{asset.amount}</strong></p>
+              <EditingAsset asset={asset} />
+            </div>
+          )
+        })
+      : null}
     </React.Fragment>
   )
 }

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Modal from 'react-modal';
+import { updateAsset } from '../../services/AssetService'
 
 const customStyles = {
   content : {
@@ -12,10 +13,9 @@ const customStyles = {
   }
 };
 
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-// Modal.setAppElement('#yourAppElement')
+Modal.setAppElement('#root')
 
-export default function EdtingAsset(){
+const EdtingAsset = (props) => {
   var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
@@ -27,10 +27,42 @@ export default function EdtingAsset(){
     subtitle.style.color = '#f00';
   }
 
-  Modal.setAppElement('#root')
-
   function closeModal(){
     setIsOpen(false);
+  }
+
+  const [id] = React.useState(props.asset.id);
+  const [title, setTitle] = React.useState(props.asset.title);
+  const [amount, setAmount] = React.useState(props.asset.amount);
+  const [content, setContent] = React.useState(props.asset.content);
+
+  const handleAssetChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    switch (event.currentTarget.name) {
+      case 'title':
+        setTitle(event.currentTarget.value)
+        break;
+      case 'amount':
+        setAmount(event.currentTarget.value)
+        break;
+      case 'content':
+        setContent(event.currentTarget.value)
+        break;
+      default: return null
+    }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    updateAsset({ id, title, amount, content })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(response => {
+        console.error(response)
+      })
+
+    console.log('Submitting !!!')
   }
 
     return (
@@ -48,17 +80,36 @@ export default function EdtingAsset(){
         >
 
           <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
-          <button onClick={closeModal}>close</button>
 
-          <div>I am a modal</div>
-          <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
+          <form onSubmit={handleSubmit}>
+            <input
+              name='title'
+              placeholder='Title'
+              defaultValue ={title}
+              onChange={handleAssetChange}
+            />
+
+            <input
+              type='number'
+              name='amount'
+              placeholder='Amount'
+              defaultValue ={amount}
+              onChange={handleAssetChange}
+            />
+
+            <textarea
+              name='content'
+              placeholder='Content'
+              defaultValue ={content}
+              onChange={handleAssetChange}
+            />
+
+            <button type='submit'>update</button>
+            <button onClick={closeModal}>close</button>
           </form>
         </Modal>
       </React.Fragment>
     )
 }
+
+export default EdtingAsset
