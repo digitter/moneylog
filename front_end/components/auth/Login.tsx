@@ -2,11 +2,11 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { userSignin } from '../../services/UserService'
-import { setUser } from '../../modules/UserModule'
+import { editUser } from '../../modules/UserModule'
 import User from '../../models/User'
 
 interface LoginProps {
-  setUser: typeof setUser
+  editUser: typeof editUser
   user: User
 }
 
@@ -38,7 +38,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     userSignin(user)
       .then(user => {
-        if (user) { this.props.setUser(user) }
+        if (user) { this.props.editUser(user) }
         window.location.pathname = '/hello'
       })
       .catch(error => {
@@ -79,14 +79,14 @@ class Login extends React.Component<LoginProps, LoginState> {
 
 const mapStateToProps = state => {
   return {
-    user: state.user.user
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setUser: setUser
+      editUser: editUser
     },
     dispatch
   )

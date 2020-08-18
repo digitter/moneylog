@@ -2,14 +2,14 @@ import * as React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { userSignup } from '../../services/UserService'
-import { setUser } from '../../modules/UserModule'
-import { editAsset } from '../../modules/AssetModule'
+import { editUser } from '../../modules/UserModule'
+import { editAssets } from '../../modules/AssetModule'
 import User from '../../models/User'
 
 interface Props {
   history: any
-  setUser: typeof setUser
-  editAsset: typeof editAsset
+  editUser: typeof editUser
+  editAssets: typeof editAssets
   user: User
 }
 interface State {
@@ -43,10 +43,15 @@ class Registration extends React.Component<Props, State> {
 
     userSignup(user)
       .then(response => {
-        if (response.data.type === 'user') { this.props.setUser(response.data) }
-          if (response.data.relationships.asset) {
-            this.props.editAsset(response.included)
-          }
+        if (response.data.type === 'user') { this.props.editUser(response.data) }
+
+        if (response.data.relationships.asset) {
+          const assets = response.included.filter(obj => {
+            return obj.type === 'asset'
+          })
+
+          this.props.editAssets(assets[0].attributes)
+        }
       }).then(() => {
         window.location.href = '/hello'
       })
@@ -107,15 +112,15 @@ class Registration extends React.Component<Props, State> {
 
 const mapStateToProps = state => {
   return {
-    user: state.user.user
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setUser: setUser,
-      editAsset: editAsset
+      editUser: editUser,
+      editAssets: editAssets
     },
     dispatch
   )

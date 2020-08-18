@@ -5,11 +5,12 @@ interface Props {
   asset: any
 }
 
-const Asset = (props: Props) => {
+const AssetPage = (props: Props) => {
 
   return (
     <React.Fragment>
-      <h2>{props.asset.title}</h2>
+      <h2>Asset</h2>
+      <p>{props.asset.title}</p>
       <p>Description: {props.asset.content}</p>
       <p><strong>{props.asset.amount}</strong></p>
       <EditingAsset />
@@ -17,4 +18,4 @@ const Asset = (props: Props) => {
   )
 }
 
-export default Asset
+export default AssetPage

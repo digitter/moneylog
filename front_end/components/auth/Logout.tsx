@@ -2,10 +2,10 @@ import * as React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { userSignout } from '../../services/UserService'
-import { unsetUser } from '../../modules/UserModule'
+import { editUser } from '../../modules/UserModule'
 
 interface Props {
-  unsetUser: typeof unsetUser
+  editUser: typeof editUser
   history: any
 }
 
@@ -17,7 +17,7 @@ class Logout extends React.Component<Props, State> {
   handleSignoutClick = () => {
     userSignout()
       .then(() => {
-        this.props.unsetUser()
+        this.props.editUser(null)
         window.location.href = '/top'
       })
   }
@@ -41,7 +41,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      unsetUser: unsetUser
+      editUser: editUser
     },
     dispatch
   )

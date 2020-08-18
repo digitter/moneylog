@@ -16,7 +16,7 @@ module ResponseHelper
 
   # 400 Bad Request
   def response_bad_request
-    render status: 400, json: { status: 400, message: 'Bad Request' }
+    render json: { status: 400, message: 'Bad Request' }
   end
 
   # 401 Unauthorized

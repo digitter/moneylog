@@ -1,5 +1,4 @@
 import Axios from './Axios'
-import User from '../models/User'
 import { errorMessage } from '../GlobalMessage'
 
 export const fetchUser = () => {

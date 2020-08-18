@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get :logged_in, to: "sessions#logged_in"
 
       resource :assets, only: %i[update]
+      resources :expenditure_logs, only: %i[create update destroy index]
     end
   end
 

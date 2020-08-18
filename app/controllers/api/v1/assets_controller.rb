@@ -1,7 +1,6 @@
 module Api
   module V1
     class AssetsController < ApplicationController
-      include CurrentUserConcern
       include ResponseHelper
       before_action :authenticate_user!
 

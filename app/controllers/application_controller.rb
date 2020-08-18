@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include CurrentUserConcern
   before_action :verify_csrf_token
   after_action :set_csrf_token
 

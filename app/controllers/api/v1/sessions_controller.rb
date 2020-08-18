@@ -3,7 +3,7 @@ module Api
   module V1
     class SessionsController < ApplicationController
       include ResponseHelper
-      include CurrentUserConcern
+      before_action :authenticate_user!, only: %i[logout]
 
       def signin
         # session固定攻撃を防ぐためにログイン時には必ず、ユーザーをemail, passwordで参照してセッションに値を代入する
@@ -39,7 +39,7 @@ module Api
         end
 
         def to_json_api_format(user)
-          UserSerializer.new(user, { include: %i[asset] })
+          UserSerializer.new(user, { include: %i[asset expenditure_logs] })
         end
     end
   end

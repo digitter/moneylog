@@ -1,22 +1,14 @@
 // Actions
 const actionTypes = {
-  setUser: 'SET_USER',
-  unsetUser: 'UNSET_USER',
+  editUser: 'EDIT_USER',
   isLoggedIn: 'IS_LOGGED_IN'
 }
-// Action Creators
-export function setUser(user) {
-  return async dispatch => {
-    return dispatch(
-      { type: actionTypes.setUser, payload: user }
-    )
-  }
-}
 
-export function unsetUser() {
+// Action Creators
+export function editUser(user) {
   return async dispatch => {
     return dispatch(
-      { type: actionTypes.unsetUser, payload: null }
+      { type: actionTypes.editUser, payload: user }
     )
   }
 }
@@ -26,9 +18,9 @@ const initialState = { }
 
 export default function UserReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case actionTypes.setUser:
-      return  Object.assign({}, state, { user: action.payload, isLoggedIn: true })
-    case actionTypes.unsetUser:
+    case actionTypes.editUser:
+      return  Object.assign({}, state, action.payload )
+    case actionTypes.editUser:
       return { }
     default: return state;
   }

@@ -4,41 +4,34 @@ import { connect } from 'react-redux'
 import Logout from './auth/Logout'
 import Cancellation from './auth/Cancellation'
 import User from '../models/User'
-import Asset from './asset/Asset'
+import Asset from '../models/Asset'
+import AssetPage from './asset/AssetPage'
+import ExpenditureLogsPage from '../expenditure/ExpenditureLogsPage'
 
 interface HelloProps {
   user: User
-  assets: any
+  asset: Asset
+  expenditureLogs: any
 }
 
 interface HelloState {
 }
 
 class Hello extends React.Component<HelloProps, HelloState> {
+
   render() {
-    const asset = this.props.assets.assets ? this.props.assets.assets[0].attributes : null
+    const asset = this.props.asset
+    const expenditureLogs = this.props.expenditureLogs
 
     return (
       <React.Fragment>
-        <h2>Hello boilerplate</h2>
-        {asset ? <Asset asset={asset} /> : null}
-
-        {/* {asset
-          ? <h2>My Asset</h2>
-          : null
-        }
-        {asset
-          ? <h3>{asset.title}</h3>
-          : null
-        }
-        {asset
-          ? <div>{asset.content}: <strong>{asset.amount}</strong></div>
-          : null
-        } */}
-
+        <h2>Hello {this.props.user.name} ! This is boilerplate</h2>
         <img src ="/public/hello.png" style={{width: 200, height: 200}} />
         <Logout />
         <Cancellation />
+        <AssetPage asset={asset} />
+        <ExpenditureLogsPage expenditureLogs={expenditureLogs} />
+        {/* IN */}
       </React.Fragment>
     )
   }
@@ -46,8 +39,9 @@ class Hello extends React.Component<HelloProps, HelloState> {
 
 const mapStateToProps = (state: any) => {
   return {
-    user: state.user.user,
-    assets: state.assets
+    user: state.user,
+    asset: state.assets,
+    expenditureLogs: state.expenditureLogs
   }
 }
 

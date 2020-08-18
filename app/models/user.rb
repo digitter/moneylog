@@ -11,5 +11,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_one :asset, dependent: :destroy
+  with_options dependent: :destroy do |user|
+    user.has_one :asset
+    user.has_many :expenditure_logs
+  end
 end

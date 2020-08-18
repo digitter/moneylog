@@ -1,14 +1,13 @@
 // Actions
 const actionTypes = {
-  editAsset: 'EDIT_ASSET',
-  resetAsset: 'RESET_ASSET'
+  editAssets: 'EDIT_ASSETS'
 }
 
 // Action Creators
-export function editAsset(asset) {
+export function editAssets(assets) {
   return async dispatch => {
     return dispatch(
-      { type: actionTypes.editAsset, payload: asset }
+      { type: actionTypes.editAssets, payload: assets }
     )
   }
 }
@@ -18,8 +17,8 @@ const initialState = {}
 
 export default function AssetsReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case actionTypes.editAsset:
-      return Object.assign({}, state, { assets: action.payload })
+    case actionTypes.editAssets:
+      return Object.assign({}, state, action.payload)
     default: return state;
   }
 }

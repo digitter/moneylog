@@ -27,7 +27,7 @@ class Top extends React.Component<Props, State> {
 
 const mapStateToProps = state => {
   return {
-    user: state.user.user
+    user: state.user
   }
 }
 
