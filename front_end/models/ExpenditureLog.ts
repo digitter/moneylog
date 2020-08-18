@@ -1,20 +1,14 @@
-export type expenditureLogParams = {
-  title: string,
-  amount: number,
-  content: string,
-  id?: number,
-  created_at?: Date,
-  updated_at?: Date
-}
-
 export default class ExpenditureLog {
   constructor(
     public title: string,
     public amount: number,
-    public content: string
+    public content: string,
+    public id?: number,
+    public created_at?: Date,
+    public updated_at?: Date
   ) {}
 
-  static newInstance(params: expenditureLogParams): ExpenditureLog {
+  static newInstance(params: ExpenditureLog): ExpenditureLog {
     const {
       title,
       amount,

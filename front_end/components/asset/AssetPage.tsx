@@ -1,9 +1,9 @@
 import * as React from 'react'
 import EditingAsset from './EditingAsset'
-import { assetParams } from '../../models/Asset'
+import Asset, { assetParams } from '../../models/Asset'
 
 interface Props {
-  assets: assetParams[]
+  assets: Asset[]
 }
 
 const AssetPage = (props: Props) => {

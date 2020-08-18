@@ -1,7 +1,7 @@
 import Axios from './Axios'
-import ExpenditureLog, { expenditureLogParams } from '../models/ExpenditureLog'
+import ExpenditureLog from '../models/ExpenditureLog'
 
-export const updateExpenditureLog = (params: expenditureLogParams) => {
+export const updateExpenditureLog = (params: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
     const url = `http://localhost:3001/api/v1/expenditure_logs/${params.id}`
     const newExpenditure_log = ExpenditureLog.newInstance(params)
@@ -16,7 +16,7 @@ export const updateExpenditureLog = (params: expenditureLogParams) => {
   })
 }
 
-export const createExpenditureLog = (params: expenditureLogParams) => {
+export const createExpenditureLog = (params: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
     const url = 'http://localhost:3001/api/v1/expenditure_logs'
     const newExpenditure_log = ExpenditureLog.newInstance(params)
@@ -31,7 +31,7 @@ export const createExpenditureLog = (params: expenditureLogParams) => {
   })
 }
 
-export const deleteExpenditureLog = (params: expenditureLogParams) => {
+export const deleteExpenditureLog = (params: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
     const url = `http://localhost:3001/api/v1/expenditure_logs/${params.id}`
 

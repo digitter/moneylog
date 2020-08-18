@@ -12,9 +12,12 @@ export default class Asset {
     public title: string,
     public amount: number,
     public content: string,
+    public id?: number,
+    public created_at?: Date,
+    public updated_at?: Date,
   ) {}
 
-  static newInstance(params: assetParams): Asset {
+  static newInstance(params: Asset): Asset {
     const {
       title,
       amount,

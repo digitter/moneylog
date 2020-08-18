@@ -4,15 +4,15 @@ import { connect } from 'react-redux'
 import Logout from './auth/Logout'
 import Cancellation from './auth/Cancellation'
 import User from '../models/User'
-import { assetParams } from '../models/Asset'
+import Asset from '../models/Asset'
 import AssetPage from './asset/AssetPage'
 import ExpenditureLogsPage from '../expenditure/ExpenditureLogsPage'
-import { expenditureLogParams } from '../models/ExpenditureLog'
+import ExpenditureLog from '../models/ExpenditureLog'
 
 interface HelloProps {
   user: User
-  assets: assetParams[]
-  expenditureLogs: expenditureLogParams[]
+  assets: Asset[]
+  expenditureLogs: ExpenditureLog[]
 }
 
 interface HelloState {

@@ -1,15 +1,15 @@
 import * as React from 'react'
 import EdtingExpenditureLog from './EditingExpenditureLog'
 import CreateExpenditureLog from './CreateExpenditureLog'
-import { expenditureLogParams } from '../models/ExpenditureLog'
+import ExpenditureLog from '../models/ExpenditureLog'
 import { deleteExpenditureLog } from '../services/ExpenditureLogService'
 
 interface Props {
-  expenditureLogs: expenditureLogParams[]
+  expenditureLogs: ExpenditureLog[]
 }
 
 const ExpenditureLogsPage = (props: Props) => {
-  const handleDelete = (expenditureLog: expenditureLogParams) => {
+  const handleDelete = (expenditureLog: ExpenditureLog) => {
     const result = window.confirm('Are you sure ?')
 
     if (result) {
@@ -37,7 +37,7 @@ const ExpenditureLogsPage = (props: Props) => {
         </thead>
         <tbody>
           {Object.keys(props.expenditureLogs).length !== 0 ?
-              props.expenditureLogs.map((expendtureLog: expenditureLogParams, index: number) =>{
+              props.expenditureLogs.map((expendtureLog: ExpenditureLog, index: number) =>{
                 return (
                   <tr key={index}>
                     <td>
