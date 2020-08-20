@@ -1,10 +1,12 @@
+import Asset from "../models/Asset"
+
 // Actions
 const actionTypes = {
   editAssets: 'EDIT_ASSETS'
 }
 
 // Action Creators
-export function editAssets(assets) {
+export function editAssets(assets: Asset[]) {
   return async dispatch => {
     return dispatch(
       { type: actionTypes.editAssets, payload: assets }
@@ -13,9 +15,9 @@ export function editAssets(assets) {
 }
 
 // Reducer
-const initialState = {}
-
-export default function AssetsReducer(state = initialState, action = {}) {
+// TODO: Flux actionの型整理
+type fluxAction = { type: string, payload: any }
+export default function AssetsReducer(state = {}, action: {type: string, payload: fluxAction}) {
   switch (action.type) {
     case actionTypes.editAssets:
       return action.payload

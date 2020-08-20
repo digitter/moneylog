@@ -5,7 +5,12 @@ module Api
       before_action :authenticate_user!
 
       def update
-        @current_user.asset.update(asset_params)
+        asset = @current_user.asset
+        if asset.update(asset_params)
+          render json: to_json_api_format(asset)
+        else
+          response_not_found(:asset)
+        end
       end
 
       private
@@ -15,6 +20,10 @@ module Api
             :title,
             :content
           )
+        end
+
+        def to_json_api_format(asset)
+          AssetSerializer.new(asset)
         end
     end
   end

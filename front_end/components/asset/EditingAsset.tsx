@@ -1,6 +1,9 @@
 import * as React from 'react';
 import Modal from 'react-modal';
+import { useDispatch } from 'react-redux'
+import { editAssets } from '../../modules/AssetModule'
 import { updateAsset } from '../../services/AssetService'
+import Asset from '../../models/Asset';
 
 const customStyles = {
   content : {
@@ -15,7 +18,13 @@ const customStyles = {
 
 Modal.setAppElement('#root')
 
-const EdtingAsset = (props) => {
+interface Props {
+ asset: Asset
+}
+
+const EdtingAsset: React.FC<Props>  = (props) => {
+  const dispatch = useDispatch()
+
   var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
@@ -42,7 +51,7 @@ const EdtingAsset = (props) => {
         setTitle(event.currentTarget.value)
         break;
       case 'amount':
-        setAmount(event.currentTarget.value)
+        setAmount(Number(event.currentTarget.value))
         break;
       case 'content':
         setContent(event.currentTarget.value)
@@ -53,16 +62,13 @@ const EdtingAsset = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-
     updateAsset({ id, title, amount, content })
-      .then(response => {
-        console.log(response)
+      .then(jsonApiFormat => {
+        dispatch(editAssets(Asset.fromSerialized(jsonApiFormat)))
       })
       .catch(response => {
         console.error(response)
       })
-
-    console.log('Submitting !!!')
   }
 
     return (

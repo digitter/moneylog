@@ -1,6 +1,6 @@
 import * as React from 'react'
 import EditingAsset from './EditingAsset'
-import Asset, { assetParams } from '../../models/Asset'
+import Asset from '../../models/Asset'
 
 interface Props {
   assets: Asset[]
@@ -13,7 +13,7 @@ const AssetPage = (props: Props) => {
       <h2>Asset</h2>
 
       {Object.keys(props.assets).length !== 0 ?
-        props.assets.map((asset: assetParams, index: number) => {
+        props.assets.map((asset: Asset, index: number) => {
           return (
             <div key={index}>
               <p>{asset.title}</p>

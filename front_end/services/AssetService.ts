@@ -1,5 +1,5 @@
 import Axios from './Axios'
-import Asset, { assetParams } from '../models/Asset'
+import Asset from '../models/Asset'
 
 export const updateAsset = (params: Asset) => {
   return new Promise((resolve, reject) => {
@@ -8,7 +8,7 @@ export const updateAsset = (params: Asset) => {
 
     Axios.patch(url, newAsset)
       .then(response => {
-        resolve(response)
+        resolve(response.data)
       })
       .catch(response => {
         reject(response)
