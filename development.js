@@ -10,7 +10,8 @@ export default {
 
   output: {
     path: dist,
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
 
   module: {

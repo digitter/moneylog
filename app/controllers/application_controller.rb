@@ -10,6 +10,7 @@ class ApplicationController < ActionController::API
 
   def set_csrf_token
     session[:auth_token] = SecureRandom.urlsafe_base64
+    # FIXME: レスポンスヘルパーでエラーを起こした時にトークンが送信されない
     response.set_header('X-CSRF-Token', session[:auth_token])
   end
 

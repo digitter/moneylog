@@ -4,7 +4,6 @@ import { Route, Switch, Redirect } from 'react-router'
 import { bindActionCreators } from 'redux'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-toastify/dist/ReactToastify.min.css'
-import Top from './components/Top'
 import Hello from './components/Hello'
 import Auth from './components/auth/Auth'
 
@@ -19,13 +18,18 @@ class Routing extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <Switch>
-          <Route exact path="/top" component={Top} />
+          <Auth history={this.props.history}>
+            <Switch>
+              <Route exact path="/" component={Hello} />
 
-          <Auth>
-            {/* <Switch> */}
-              <Redirect from='/' to='/hello' />
-              <Route exact path="/hello" component={Hello} />
-            {/* </Switch> */}
+              <Route path='/assets' component={Hello}>
+                <Redirect from='assets/:id' to='/assets' />
+                {/* <Route path='assets/:id' component={Hello} /> */}
+                <Route path='*' component={Hello} />
+              </Route>
+
+              <Route path="*" render={() => <h1>No content</h1>} />
+            </Switch>
           </Auth>
 
           <Redirect to='/' />

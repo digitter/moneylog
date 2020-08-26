@@ -18,7 +18,7 @@ class Logout extends React.Component<Props, State> {
     userSignout()
       .then(() => {
         this.props.editUser(null)
-        window.location.href = '/top'
+        window.location.href = '/'
       })
   }
 

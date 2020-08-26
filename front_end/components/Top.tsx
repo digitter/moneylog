@@ -5,6 +5,7 @@ import Login from './auth/Login'
 import Registration from './auth/Registration'
 
 interface Props {
+  history: any
   user: any
   isLoggedIn: any
 }
@@ -13,13 +14,15 @@ interface State {
 }
 
 class Top extends React.Component<Props, State> {
+  componentDidMount() {
+    this.props.history.replace('/')
+  }
+
   render() {
     return (
       <React.Fragment>
-        <React.Fragment>
-          <Login />
-          <Registration />
-        </React.Fragment>
+        <Login />
+        <Registration />
       </React.Fragment>
     )
   }

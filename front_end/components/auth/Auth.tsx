@@ -14,6 +14,7 @@ import User from '../../models/User'
 import LoadingIcon from '../LoadingIcon'
 import ExpenditureLog from '../../models/ExpenditureLog'
 import Asset from '../../models/Asset'
+import Top from '../Top'
 
 interface Props {
   history: any
@@ -39,22 +40,23 @@ class Auth extends React.Component<Props, State> {
         if (jsonApiFormat.data.type === 'user') {
           this.props.editUser(jsonApiFormat.data.attributes)
           this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
-          this.props.editExpenditureLogs(ExpenditureLog.fromIncluded(jsonApiFormat))
+          this.props.editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', ExpenditureLog.fromIncluded(jsonApiFormat))
           this.setState({ loggedInStatus: 'LOGGED_IN' })
         }
-        else if (jsonApiFormat.data.type !== 'user') {
+        else {
           this.props.editUser(null)
           this.props.editAssets(null)
-          this.props.editExpenditureLogs(null)
+          this.props.editExpenditureLogs<null>('RESET', null)
           this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
         }
       })
       .catch(error => {
         this.props.editUser(null)
         this.props.editAssets(null)
-        this.props.editExpenditureLogs(null)
-        console.error('check login error', error)
+        this.props.editExpenditureLogs<null>('RESET', null)
         this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
+
+        console.error('check login error', error)
       })
   }
 
@@ -66,7 +68,7 @@ class Auth extends React.Component<Props, State> {
             Object.keys(this.props.user).length
               ? this.props.children
               : <LoadingIcon />
-          : <Redirect to='/top' />
+          : <Top history={this.props.history} />
         }
       </React.Fragment>
     )
@@ -75,8 +77,6 @@ class Auth extends React.Component<Props, State> {
 
 const mapStateToProps = state => ({
   user: state.user,
-  asset: state.assets,
-  expenditureLogs: state.expenditureLogs
 })
 
 const mapDispatchToProps = dispatch => {

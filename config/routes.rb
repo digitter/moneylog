@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
       resource :assets, only: %i[update]
       resources :expenditure_logs, only: %i[create update destroy index]
+      delete '/bulk_delete/expenditure_logs', to: 'expenditure_logs#bulk_delete'
     end
   end
 

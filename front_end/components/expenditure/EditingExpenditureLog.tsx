@@ -1,6 +1,14 @@
 import * as React from 'react';
 import Modal from 'react-modal';
-import { updateExpenditureLog } from '../services/ExpenditureLogService'
+import { useDispatch } from 'react-redux';
+
+import { updateExpenditureLog } from '../../services/ExpenditureLogService'
+
+import EditIcon from '@material-ui/icons/Edit'
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import ExpenditureLog from '../../models/ExpenditureLog';
+import { editExpenditureLogs } from '../../modules/ExpenditureLogModule'
 
 const customStyles = {
   content : {
@@ -16,6 +24,8 @@ const customStyles = {
 Modal.setAppElement('#root')
 
 export default function EdtingExpenditureLog(props){
+  const dispatch = useDispatch();
+
   var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
@@ -55,21 +65,23 @@ export default function EdtingExpenditureLog(props){
     event.preventDefault()
 
     updateExpenditureLog({ id, title, amount, content })
-      .then(response => {
-        console.log(response)
+      .then((expenditureLogs: ExpenditureLog[]) => {
+        dispatch(editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', expenditureLogs))
+
+        console.log(expenditureLogs)
       })
       .catch(response => {
         console.error(response)
       })
-
-    console.log('Submitting !!!')
   }
 
     return (
       <React.Fragment>
-        <div>
-          <button onClick={openModal}>Edit</button>
-        </div>
+        <Tooltip title="Update">
+          <IconButton aria-label="update" onClick={openModal} >
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
 
         <Modal
           isOpen={modalIsOpen}

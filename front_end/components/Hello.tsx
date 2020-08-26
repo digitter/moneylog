@@ -6,8 +6,9 @@ import Cancellation from './auth/Cancellation'
 import User from '../models/User'
 import Asset from '../models/Asset'
 import AssetPage from './asset/AssetPage'
-import ExpenditureLogsPage from '../expenditure/ExpenditureLogsPage'
 import ExpenditureLog from '../models/ExpenditureLog'
+import ExpenditureLogsTable from './expenditure/ExpenditureLogsTable'
+import CreateExpenditureLog from './expenditure/CreateExpenditureLog'
 
 interface HelloProps {
   user: User
@@ -28,8 +29,9 @@ class Hello extends React.Component<HelloProps, HelloState> {
         <Logout />
         <Cancellation />
         <AssetPage assets={this.props.assets} />
-        <ExpenditureLogsPage expenditureLogs={this.props.expenditureLogs} />
         {/* IN */}
+        <CreateExpenditureLog />
+        <ExpenditureLogsTable />
       </React.Fragment>
     )
   }

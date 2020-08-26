@@ -39,7 +39,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     userSignin(user)
       .then(user => {
         if (user) { this.props.editUser(user) }
-        window.location.pathname = '/hello'
+        window.location.pathname = '/'
       })
       .catch(error => {
         console.error('login error', error)

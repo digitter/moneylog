@@ -8,7 +8,7 @@ export default class ExpenditureLog {
     public updated_at?: Date
   ) {}
 
-  static newInstance(params: ExpenditureLog): ExpenditureLog {
+  static serialized(params: ExpenditureLog): ExpenditureLog {
     const {
       title,
       amount,
@@ -22,7 +22,13 @@ export default class ExpenditureLog {
    )
   }
 
-  static fromIncluded(jsonApiFormat: any) {
+  static fromJsonApi(jsonApiFormat: any): ExpenditureLog {
+    if (!jsonApiFormat.data.attributes) { return null }
+
+    return jsonApiFormat.data.attributes
+  }
+
+  static fromIncluded(jsonApiFormat: any):ExpenditureLog[] {
     if (!jsonApiFormat.data.relationships.expenditure_logs) { return null }
 
     const expenditureLogs = jsonApiFormat.included.filter(obj => {
@@ -34,5 +40,9 @@ export default class ExpenditureLog {
     })
 
     return expenditureLogsAttributes
+  }
+
+  static extractIds(expenditureLogs: ExpenditureLog[]): number[] {
+    return expenditureLogs.map(log => log.id)
   }
 }

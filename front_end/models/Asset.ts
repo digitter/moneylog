@@ -8,7 +8,7 @@ export default class Asset {
     public updated_at?: Date,
   ) {}
 
-  static newInstance(params: Asset): Asset {
+  static serialized(params: Asset): Asset {
     const {
       title,
       amount,

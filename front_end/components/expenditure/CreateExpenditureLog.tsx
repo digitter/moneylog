@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createExpenditureLog } from '../services/ExpenditureLogService'
+import { createExpenditureLog } from '../../services/ExpenditureLogService'
 const { useState } = React
 
 interface Props {
@@ -29,8 +29,6 @@ const CreateExpenditureLog = (props: Props) => {
     event.preventDefault()
 
     createExpenditureLog({ title, amount, content })
-
-    console.log('Submitting !!!')
   }
 
   return (
