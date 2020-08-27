@@ -14,9 +14,10 @@ export function setInLoading(isLoading) {
 }
 
 // Reducer
-const initilalState = {}
+// TODO: Flux actionの型整理
+type fluxAction = { type: string, payload: any, meta: any }
 
-export default function commonReducer(state = initilalState, action = {}) {
+export default function commonReducer(state = {}, action: fluxAction) {
   switch (action.type) {
     case actionTypes.setInLoading:
       return Object.assign({}, state, { inLoading: action.payload })

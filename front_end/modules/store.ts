@@ -15,9 +15,9 @@ const middlewares = [
   reduxThunk
 ]
 
-if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+if ((window as any).__REDUX_DEVTOOLS_EXTENSION__) {
   // Browserの拡張機能にReduxDevToolが存在するか
-  enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__())
+  enhancers.push((window as any).__REDUX_DEVTOOLS_EXTENSION__())
 }
 
 const composedEnhancers = compose(
