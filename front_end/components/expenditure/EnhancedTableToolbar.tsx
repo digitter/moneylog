@@ -39,6 +39,8 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 interface EnhancedTableToolbarProps {
   numSelected: number;
   expenditureLogs: ExpenditureLog[];
+  setSelected: any;
+  setCheckedLogs: any;
 }
 
 const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
@@ -52,6 +54,8 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
     bulkDeleteExpenditureLogs(expenditureLogs)
       .then((newExpenditureLogs: ExpenditureLog[]) => {
         dispatch(editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', newExpenditureLogs))
+        props.setSelected([])
+        props.setCheckedLogs([])
       })
       .catch(response => {
         console.error(response)

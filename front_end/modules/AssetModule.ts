@@ -16,7 +16,8 @@ export function editAssets(assets: Asset[]) {
 
 // Reducer
 // TODO: Flux actionの型整理
-type fluxAction = { type: string, payload: any }
+type fluxAction = { type: string, payload: any, meta: any }
+
 export default function AssetsReducer(state = {}, action: fluxAction) {
   switch (action.type) {
     case actionTypes.editAssets:

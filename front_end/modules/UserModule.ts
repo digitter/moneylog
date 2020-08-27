@@ -14,9 +14,10 @@ export function editUser(user) {
 }
 
 // Reducer
-const initialState = { }
+// TODO: Flux actionの型整理
+type fluxAction = { type: string, payload: any, meta: any }
 
-export default function UserReducer(state = initialState, action = {}) {
+export default function UserReducer(state = {}, action: fluxAction) {
   switch (action.type) {
     case actionTypes.editUser:
       return  Object.assign({}, state, action.payload )

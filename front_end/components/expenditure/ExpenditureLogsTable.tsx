@@ -210,7 +210,7 @@ const ExpenditureLogsTable: React.FC = () => {
         {expenditureLogs ? (
           <div className={classes.root}>
             <Paper className={classes.paper}>
-              <EnhancedTableToolbar expenditureLogs={checkedLogs} numSelected={selected.length} />
+              <EnhancedTableToolbar expenditureLogs={checkedLogs} numSelected={selected.length} setSelected={setSelected} setCheckedLogs={setCheckedLogs} />
               <TableContainer>
                 <Table
                   className={classes.table}
