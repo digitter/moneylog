@@ -92,7 +92,6 @@ const ExpenditureLogsTable: React.FC = () => {
   const { useState } = React
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof tableData>('amount')
-  const [selected, setSelected] = useState<number[]>([])
   const [page, setPage] = useState(0)
   const [dense, setDense] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState<number>(1)
@@ -128,47 +127,41 @@ const ExpenditureLogsTable: React.FC = () => {
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       setCheckedLogs(rows)
-
-      const newSelecteds = rows.map(row => row.id);
-      setSelected(newSelecteds);
       return;
     }
     setCheckedLogs([])
-    setSelected([])
   }
 
-  const handleCheckClick = (event: React.MouseEvent<unknown>, row: ExpenditureLog) => {
-    const selectedIndex = selected.indexOf(row.id)
+  const removeCheck = (expenditureLog: ExpenditureLog) => {
+    setCheckedLogs(checkedLogs.filter(log => {
+      if (log.id !== expenditureLog.id) return log
+    }))
+  }
+
+  const handleCheckClick = (event: React.MouseEvent<unknown>, expenditureLog: ExpenditureLog) => {
+    const logIds = checkedLogs.map(log => { return log.id})
+
+    const selectedIndex = logIds.indexOf(expenditureLog.id)
     let newSelected: number[] = []
 
     if (selectedIndex === -1) { // Adding: 存在しない場合
-      newSelected = newSelected.concat(selected, row.id)
+      newSelected = newSelected.concat(logIds, expenditureLog.id)
 
-      setCheckedLogs(checkedLogs.concat(row))
+      setCheckedLogs(checkedLogs.concat(expenditureLog))
     } else if (selectedIndex === 0) { // Removing: 最初に存在する場合
-      newSelected = newSelected.concat(selected.slice(1))
-      // OPTIMIZE: やや冗長
-      setCheckedLogs(checkedLogs.filter(expenditureLog => {
-        if (expenditureLog.id !== row.id) return expenditureLog
-      }))
-    } else if (selectedIndex === selected.length - 1) { // Removing: 最後に存在するもの
-      newSelected = newSelected.concat(selected.slice(0, -1))
-      // OPTIMIZE: やや冗長
-      setCheckedLogs(checkedLogs.filter(expenditureLog => {
-        if (expenditureLog.id !== row.id) return expenditureLog
-      }))
+      newSelected = newSelected.concat(logIds.slice(1))
+      removeCheck(expenditureLog)
+    } else if (selectedIndex === logIds.length - 1) { // Removing: 最後に存在するもの
+      newSelected = newSelected.concat(logIds.slice(0, -1))
+      removeCheck(expenditureLog)
     } else if (selectedIndex > 0) { // Adding: 1番目以降にあるなら
       newSelected = newSelected.concat( // 3つの配列を連結させる
-        selected.slice(0, selectedIndex), // 最初〜取得した番号前まで取得
-        selected.slice(selectedIndex + 1), // 取得した番号+1番から最後まで取得
+        logIds.slice(0, selectedIndex), // 最初〜取得した番号前まで取得
+        logIds.slice(selectedIndex + 1), // 取得した番号+1番から最後まで取得
       )
-      // OPTIMIZE: やや冗長
-      setCheckedLogs(checkedLogs.filter(expenditureLog => {
-        if (expenditureLog.id !== row.id) return expenditureLog
-      }))
-    }
 
-    setSelected(newSelected)
+      removeCheck(expenditureLog)
+    }
   }
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage)
@@ -180,7 +173,10 @@ const ExpenditureLogsTable: React.FC = () => {
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => setDense(event.target.checked)
 
-  const isSelected = (row: ExpenditureLog) => selected.indexOf(row.id) !== -1
+  const isSelected = (row: ExpenditureLog) => {
+    return checkedLogs.map(log => { return log.id })
+                      .indexOf(row.id) !== -1
+  }
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
@@ -189,14 +185,7 @@ const ExpenditureLogsTable: React.FC = () => {
       deleteExpenditureLog(expenditureLog)
         .then((expenditureLogs: ExpenditureLog[]) => {
           dispatch(editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', expenditureLogs))
-          // OPTIMIZE: やや冗長
-          setCheckedLogs(checkedLogs.filter(log => {
-            if (log.id !== expenditureLog.id) return log
-          }))
-          // OPTIMIZE: やや冗長
-          setSelected(selected.filter(logId => {
-            if (logId !== expenditureLog.id) return logId
-          }))
+          removeCheck(expenditureLog)
         })
         .catch(response => {
           console.error(response)
@@ -209,7 +198,7 @@ const ExpenditureLogsTable: React.FC = () => {
         {expenditureLogs ? (
           <div className={classes.root}>
             <Paper className={classes.paper}>
-              <EnhancedTableToolbar expenditureLogs={checkedLogs} numSelected={selected.length} setSelected={setSelected} setCheckedLogs={setCheckedLogs} />
+              <EnhancedTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
               <TableContainer>
                 <Table
                   className={classes.table}
@@ -219,7 +208,7 @@ const ExpenditureLogsTable: React.FC = () => {
                 >
                   <EnhancedTableHead
                     classes={classes}
-                    numSelected={selected.length}
+                    numSelected={checkedLogs.length}
                     order={order}
                     orderBy={orderBy}
                     onSelectAllClick={handleSelectAllClick}
