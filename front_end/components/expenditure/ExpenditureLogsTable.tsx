@@ -147,31 +147,25 @@ const ExpenditureLogsTable: React.FC = () => {
       setCheckedLogs(checkedLogs.concat(row))
     } else if (selectedIndex === 0) { // Removing: 最初に存在する場合
       newSelected = newSelected.concat(selected.slice(1))
-
-      setCheckedLogs( // OPTIMIZE: やや冗長
-        checkedLogs.filter(expenditureLog => {
-          if (expenditureLog.id !== row.id) return expenditureLog
-        })
-      )
+      // OPTIMIZE: やや冗長
+      setCheckedLogs(checkedLogs.filter(expenditureLog => {
+        if (expenditureLog.id !== row.id) return expenditureLog
+      }))
     } else if (selectedIndex === selected.length - 1) { // Removing: 最後に存在するもの
       newSelected = newSelected.concat(selected.slice(0, -1))
-
-      setCheckedLogs( // OPTIMIZE: やや冗長
-        checkedLogs.filter(expenditureLog => {
-          if (expenditureLog.id !== row.id) return expenditureLog
-        })
-      )
+      // OPTIMIZE: やや冗長
+      setCheckedLogs(checkedLogs.filter(expenditureLog => {
+        if (expenditureLog.id !== row.id) return expenditureLog
+      }))
     } else if (selectedIndex > 0) { // Adding: 1番目以降にあるなら
       newSelected = newSelected.concat( // 3つの配列を連結させる
         selected.slice(0, selectedIndex), // 最初〜取得した番号前まで取得
         selected.slice(selectedIndex + 1), // 取得した番号+1番から最後まで取得
       )
-
-      setCheckedLogs( // OPTIMIZE: やや冗長
-        checkedLogs.filter(expenditureLog => {
-          if (expenditureLog.id !== row.id) return expenditureLog
-        })
-      )
+      // OPTIMIZE: やや冗長
+      setCheckedLogs(checkedLogs.filter(expenditureLog => {
+        if (expenditureLog.id !== row.id) return expenditureLog
+      }))
     }
 
     setSelected(newSelected)
@@ -191,13 +185,18 @@ const ExpenditureLogsTable: React.FC = () => {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
   const handleDeleteClick = (expenditureLog: ExpenditureLog) => {
-    const result = window.confirm('Are you sure ?')
-
-    if (result) {
+    if (window.confirm('Are you sure ?')) {
       deleteExpenditureLog(expenditureLog)
         .then((expenditureLogs: ExpenditureLog[]) => {
-          console.log(expenditureLogs)
           dispatch(editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', expenditureLogs))
+          // OPTIMIZE: やや冗長
+          setCheckedLogs(checkedLogs.filter(log => {
+            if (log.id !== expenditureLog.id) return log
+          }))
+          // OPTIMIZE: やや冗長
+          setSelected(selected.filter(logId => {
+            if (logId !== expenditureLog.id) return logId
+          }))
         })
         .catch(response => {
           console.error(response)
