@@ -23,7 +23,7 @@ export default class ExpenditureLog {
   }
 
   static fromJsonApi(jsonApiFormat: any): ExpenditureLog {
-    if (!jsonApiFormat.data.attributes) { return null }
+    if (jsonApiFormat.data.type !== 'expenditure_log') { return null }
 
     return jsonApiFormat.data.attributes
   }

@@ -8,7 +8,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ExpenditureLog from '../../models/ExpenditureLog';
-import { editExpenditureLogs } from '../../modules/ExpenditureLogModule'
+import { editExpenditureLog } from '../../modules/ExpenditureLogModule'
 
 const customStyles = {
   content : {
@@ -65,10 +65,8 @@ export default function EdtingExpenditureLog(props){
     event.preventDefault()
 
     updateExpenditureLog({ id, title, amount, content })
-      .then((expenditureLogs: ExpenditureLog[]) => {
-        dispatch(editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', expenditureLogs))
-
-        console.log(expenditureLogs)
+      .then((expenditureLog: ExpenditureLog) => {
+        dispatch(editExpenditureLog('UPDATE', expenditureLog))
       })
       .catch(response => {
         console.error(response)

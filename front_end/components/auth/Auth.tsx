@@ -40,20 +40,20 @@ class Auth extends React.Component<Props, State> {
         if (jsonApiFormat.data.type === 'user') {
           this.props.editUser(jsonApiFormat.data.attributes)
           this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
-          this.props.editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', ExpenditureLog.fromIncluded(jsonApiFormat))
+          this.props.editExpenditureLogs('INITIALIZE', ExpenditureLog.fromIncluded(jsonApiFormat))
           this.setState({ loggedInStatus: 'LOGGED_IN' })
         }
         else {
           this.props.editUser(null)
           this.props.editAssets(null)
-          this.props.editExpenditureLogs<null>('RESET', null)
+          this.props.editExpenditureLogs('RESET', null)
           this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
         }
       })
       .catch(error => {
         this.props.editUser(null)
         this.props.editAssets(null)
-        this.props.editExpenditureLogs<null>('RESET', null)
+        this.props.editExpenditureLogs('RESET', null)
         this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
 
         console.error('check login error', error)

@@ -51,8 +51,8 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
     window.confirm('Are you sure ?')
 
     bulkDeleteExpenditureLogs(expenditureLogs)
-      .then((newExpenditureLogs: ExpenditureLog[]) => {
-        dispatch(editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', newExpenditureLogs))
+      .then((deleteIds: number[]) => {
+        dispatch(editExpenditureLogs('BULK_DELETE', deleteIds))
         props.setCheckedLogs([])
       })
       .catch(response => {

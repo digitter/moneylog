@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import ExpenditureLog from '../../models/ExpenditureLog';
 import EdtingExpenditureLog from './EditingExpenditureLog';
 import { deleteExpenditureLog } from '../../services/ExpenditureLogService';
-import { editExpenditureLogs } from '../../modules/ExpenditureLogModule';
+import { editExpenditureLog } from '../../modules/ExpenditureLogModule';
 import EnhancedTableHead from './EnhancedTableHead'
 import EnhancedTableToolbar from './EnhancedTableToolbar'
 
@@ -93,7 +93,7 @@ const ExpenditureLogsTable: React.FC = () => {
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof tableData>('amount')
   const [page, setPage] = useState(0)
-  const [dense, setDense] = useState(false)
+  const [dense, setDense] = useState(true)
   const [rowsPerPage, setRowsPerPage] = useState<number>(1)
   const [checkedLogs, setCheckedLogs] = useState<ExpenditureLog[]>([])
   const [rows, setRows] = useState<ExpenditureLog[]>([])
@@ -183,8 +183,8 @@ const ExpenditureLogsTable: React.FC = () => {
   const handleDeleteClick = (expenditureLog: ExpenditureLog) => {
     if (window.confirm('Are you sure ?')) {
       deleteExpenditureLog(expenditureLog)
-        .then((expenditureLogs: ExpenditureLog[]) => {
-          dispatch(editExpenditureLogs<ExpenditureLog[]>('INITIALIZE', expenditureLogs))
+        .then((expenditureLog: ExpenditureLog) => {
+          dispatch(editExpenditureLog('DESTROY', expenditureLog))
           removeCheck(expenditureLog)
         })
         .catch(response => {

@@ -1,39 +1,15 @@
 import Axios from './Axios'
 import ExpenditureLog from '../models/ExpenditureLog'
-import Store from '../modules/store'
 
-export const updateExpenditureLog = (params: ExpenditureLog) => {
-  return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/expenditure_logs/${params.id}`
-    const newExpenditure_log = ExpenditureLog.serialized(params)
-
-    Axios.patch(url, newExpenditure_log)
-      .then(response => {
-        const updatedLog = ExpenditureLog.fromJsonApi(response.data)
-
-        let { expenditureLogs } = Store.getState()
-
-        expenditureLogs = expenditureLogs.map((log: ExpenditureLog) => {
-          if (log.id == updatedLog.id) return updatedLog;
-          return log;
-        })
-
-        resolve(expenditureLogs)
-      })
-      .catch(response => {
-        reject(response)
-      })
-  })
-}
-
-export const createExpenditureLog = (params: ExpenditureLog) => {
+export const createExpenditureLog = (expenditureLog: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
     const url = 'http://localhost:3001/api/v1/expenditure_logs'
-    const newExpenditure_log = ExpenditureLog.serialized(params)
+    const newExpenditureLog = ExpenditureLog.serialized(expenditureLog)
 
-    Axios.post(url, newExpenditure_log)
+    Axios.post(url, newExpenditureLog)
       .then(response => {
-        resolve(response.data)
+        const newExpenditureLog = ExpenditureLog.fromJsonApi(response.data)
+        resolve(newExpenditureLog)
       })
       .catch(response => {
         reject(response)
@@ -41,16 +17,29 @@ export const createExpenditureLog = (params: ExpenditureLog) => {
   })
 }
 
-export const deleteExpenditureLog = (params: ExpenditureLog) => {
+export const updateExpenditureLog = (expenditureLog: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/expenditure_logs/${params.id}`
+    const url = `http://localhost:3001/api/v1/expenditure_logs/${expenditureLog.id}`
+    const updatedExpenditureLog = ExpenditureLog.serialized(expenditureLog)
+
+    Axios.patch(url, updatedExpenditureLog)
+      .then(response => {
+        const updatedLog = ExpenditureLog.fromJsonApi(response.data)
+        resolve(updatedLog)
+      })
+      .catch(response => {
+        reject(response)
+      })
+  })
+}
+
+export const deleteExpenditureLog = (expenditureLog: ExpenditureLog) => {
+  return new Promise((resolve, reject) => {
+    const url = `http://localhost:3001/api/v1/expenditure_logs/${expenditureLog.id}`
 
     Axios.delete(url)
       .then(() => {
-        const { expenditureLogs } = Store.getState()
-        const newExpenditureLogs = expenditureLogs.filter((log: ExpenditureLog) => log.id !== params.id)
-
-        resolve(newExpenditureLogs)
+        resolve(expenditureLog)
       })
       .catch(response => {
         reject(response)
@@ -58,16 +47,14 @@ export const deleteExpenditureLog = (params: ExpenditureLog) => {
   })
 }
 
-export const bulkDeleteExpenditureLogs = (params: ExpenditureLog[]) => {
+export const bulkDeleteExpenditureLogs = (expenditureLogs: ExpenditureLog[]) => {
   return new Promise((resolve, reject) => {
     const url = 'http://localhost:3001/api/v1/bulk_delete/expenditure_logs'
-    const destroyIds: number[] = ExpenditureLog.extractIds(params)
+    const destroyIds: number[] = ExpenditureLog.extractIds(expenditureLogs)
 
     Axios.delete(url, { data: { ids: destroyIds } })
       .then(() => {
-        const { expenditureLogs } = Store.getState()
-        const newExpenditureLogs = expenditureLogs.filter((log: ExpenditureLog) => !destroyIds.includes(log.id))
-        resolve(newExpenditureLogs)
+        resolve(destroyIds)
       })
       .catch(response => {
         reject(response)

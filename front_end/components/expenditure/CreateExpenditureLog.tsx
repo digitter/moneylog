@@ -1,11 +1,17 @@
 import * as React from 'react'
+import { useDispatch } from 'react-redux'
 import { createExpenditureLog } from '../../services/ExpenditureLogService'
+import ExpenditureLog from '../../models/ExpenditureLog'
+import { editExpenditureLog } from '../../modules/ExpenditureLogModule'
+
 const { useState } = React
 
 interface Props {
 }
 
-const CreateExpenditureLog = (props: Props) => {
+const CreateExpenditureLog: React.FC<Props> = (props: Props) => {
+  const dispatch = useDispatch()
+
   const [title, setTitle] = useState(null)
   const [amount, setAmount] = useState(null)
   const [content, setContent] = useState(null)
@@ -29,6 +35,12 @@ const CreateExpenditureLog = (props: Props) => {
     event.preventDefault()
 
     createExpenditureLog({ title, amount, content })
+      .then((newExpenditureLog: ExpenditureLog) => {
+        dispatch(editExpenditureLog('CREATE', newExpenditureLog))
+      })
+      .catch(response => {
+        console.error(response)
+      })
   }
 
   return (
