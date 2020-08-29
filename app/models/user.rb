@@ -11,8 +11,10 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  # association
   with_options dependent: :destroy do |user|
     user.has_one :asset
     user.has_many :expenditure_logs
+    user.has_many :income_logs
   end
 end
