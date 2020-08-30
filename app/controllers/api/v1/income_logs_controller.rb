@@ -15,16 +15,23 @@ module Api
       end
 
       def update
-        if @api_v1_income_log.update(api_v1_income_log_params)
-          redirect_to @api_v1_income_log, notice: 'Income log was successfully updated.'
+        income_log = @current_user.income_log.find(params[:id])
+
+        if income_log.update(income_log_params)
+          render json: to_json_api_format(income_log)
         else
-          render :edit
+          response_not_found(:income_log)
         end
       end
 
       def destroy
-        @api_v1_income_log.destroy
-        redirect_to api_v1_income_logs_url, notice: 'Income log was successfully destroyed.'
+        income_log = @current_user.income_logs.find(params[:id])
+
+        if income_log.destroy
+          response_success(:income_log, :destroy)
+        else
+          response_internal_server_error
+        end
       end
 
       private
