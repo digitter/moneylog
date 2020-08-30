@@ -9,8 +9,12 @@ Rails.application.routes.draw do
       get :logged_in, to: "sessions#logged_in"
 
       resource :assets, only: %i[update]
-      resources :expenditure_logs, only: %i[create update destroy index]
+
+      resources :expenditure_logs, only: %i[create update destroy]
       delete '/bulk_delete/expenditure_logs', to: 'expenditure_logs#bulk_delete'
+
+      resources :income_logs, only: %i[create update destroy]
+      delete '/bulk_delete/income_logs', 'income_logs#bulk_delete'
     end
   end
 

@@ -4,4 +4,5 @@ class UserSerializer
 
   has_one :asset
   has_many :expenditure_logs
+  has_many :income_logs
 end

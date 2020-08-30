@@ -4,11 +4,6 @@ module Api
       include ResponseHelper
       before_action :authenticate_user!
 
-      def index
-        expenditure_logs = @current_user.expenditure_logs
-        render json: to_json_api_format(expenditure_logs) if expenditure_logs.present?
-      end
-
       def create
         expenditure_log = @current_user.expenditure_logs.new(expenditure_log_params)
 
@@ -19,9 +14,6 @@ module Api
         end
       end
 
-      def bulk_create
-      end
-
       def update
         expenditure_log = @current_user.expenditure_logs.find(params[:id])
 
@@ -30,10 +22,6 @@ module Api
         else
           response_not_found(:expebnditure_log)
         end
-      end
-
-      def bulk_update
-        # TODO: 仕様変更中
       end
 
       def destroy
@@ -48,7 +36,6 @@ module Api
 
       def bulk_delete
         # OPTIMIZE: 可能ならSQL delete処理にしたい。
-        # 実験する
         begin
           ActiveRecord::Base.transaction do
             expenditure_logs = @current_user.expenditure_logs
