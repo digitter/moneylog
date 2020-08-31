@@ -20,7 +20,7 @@ module Api
         if expenditure_log.update(expenditure_log_params)
           render json: to_json_api_format(expenditure_log)
         else
-          response_not_found(:expebnditure_log)
+          response_not_found(:expenditure_log)
         end
       end
 
