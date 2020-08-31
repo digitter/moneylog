@@ -22,7 +22,7 @@ export default function UserReducer(state = {}, action: fluxAction) {
     case actionTypes.editUser:
       return  Object.assign({}, state, action.payload )
     case actionTypes.editUser:
-      return { }
+      return {}
     default: return state;
   }
 }

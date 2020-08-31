@@ -36,7 +36,7 @@ const CreateExpenditureLogModal: React.FC<Props> = (props: Props) => {
 
     createExpenditureLog({ title, amount, content })
       .then((newExpenditureLog: ExpenditureLog) => {
-        dispatch(editExpenditureLog('CREATE', newExpenditureLog))
+        dispatch(editExpenditureLog('CREATE_EXPENDITURE_LOG', newExpenditureLog))
       })
       .catch(response => {
         console.error(response)
