@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux'
 import ExpenditureLog from '../../models/ExpenditureLog';
-import { editExpenditureLogs } from '../../modules/ExpenditureLogModule';
+import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule';
 
 import clsx from 'clsx';
 import { bulkDeleteExpenditureLogs } from '../../services/ExpenditureLogService';
@@ -52,7 +52,7 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
 
     bulkDeleteExpenditureLogs(expenditureLogs)
       .then((deleteIds: number[]) => {
-        dispatch(editExpenditureLogs('BULK_DESTROY_EXPENDITURE_LOG', deleteIds))
+        dispatch(editExpenditureLogs(expenditureActionTypes.bulkDestroy, deleteIds))
         props.setCheckedLogs([])
       })
       .catch(response => {

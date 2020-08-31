@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useDispatch } from 'react-redux'
 import { createExpenditureLog } from '../../services/ExpenditureLogService'
 import ExpenditureLog from '../../models/ExpenditureLog'
-import { editExpenditureLog } from '../../modules/ExpenditureLogModule'
+import { editExpenditureLog, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
 
 const { useState } = React
 
@@ -36,7 +36,7 @@ const CreateExpenditureLogModal: React.FC<Props> = (props: Props) => {
 
     createExpenditureLog({ title, amount, content })
       .then((newExpenditureLog: ExpenditureLog) => {
-        dispatch(editExpenditureLog('CREATE_EXPENDITURE_LOG', newExpenditureLog))
+        dispatch(editExpenditureLog(expenditureActionTypes.create, newExpenditureLog))
       })
       .catch(response => {
         console.error(response)

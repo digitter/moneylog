@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useDispatch } from 'react-redux'
 import { createIncomeLog } from '../../services/IncomeLogService'
 import IncomeLog from '../../models/IncomeLog'
-import { editIncomeLog } from '../../modules/IncomeLogModule'
+import { editIncomeLog, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
 
 const { useState } = React
 
@@ -36,7 +36,7 @@ const CreateIncomeLogModal: React.FC<Props> = (props: Props) => {
 
     createIncomeLog({ title, amount, content })
       .then((newIncomeLog: IncomeLog) => {
-        dispatch(editIncomeLog('CREATE_INCOME_LOG', newIncomeLog))
+        dispatch(editIncomeLog(incomeActionTypes.create, newIncomeLog))
       })
       .catch(response => {
         console.error(response)

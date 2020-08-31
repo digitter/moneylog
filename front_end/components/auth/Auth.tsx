@@ -7,8 +7,8 @@ import 'react-toastify/dist/ReactToastify.min.css'
 import { fetchUser } from '../../services/UserService'
 import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
-import { editExpenditureLogs } from '../../modules/ExpenditureLogModule'
-import { editIncomeLogs } from '../../modules/IncomeLogModule'
+import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
+import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
 import User from '../../models/User'
 
 import LoadingIcon from '../LoadingIcon'
@@ -43,24 +43,24 @@ class Auth extends React.Component<Props, State> {
         if (jsonApiFormat.data && jsonApiFormat.data.type === 'user') {
           this.props.editUser(jsonApiFormat.data.attributes)
           this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
-          this.props.editExpenditureLogs('INITIALIZE_EXPENDITURE_LOGS', ExpenditureLog.fromIncluded(jsonApiFormat))
-          this.props.editIncomeLogs('INITIALIZE_INCOME_LOGS', IncomeLog.fromIncluded(jsonApiFormat))
+          this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
+          this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
 
           this.setState({ loggedInStatus: 'LOGGED_IN' })
         }
         else {
           this.props.editUser({})
           this.props.editAssets([])
-          this.props.editExpenditureLogs('RESET_EXPENDITURE_LOG', [])
-          this.props.editIncomeLogs('RESET_INCOME_LOG', [])
+          this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
+          this.props.editIncomeLogs(incomeActionTypes.reset, [])
           this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
         }
       })
       .catch(error => {
         this.props.editUser({})
         this.props.editAssets([])
-        this.props.editExpenditureLogs('RESET_EXPENDITURE_LOG', [])
-          this.props.editIncomeLogs('RESET_INCOME_LOG', [])
+        this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
+        this.props.editIncomeLogs(incomeActionTypes.reset, [])
         this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
 
         console.error('check login error', error)
