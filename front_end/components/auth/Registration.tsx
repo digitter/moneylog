@@ -53,7 +53,7 @@ class Registration extends React.Component<Props, State> {
           this.props.editAssets(assets[0].attributes)
         }
       }).then(() => {
-        window.location.href = '/hello'
+        window.location.href = '/'
       })
       .catch(error => {
         console.error('login error', error)
