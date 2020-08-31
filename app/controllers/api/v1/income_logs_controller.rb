@@ -1,7 +1,7 @@
 module Api
   module V1
     class IncomeLogsController < ApplicationController
-      include Responsehelper
+      include ResponseHelper
       before_action :authenticate_user!
 
       def create
@@ -40,7 +40,7 @@ module Api
         end
 
         def to_json_api_format(income_log)
-          IncomeLogSerializer.new(inocome_log)
+          IncomeLogSerializer.new(income_log)
         end
     end
   end
