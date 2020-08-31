@@ -2,16 +2,16 @@ import IncomeLog from "../models/IncomeLog"
 
 // Actions
 export const actionTypes = {
-  initialize: 'INITIALIZE',
-  reset: 'RESET',
-  create: 'CREATE',
-  update: 'UPDATE',
-  destroy: 'DESTROY',
-  bulkDelete: 'BULK_DELETE'
+  initialize: 'INITIALIZE_INCOME_LOGS',
+  reset: 'RESET_INCOME_LOG',
+  create: 'CREATE_INCOME_LOG',
+  update: 'UPDATE_INCOME_LOG',
+  destroy: 'DESTROY_INCOME_LOG',
+  bulkDestroy: 'BULK_DESTROY_INCOME_LOGS'
 }
 
 // Action Creators
-export function editIncomeLogs(type: string, params: IncomeLog[] | number[] | null) {
+export function editIncomeLogs(type: string, params: IncomeLog[] | number[]) {
   return async (dispatch, getState) => {
     const existingLogs = await getState().incomeLogs
 
@@ -41,7 +41,7 @@ export function editIncomeLog(type: string, params: IncomeLog) {
 // TODO: Flux actionの型整理
 type fluxAction = { type: string, payload: any }
 
-export default function incomeLogsReducer(state = [], action: fluxAction) {
+export default function IncomeLogsReducer(state = [], action: fluxAction) {
   switch (action.type) {
     case actionTypes.initialize:
       return action.payload.params
@@ -58,7 +58,7 @@ export default function incomeLogsReducer(state = [], action: fluxAction) {
       return action.payload.existingLogs.filter((log: IncomeLog) => {
         return log.id !== action.payload.params.id
       })
-    case actionTypes.bulkDelete:
+    case actionTypes.bulkDestroy:
       return action.payload.existingLogs.filter((log: IncomeLog) => {
         return !action.payload.params.includes(log.id)
       })

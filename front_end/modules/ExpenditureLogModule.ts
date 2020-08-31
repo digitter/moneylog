@@ -2,16 +2,16 @@ import ExpenditureLog from "../models/ExpenditureLog"
 
 // Actions
 export const actionTypes = {
-  initialize: 'INITIALIZE',
-  reset: 'RESET',
-  create: 'CREATE',
-  update: 'UPDATE',
-  destroy: 'DESTROY',
-  bulkDelete: 'BULK_DELETE'
+  initialize: 'INITIALIZE_EXPENDITURE_LOGS',
+  reset: 'RESET_EXPENDITURE_LOG',
+  create: 'CREATE_EXPENDITURE_LOG',
+  update: 'UPDATE_EXPENDITURE_LOG',
+  destroy: 'DESTROY_EXPENDITURE_LOG',
+  bulkDestroy: 'BULK_DESTROY_EXPENDITURE_LOG'
 }
 
 // Action Creators
-export function editExpenditureLogs(type: string, params: ExpenditureLog[] | number[] | null) {
+export function editExpenditureLogs(type: string, params: ExpenditureLog[] | number[]) {
   return async (dispatch, getState) => {
     const existingLogs = await getState().expenditureLogs
 
@@ -58,7 +58,7 @@ export default function ExpenditureLogsReducer(state = [], action: fluxAction) {
       return action.payload.existingLogs.filter((log: ExpenditureLog) => {
         return log.id !== action.payload.params.id
       })
-    case actionTypes.bulkDelete:
+    case actionTypes.bulkDestroy:
       return action.payload.existingLogs.filter((log: ExpenditureLog) => {
         return !action.payload.params.includes(log.id)
       })

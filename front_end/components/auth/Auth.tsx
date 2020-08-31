@@ -8,21 +8,25 @@ import { fetchUser } from '../../services/UserService'
 import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
 import { editExpenditureLogs } from '../../modules/ExpenditureLogModule'
+import { editIncomeLogs } from '../../modules/IncomeLogModule'
 import User from '../../models/User'
 
 import LoadingIcon from '../LoadingIcon'
 import ExpenditureLog from '../../models/ExpenditureLog'
 import Asset from '../../models/Asset'
 import Top from '../Top'
+import IncomeLog from '../../models/IncomeLog'
 
 interface Props {
   history: any
   user: User
   asset: Asset
-  expenditureLogs: any
+  expenditureLogs: ExpenditureLog[]
+  incomeLogs: IncomeLog[]
   editUser: typeof editUser
   editAssets: typeof editAssets
   editExpenditureLogs: typeof editExpenditureLogs
+  editIncomeLogs: typeof editIncomeLogs
 }
 interface State {
   loggedInStatus: string
@@ -35,24 +39,28 @@ class Auth extends React.Component<Props, State> {
 
   componentDidMount() {
     fetchUser()
-      .then(jsonApiFormat => {
-        if (jsonApiFormat.data.type === 'user') {
+      .then((jsonApiFormat: any) => {
+        if (jsonApiFormat.data && jsonApiFormat.data.type === 'user') {
           this.props.editUser(jsonApiFormat.data.attributes)
           this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
-          this.props.editExpenditureLogs('INITIALIZE', ExpenditureLog.fromIncluded(jsonApiFormat))
+          this.props.editExpenditureLogs('INITIALIZE_EXPENDITURE_LOGS', ExpenditureLog.fromIncluded(jsonApiFormat))
+          this.props.editIncomeLogs('INITIALIZE_INCOME_LOGS', IncomeLog.fromIncluded(jsonApiFormat))
+
           this.setState({ loggedInStatus: 'LOGGED_IN' })
         }
         else {
-          this.props.editUser(null)
-          this.props.editAssets(null)
-          this.props.editExpenditureLogs('RESET', null)
+          this.props.editUser({})
+          this.props.editAssets([])
+          this.props.editExpenditureLogs('RESET_EXPENDITURE_LOG', [])
+          this.props.editIncomeLogs('RESET_INCOME_LOG', [])
           this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
         }
       })
       .catch(error => {
-        this.props.editUser(null)
-        this.props.editAssets(null)
-        this.props.editExpenditureLogs('RESET', null)
+        this.props.editUser({})
+        this.props.editAssets([])
+        this.props.editExpenditureLogs('RESET_EXPENDITURE_LOG', [])
+          this.props.editIncomeLogs('RESET_INCOME_LOG', [])
         this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
 
         console.error('check login error', error)
@@ -83,7 +91,8 @@ const mapDispatchToProps = dispatch => {
     {
       editUser: editUser,
       editAssets: editAssets,
-      editExpenditureLogs: editExpenditureLogs
+      editExpenditureLogs: editExpenditureLogs,
+      editIncomeLogs: editIncomeLogs
     },
     dispatch
   )

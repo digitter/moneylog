@@ -66,7 +66,7 @@ export default function EdtingIncomeLog(props){
 
     updateIncomeLog({ id, title, amount, content })
       .then((incomeLog: IncomeLog) => {
-        dispatch(editIncomeLog('UPDATE', incomeLog))
+        dispatch(editIncomeLog('UPDATE_INCOME_LOG', incomeLog))
       })
       .catch(response => {
         console.error(response)

@@ -184,7 +184,7 @@ const IncomeLogsTable: React.FC = () => {
     if (window.confirm('Are you sure ?')) {
       deleteIncomeLog(incomeLog)
         .then((incomeLog: IncomeLog) => {
-          dispatch(editIncomeLog('DESTROY', incomeLog))
+          dispatch(editIncomeLog('DESTROY_INCOME_LOG', incomeLog))
           removeCheck(incomeLog)
         })
         .catch(response => {

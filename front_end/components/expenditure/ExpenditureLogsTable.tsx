@@ -184,7 +184,7 @@ const ExpenditureLogsTable: React.FC = () => {
     if (window.confirm('Are you sure ?')) {
       deleteExpenditureLog(expenditureLog)
         .then((expenditureLog: ExpenditureLog) => {
-          dispatch(editExpenditureLog('DESTROY', expenditureLog))
+          dispatch(editExpenditureLog('DESTROY_EXPENDITURE_LOG', expenditureLog))
           removeCheck(expenditureLog)
         })
         .catch(response => {

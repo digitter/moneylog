@@ -66,7 +66,7 @@ export default function EdtingExpenditureLog(props){
 
     updateExpenditureLog({ id, title, amount, content })
       .then((expenditureLog: ExpenditureLog) => {
-        dispatch(editExpenditureLog('UPDATE', expenditureLog))
+        dispatch(editExpenditureLog('UPDATE_EXPENDITURE_LOG', expenditureLog))
       })
       .catch(response => {
         console.error(response)

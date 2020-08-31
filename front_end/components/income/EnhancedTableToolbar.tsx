@@ -48,11 +48,11 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   const { numSelected } = props;
 
   const handleBulkDeleteClick = incomeLogs => {
-    window.confirm('Are you sure ?')
+    if (!window.confirm('Are you sure ?')) return
 
     bulkDeleteIncomeLogs(incomeLogs)
       .then((deleteIds: number[]) => {
-        dispatch(editIncomeLogs('BULK_DELETE', deleteIds))
+        dispatch(editIncomeLogs('BULK_DESTROY_INCOME_LOGS', deleteIds))
         props.setCheckedLogs([])
       })
       .catch(response => {

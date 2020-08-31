@@ -42,11 +42,11 @@ class Registration extends React.Component<Props, State> {
     const user = { name, email, password, password_confirmation }
 
     userSignup(user)
-      .then(response => {
-        if (response.data.type === 'user') { this.props.editUser(response.data) }
+      .then((jsonApiFormat: any) => {
+        if (jsonApiFormat.data.type === 'user') { this.props.editUser(jsonApiFormat.data) }
 
-        if (response.data.relationships.asset) {
-          const assets = response.included.filter(obj => {
+        if (jsonApiFormat.data.relationships.asset) {
+          const assets = jsonApiFormat.included.filter(obj => {
             return obj.type === 'asset'
           })
 
