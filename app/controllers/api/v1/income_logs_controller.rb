@@ -34,9 +34,31 @@ module Api
         end
       end
 
+      def bulk_delete
+        # OPTIMIZE: 可能ならSQL delete処理にしたい。
+        begin
+          ActiveRecord::Base.transaction do
+            income_logs = @current_user.income_logs
+
+            income_log_ids.each do |id|
+              income_logs.find(id)
+                              .try(:destroy!)
+            end
+
+            response_success(:income_logs, :delete)
+          end
+        rescue => exception
+          response_internal_server_error
+        end
+      end
+
       private
         def income_log_params
           params.require(:income_log).permit(:title, :amount, :content)
+        end
+
+        def income_log_ids
+          params.permit(ids: []).require(:ids)
         end
 
         def to_json_api_format(income_log)
