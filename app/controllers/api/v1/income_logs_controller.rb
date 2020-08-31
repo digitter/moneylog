@@ -15,7 +15,7 @@ module Api
       end
 
       def update
-        income_log = @current_user.income_log.find(params[:id])
+        income_log = @current_user.income_logs.find(params[:id])
 
         if income_log.update(income_log_params)
           render json: to_json_api_format(income_log)
