@@ -8,7 +8,9 @@ import Asset from '../models/Asset'
 import AssetPage from './asset/AssetPage'
 import ExpenditureLog from '../models/ExpenditureLog'
 import ExpenditureLogsTable from './expenditure/ExpenditureLogsTable'
-import CreateExpenditureLog from './expenditure/CreateExpenditureLog'
+import CreateExpenditureLogModal from './expenditure/CreateExpenditureLogModal'
+import CreateIncomeLogModal from './income/CreateIncomeLogModal'
+import IncomeLogsTable from './income/IncomeLogsTable'
 
 interface HelloProps {
   user: User
@@ -26,12 +28,17 @@ class Hello extends React.Component<HelloProps, HelloState> {
       <React.Fragment>
         <h2>Hello {this.props.user.name} ! This is boilerplate</h2>
         <img src ="/public/hello.png" style={{width: 200, height: 200}} />
+
         <Logout />
         <Cancellation />
+
         <AssetPage assets={this.props.assets} />
-        {/* IN */}
-        <CreateExpenditureLog />
-        <ExpenditureLogsTable />
+
+        <CreateIncomeLogModal/>
+        <IncomeLogsTable/>
+
+        <CreateExpenditureLogModal/>
+        <ExpenditureLogsTable/>
       </React.Fragment>
     )
   }
