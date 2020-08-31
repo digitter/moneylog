@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       delete '/bulk_delete/expenditure_logs', to: 'expenditure_logs#bulk_delete'
 
       resources :income_logs, only: %i[create update destroy]
-      delete '/bulk_delete/income_logs', 'income_logs#bulk_delete'
+      delete '/bulk_delete/income_logs' => 'income_logs#bulk_delete'
     end
   end
 
