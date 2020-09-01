@@ -16,21 +16,17 @@ module ResponseHelper
 
   # 400 Bad Request
   def response_bad_request
-    render json: { status: 400, message: 'Bad Request' }
+    render status: 400, json: { status: 400, message: 'Bad Request' }
   end
 
   # 401 Unauthorized
-  def check_login_response_unauthorized
-    render json: { status: 401, message: 'Unauthorized', logged_in: false }
-  end
-
   def response_unauthorized
     render status: 401, json: { status: 401, message: 'Unauthorized', logged_in: false }
   end
 
   # 404 Not Found
   def response_not_found(class_name = 'page')
-    render status: 404, json: { status: 404, message: "#{class_name.capitalize} Not Found" }
+    return render status: 404, json: { status: 404, message: "#{class_name.capitalize} Not Found" }
   end
 
   # 409 Conflict
