@@ -3,14 +3,14 @@ import { bindActionCreators } from 'redux'
 import { History } from 'history'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
+// Request
 import { userSignup } from '../../services/UserService'
-
+// Models
 import User from '../../models/User'
 import Asset from '../../models/Asset'
 import ExpenditureLog from '../../models/ExpenditureLog'
 import IncomeLog from '../../models/IncomeLog'
-
+// Redux module
 import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
 import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
@@ -55,7 +55,7 @@ class Registration extends React.Component<Props, State> {
 
     userSignup(user)
       .then((jsonApiFormat: any) => {
-        if (jsonApiFormat.data.type === 'user') { this.props.editUser(jsonApiFormat.data) }
+        if (jsonApiFormat.data.type === 'user') { this.props.editUser(User.fromJsonApi(jsonApiFormat)) }
 
         this.props.editUser(jsonApiFormat.data.attributes)
         this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
@@ -126,10 +126,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      editUser: editUser,
-      editAssets: editAssets,
-      editExpenditureLogs: editExpenditureLogs,
-      editIncomeLogs: editIncomeLogs
+      editUser,
+      editAssets,
+      editExpenditureLogs,
+      editIncomeLogs
     },
     dispatch
   )

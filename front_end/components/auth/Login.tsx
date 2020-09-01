@@ -3,15 +3,19 @@ import { connect } from 'react-redux'
 import { History } from 'history'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
+// Request
 import { userSignin } from '../../services/UserService'
+// Models
+import User from '../../models/User'
 import Asset from '../../models/Asset'
 import ExpenditureLog from '../../models/ExpenditureLog'
 import IncomeLog from '../../models/IncomeLog'
+// Redux Module
 import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
-import { editExpenditureLogs, actionTypes as expenditureActionTypes, editExpenditureLog } from '../../modules/ExpenditureLogModule'
+import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
 import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
-import { Link } from 'react-router-dom'
 
 interface LoginProps {
   history: History
@@ -49,7 +53,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     userSignin(user)
       .then((jsonApiFormat: any) => {
-        if (jsonApiFormat.data.type === 'user') { this.props.editUser(jsonApiFormat.data) }
+        if (jsonApiFormat.data.type === 'user') { this.props.editUser(User.fromJsonApi(jsonApiFormat)) }
 
         this.props.editUser(jsonApiFormat.data.attributes)
         this.props.editAssets(Asset.fromIncluded(jsonApiFormat))

@@ -15,7 +15,14 @@ export const fetchUser = () => {
   })
 }
 
-export const userSignup = (user) => {
+type signupData = {
+  name: string,
+  email: string,
+  password: string,
+  password_confirmation: string
+}
+
+export const userSignup = (user: signupData) => {
   return new Promise((resolve, reject) => {
     const url = 'http://localhost:3001/api/v1/registrations'
 
@@ -30,7 +37,7 @@ export const userSignup = (user) => {
   })
 }
 
-export const userSignin = (user) => {
+export const userSignin = (user: { email: string, password: string }) => {
   return new Promise((resolve, reject) => {
     const url = 'http://localhost:3001/api/v1/sessions'
 
