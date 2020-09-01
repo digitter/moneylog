@@ -100,10 +100,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      editUser: editUser,
-      editAssets: editAssets,
-      editExpenditureLogs: editExpenditureLogs,
-      editIncomeLogs: editIncomeLogs
+      editUser,
+      editAssets,
+      editExpenditureLogs,
+      editIncomeLogs
     },
     dispatch
   )

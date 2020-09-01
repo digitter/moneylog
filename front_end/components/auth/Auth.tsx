@@ -38,33 +38,35 @@ class Auth extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    fetchUser()
-      .then((jsonApiFormat: any) => {
-        if (jsonApiFormat.data && jsonApiFormat.data.type === 'user') {
-          this.props.editUser(jsonApiFormat.data.attributes)
-          this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
-          this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
-          this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
+    if (!Object.keys(this.props.user).length) {
+      fetchUser()
+        .then((jsonApiFormat: any) => {
+          if (jsonApiFormat.data && jsonApiFormat.data.type === 'user') {
+            this.props.editUser(jsonApiFormat.data.attributes)
+            this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
+            this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
+            this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
 
-          this.setState({ loggedInStatus: 'LOGGED_IN' })
-        }
-        else {
+            this.setState({ loggedInStatus: 'LOGGED_IN' })
+          }
+          else {
+            this.props.editUser({})
+            this.props.editAssets([])
+            this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
+            this.props.editIncomeLogs(incomeActionTypes.reset, [])
+            this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
+          }
+        })
+        .catch(error => {
           this.props.editUser({})
           this.props.editAssets([])
           this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
           this.props.editIncomeLogs(incomeActionTypes.reset, [])
-          this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
-        }
-      })
-      .catch(error => {
-        this.props.editUser({})
-        this.props.editAssets([])
-        this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
-        this.props.editIncomeLogs(incomeActionTypes.reset, [])
-        this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
+          this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
 
-        console.error(error)
-      })
+          console.error(error)
+        })
+    }
   }
 
   render() {
@@ -89,10 +91,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      editUser: editUser,
-      editAssets: editAssets,
-      editExpenditureLogs: editExpenditureLogs,
-      editIncomeLogs: editIncomeLogs
+      editUser,
+      editAssets,
+      editExpenditureLogs,
+      editIncomeLogs
     },
     dispatch
   )
