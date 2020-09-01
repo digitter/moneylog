@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Login from './auth/Login'
-import Registration from './auth/Registration'
+import { Link } from 'react-router-dom'
 
 interface Props {
   history: any
@@ -21,8 +20,8 @@ class Top extends React.Component<Props, State> {
   render() {
     return (
       <React.Fragment>
-        <Login />
-        <Registration />
+        <p><Link to='/signin'>Signin</Link></p>
+        <p><Link to='/signup'>Signup</Link></p>
       </React.Fragment>
     )
   }

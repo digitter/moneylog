@@ -1,16 +1,28 @@
 import * as React from 'react'
 import { bindActionCreators } from 'redux'
+import { History } from 'history'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 import { userSignup } from '../../services/UserService'
+
+import User from '../../models/User'
+import Asset from '../../models/Asset'
+import ExpenditureLog from '../../models/ExpenditureLog'
+import IncomeLog from '../../models/IncomeLog'
+
 import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
-import User from '../../models/User'
+import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
+import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
 
 interface Props {
-  history: any
+  history: History
+  user: User
   editUser: typeof editUser
   editAssets: typeof editAssets
-  user: User
+  editExpenditureLogs: typeof editExpenditureLogs
+  editIncomeLogs: typeof editIncomeLogs
 }
 interface State {
 }
@@ -45,25 +57,20 @@ class Registration extends React.Component<Props, State> {
       .then((jsonApiFormat: any) => {
         if (jsonApiFormat.data.type === 'user') { this.props.editUser(jsonApiFormat.data) }
 
-        if (jsonApiFormat.data.relationships.asset) {
-          const assets = jsonApiFormat.included.filter(obj => {
-            return obj.type === 'asset'
-          })
-
-          this.props.editAssets(assets[0].attributes)
-        }
-      }).then(() => {
-        window.location.href = '/'
+        this.props.editUser(jsonApiFormat.data.attributes)
+        this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
+        this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
+        this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
       })
-      .catch(error => {
-        console.error('login error', error)
-      })
+      .then(() => this.props.history.replace('/'))
+      .catch(error => console.error(error))
   }
 
   render() {
     return (
       <React.Fragment>
         <h2>Signup</h2>
+        <Link to='/'>LINK</Link>
 
         <form onSubmit={this.handleSubmit}>
           <input
@@ -120,7 +127,9 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       editUser: editUser,
-      editAssets: editAssets
+      editAssets: editAssets,
+      editExpenditureLogs: editExpenditureLogs,
+      editIncomeLogs: editIncomeLogs
     },
     dispatch
   )

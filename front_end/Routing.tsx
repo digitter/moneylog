@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 import Hello from './components/Hello'
 import Auth from './components/auth/Auth'
+import Login from './components/auth/Login'
+import Registration from './components/auth/Registration'
 
 interface Props {
   history: any
@@ -18,6 +20,9 @@ class Routing extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <Switch>
+          <Route exact path='/signup' component={Registration} />
+          <Route exact path='/signin' component={Login} />
+
           <Auth history={this.props.history}>
             <Switch>
               <Route exact path="/" component={Hello} />

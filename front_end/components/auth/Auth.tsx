@@ -63,7 +63,7 @@ class Auth extends React.Component<Props, State> {
         this.props.editIncomeLogs(incomeActionTypes.reset, [])
         this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
 
-        console.error('check login error', error)
+        console.error(error)
       })
   }
 
