@@ -18,11 +18,7 @@ module Api
       end
 
       def logged_in
-        if @current_user
-          render json: to_json_api_format(@current_user)
-        else
-          check_login_response_unauthorized
-        end
+        render json: to_json_api_format(@current_user) if @current_user
       end
 
       def logout
