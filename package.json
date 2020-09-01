@@ -45,7 +45,6 @@
     "css-loader": "^4.0.0",
     "history": "^4.7.2",
     "immutable": "^4.0.0-rc.12",
-    "json-api-serializer": "^2.6.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
