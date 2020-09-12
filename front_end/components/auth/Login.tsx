@@ -84,7 +84,7 @@ class Login extends React.Component<LoginProps, LoginState> {
           <input
             type='password'
             name='password'
-            placeholder='Passowrd'
+            placeholder='Password'
             defaultValue={this.state.password}
             onChange={this.handleChange}
             required
