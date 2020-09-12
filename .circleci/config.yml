@@ -1,0 +1,18 @@
+version: 2
+
+jobs:
+    test:
+        docker:
+            - image: circleci/ruby:2.5.1
+        working_directory: ~/repo
+        steps:
+            - checkout
+            - run:
+                name: Run feature test
+                command: rspec spec/feature
+
+workflows:
+    version: 2
+    workflows:
+        jobs:
+            - test
