@@ -33,6 +33,8 @@ group :development, :test do
   # テスト
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'factory_bot_rails'
+  gem 'faker'
   gem 'selenium-webdriver'
 end
 
