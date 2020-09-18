@@ -4,7 +4,7 @@ require 'rails_helper'
 
 module FeatureHelper
   def signin
-    visit('http://http://localhost:8080/')
+    visit('http://localhost:8080/')
 
     page.find_link('Signin').click
 
