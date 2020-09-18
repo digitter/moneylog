@@ -39,10 +39,10 @@ jobs:
           name: Run RSpec
           command: |
 
+            bundle exec rspec spec/api/ && bundle exec rspec spec/model/
+
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               bundle exec rspec spec/system/
-            else
-              bundle exec rspec spec/api/ && bundle exec rspec spec/model/
             fi
 
 workflows:
