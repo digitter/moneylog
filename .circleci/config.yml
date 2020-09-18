@@ -42,7 +42,8 @@ jobs:
             bundle exec rspec spec/api/ && bundle exec rspec spec/model/
 
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              bundle exec rspec spec/system/
+              # bundle exec rspec spec/system/
+              echo "E2E test !"
             fi
 
 workflows:
