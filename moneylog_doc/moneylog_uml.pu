@@ -8,8 +8,8 @@
   User ---o{ MonthlyExpenditure
   User ---o{ MonthlyIncome
 
-  MonthlyExpenditure --- ExpenditureLog: owns >
-  MonthlyIncome --- IncomeLog: owns >
+  MonthlyExpenditure ---o{ ExpenditureLog
+  MonthlyIncome ---o{ IncomeLog
 
   IncomeLog ---o{ Tag
   ExpenditureLog ---o{ Tag
@@ -26,7 +26,6 @@
     id
     user_id (foreign_key)
     amount
-    content
     created_at
     updated_at
   }
@@ -36,9 +35,10 @@
     title
     amount
     content
+    is_active
+    will_created_at
     created_at
     updated_at
-    paid_at
   }
   class MonthlyIncome {
     id
@@ -46,6 +46,8 @@
     title
     amount
     content
+    is_active
+    will_created_at
     created_at
     updated_at
   }
@@ -56,9 +58,9 @@
     amount
     title
     content
+    earned_at
     created_at
     updated_at
-    earned_at
   }
   class ExpenditureLog {
     id
@@ -67,6 +69,7 @@
     amount
     title
     content
+    paid_at
     created_at
     updated_at
   }
