@@ -2,15 +2,17 @@
   title moneylog_ER_Diagram
 
   ' Relationship
-  User "1" --- "1" Asset: owns >
-  User "1" ---{ "many" ExpenditureLog
-  User "1" ---{ "many" IncomeLog
+  User --- Asset: owns >
+  User ---o{ ExpenditureLog
+  User ---o{ IncomeLog
+  User ---o{ MonthlyExpenditure
+  User ---o{ MonthlyIncome
 
-  Asset "1" ---{ "many" ExpenditureLog
-  Asset "1" ---{ "many" IncomeLog
+  MonthlyExpenditure --- ExpenditureLog: owns >
+  MonthlyIncome --- IncomeLog: owns >
 
-  IncomeLog "1" ---{ "many" Tag
-  ExpenditureLog "1" ---{ "many" Tag
+  IncomeLog ---o{ Tag
+  ExpenditureLog ---o{ Tag
 
   class User {
     id
@@ -28,20 +30,40 @@
     created_at
     updated_at
   }
+  class MonthlyExpenditure {
+    id
+    user_id (foreign_key)
+    title
+    amount
+    content
+    created_at
+    updated_at
+    paid_at
+  }
+  class MonthlyIncome {
+    id
+    user_id (foreign_key)
+    title
+    amount
+    content
+    created_at
+    updated_at
+  }
   class IncomeLog {
     id
     user_id (foreign_key)
-    asset_id (foreign_key)
+    monthly_expenditure_id (optional_foreign_key)
     amount
     title
     content
     created_at
     updated_at
+    earned_at
   }
   class ExpenditureLog {
     id
     user_id (foreign_key)
-    asset_id (foreign_key)
+    monthly_expenditure_id (optional_foreign_key)
     amount
     title
     content
@@ -51,7 +73,8 @@
   class Tag {
     id
     income_log_id (foreign_key)
-    expenditure_log_id (foreign_key)
+    expenditure_log_id (optional_foreign_key)
+    income_log_id (optional_foreign_key)
     name
     created_at
     updated_at
