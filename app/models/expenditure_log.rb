@@ -6,7 +6,7 @@ class ExpenditureLog < ApplicationRecord
 
   # association
   belongs_to :user
-  belongs_to :monthly_expenditure
+  belongs_to :monthly_expenditure, optional: true
 
   # method
 end
