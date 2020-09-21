@@ -6,7 +6,7 @@ class CreateMonthlyExpenditures < ActiveRecord::Migration[6.0]
       t.text :content
       t.integer :user_id
       t.boolean :is_active
-      t.datetime :will_created_at, default: -> { "CURRENT_TIMESTAMP" }, null: false
+      t.datetime :will_create_at, default: -> { "CURRENT_TIMESTAMP" }, null: false
 
       t.timestamps
     end

@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2020_09_21_171525) do
     t.text "content"
     t.integer "user_id"
     t.boolean "is_active"
-    t.datetime "will_created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "will_create_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
