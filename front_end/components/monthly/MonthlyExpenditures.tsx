@@ -17,7 +17,6 @@ const MonthlyExpenditures: React.FC = (props: Props) => {
   const [will_create_at, setWillCreateAt] = useState(null)
 
   const monthlyExpenditures = useSelector(state => state.monthlyExpenditures)
-  console.log(monthlyExpenditures)
 
   const handleMonthlySettingChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     switch (event.currentTarget.name) {
