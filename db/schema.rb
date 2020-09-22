@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2020_09_21_192107) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "paid_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.integer "monthly_expenditure"
+    t.integer "monthly_expenditure_id"
   end
 
   create_table "income_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
