@@ -11,6 +11,7 @@ import ExpenditureLogsTable from './expenditure/ExpenditureLogsTable'
 import CreateExpenditureLogModal from './expenditure/CreateExpenditureLogModal'
 import CreateIncomeLogModal from './income/CreateIncomeLogModal'
 import IncomeLogsTable from './income/IncomeLogsTable'
+import MonthlyExpenditures from './monthly/MonthlyExpenditures'
 
 interface HelloProps {
   user: User
@@ -33,6 +34,7 @@ class Hello extends React.Component<HelloProps, HelloState> {
         <Cancellation />
 
         <AssetPage assets={this.props.assets} />
+        <MonthlyExpenditures />
 
         <CreateIncomeLogModal/>
         <IncomeLogsTable/>

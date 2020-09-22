@@ -106,12 +106,12 @@ const ExpenditureLogsTable: React.FC = () => {
   React.useEffect(() => {
     setRowsPerPage(expenditureLogs.length)
 
-    const logs = expenditureLogs.map((expenditureLog: ExpenditureLog) => {
+    const logs = expenditureLogs.map((log: ExpenditureLog) => {
       return new ExpenditureLog(
-        expenditureLog.title,
-        expenditureLog.amount,
-        expenditureLog.content,
-        expenditureLog.id
+        log.title,
+        log.amount,
+        log.content,
+        log.id
       )
     })
 
