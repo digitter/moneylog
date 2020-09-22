@@ -39,7 +39,7 @@ jobs:
           name: Run RSpec
           command: |
 
-            bundle exec rspec spec/api/ && bundle exec rspec spec/model/
+            bundle exec rspec spec/api/ && bundle exec rspec spec/models/
 
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               # bundle exec rspec spec/system/
