@@ -41,7 +41,7 @@ module Api
             :amount,
             :content,
             :is_active,
-            :will_created_at
+            :will_create_at
           )
         end
 

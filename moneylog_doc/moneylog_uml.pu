@@ -36,7 +36,7 @@
     amount
     content
     is_active
-    will_created_at
+    will_create_at
     created_at
     updated_at
   }
@@ -47,7 +47,7 @@
     amount
     content
     is_active
-    will_created_at
+    will_create_at
     created_at
     updated_at
   }

@@ -5,6 +5,6 @@ FactoryBot.define do
     content { "MyText" }
     user_id { 1 }
     is_active { false }
-    will_created_at { "2020-09-22 02:15:26" }
+    will_create_at { "2020-09-22 02:15:26" }
   end
 end
