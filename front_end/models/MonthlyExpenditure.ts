@@ -3,33 +3,55 @@ export default class MonthlyExpenditure {
     public title: string,
     public amount: number,
     public content: string,
-    public is_active: boolean,
-    public will_create_at: Date,
+    public isActive: boolean,
+    public willCreateAt: Date,
     public id?: number,
   ) {}
 
-  static serialized(params: MonthlyExpenditure): MonthlyExpenditure {
+  // toRequest()
+  // snake ケースに変換
+  static serialized(params: MonthlyExpenditure) {
     const {
       title,
       amount,
       content,
-      is_active,
-      will_create_at
+      isActive: is_active,
+      willCreateAt: will_create_at
     } = params
 
-   return new MonthlyExpenditure(
-     title,
-     amount,
-     content,
-     is_active,
-     will_create_at
-   )
+    return {
+      monthly_expenditure: {
+        title,
+        amount,
+        content,
+        is_active,
+        will_create_at
+      }
+    }
   }
 
+  // fromResponse()
+  // camel ケースに変換
   static fromJsonApi(jsonApiFormat: any): MonthlyExpenditure {
     if (jsonApiFormat.data.type !== 'monthly_expenditure') { return null }
 
-    return jsonApiFormat.data.attributes
+    const {
+      id,
+      title,
+      amount,
+      content,
+      is_active: isActive,
+      will_create_at: willCreateAt
+    } = jsonApiFormat.data.attributes
+
+    return new MonthlyExpenditure(
+      id,
+      title,
+      amount,
+      content,
+      isActive,
+      willCreateAt
+    )
   }
 
   static fromIncluded(jsonApiFormat: any):MonthlyExpenditure[] {
@@ -40,7 +62,23 @@ export default class MonthlyExpenditure {
     })
 
     const monthlyExpendituresAttributes = monthlyExpenditures.map(expenditureLog => {
-      return expenditureLog.attributes
+      const {
+        id,
+        title,
+        amount,
+        content,
+        is_active: isActive,
+        will_create_at: willCreateAt
+      } = expenditureLog.attributes
+
+      return {
+        id,
+        title,
+        amount,
+        content,
+        isActive,
+        willCreateAt
+      }
     })
 
     return monthlyExpendituresAttributes
