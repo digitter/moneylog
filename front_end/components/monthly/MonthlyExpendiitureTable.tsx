@@ -10,11 +10,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import MonthlyExpenditure from '../../models/MonthlyExpenditure';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import EditIcon from '@material-ui/icons/Edit'
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import TextField from '@material-ui/core/TextField';
+import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
 
 const { useState } = React
 
@@ -28,6 +25,7 @@ interface Props {}
 
 const MonthlyExpenditureTable: React.FC = (props: Props) => {
   const monthlyExpenditures = useSelector(state => state.monthlyExpenditures)
+
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(null)
   const [content, setContent] = useState('')
@@ -37,16 +35,12 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
   const classes = useStyles();
 
   const handleMonthlyDataChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log(event.currentTarget.value)
-
     switch (event.currentTarget.name) {
       case 'title':
         setTitle(event.currentTarget.value)
-        console.log(title)
         break;
       case 'amount':
         setAmount(Number(event.currentTarget.value))
-        console.log(amount)
         break;
       case 'content':
         setContent(event.currentTarget.value)
@@ -54,60 +48,87 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
     }
   }
 
-  const reflectMonthlyData = (event) => {
-    console.log(event.target.name)
+  const reflectMonthlyData = (row: MonthlyExpenditure) => event => {
+    switch (event.currentTarget.name) {
+      case 'title':
+        if (event.currentTarget.value === row.title) { return null }
+      case 'amount':
+        if (Number(event.currentTarget.value) === row.amount) { return null }
+      case 'content':
+        if (event.currentTarget.value === row.content) { return null }
+    }
+
+    const newMonthlyData = Object.assign(row, { [event.currentTarget.name]: event.currentTarget.value })
+
+    updateMonthlyExpenditure(newMonthlyData)
+      .then(jsonApiFormat => {
+        console.log(jsonApiFormat)
+      })
+      .catch(response => {
+        console.error(response)
+      })
   }
 
   return (
     <React.Fragment>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell align="right">Amount</TableCell>
-              <TableCell align="right">Content</TableCell>
-              <TableCell align="right">ログ自動作成</TableCell>
-              <TableCell align="right">ログ作成予定日</TableCell>
-              {/* <TableCell align="right">Edit</TableCell> */}
-              {/* <TableCell align="right">Delete</TableCell> */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {monthlyExpenditures.map((row: MonthlyExpenditure, index: number) => (
-              <TableRow key={index}>
-                <TableCell component="th" scope="row">
-                  <TextField name="title" id="outlined-basic" label="title" variant="outlined" defaultValue={row.title} onChange={handleMonthlyDataChange} />
-                </TableCell>
-                <TableCell align="right">
-                  <TextField name="amount" type="number" id="outlined-basic" label="amount" variant="outlined" defaultValue={row.amount} onChange={handleMonthlyDataChange} />
-                </TableCell>
-                <TableCell align="right">
-                  <TextareaAutosize name="content" rowsMax={2} placeholder="Content" defaultValue={row.content} onChange={handleMonthlyDataChange} />
-                </TableCell>
-                <TableCell align="right">
-                  {row.isActive ? '有効' : '無効'}
-                </TableCell>
-                <TableCell align="right">
-                  {row.willCreateAt}
-                </TableCell>
-                {/* <TableCell align="right">
-                  <Tooltip title="Update">
-                    <IconButton aria-label="update">
-                      <EditIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell> */}
-                {/* <TableCell align="right">
-                  <IconButton aria-label="delete">
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </TableCell> */}
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Title</TableCell>
+                <TableCell align="right">Amount</TableCell>
+                <TableCell align="right">Content</TableCell>
+                <TableCell align="right">ログ自動作成</TableCell>
+                <TableCell align="right">ログ作成予定日</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {monthlyExpenditures.map((row: MonthlyExpenditure, index: number) => (
+                <TableRow key={index}>
+                  <TableCell component="th" scope="row">
+                    <TextField
+                      name="title"
+                      id="outlined-basic"
+                      label="title"
+                      variant="outlined"
+                      defaultValue={row.title}
+                      onChange={handleMonthlyDataChange}
+                      onBlur={reflectMonthlyData(row)}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <TextField
+                      name="amount"
+                      type="number"
+                      id="outlined-basic"
+                      label="amount"
+                      variant="outlined"
+                      defaultValue={row.amount}
+                      onChange={handleMonthlyDataChange}
+                      onBlur={reflectMonthlyData(row)}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <TextareaAutosize
+                      name="content"
+                      rowsMax={2}
+                      placeholder="Content"
+                      defaultValue={row.content}
+                      onChange={handleMonthlyDataChange}
+                      onBlur={reflectMonthlyData(row)}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    {row.isActive ? '有効' : '無効'}
+                  </TableCell>
+                  <TableCell align="right">
+                    {row.willCreateAt}
+                  </TableCell>
+                </TableRow>
+              ))}
+              </TableBody>
+            </Table>
+        </TableContainer>
     </React.Fragment>
   );
 }
