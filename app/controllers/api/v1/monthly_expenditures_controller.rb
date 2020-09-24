@@ -5,7 +5,7 @@ module Api
       before_action :authenticate_user!
 
       def create
-        monthlyExpenditure = @current_user.monthlyExpenditure.new(monthly_expenditure_params)
+        monthly_expenditure = @current_user.monthly_expenditures.new(monthly_expenditure_params)
 
         if monthly_expenditure.save
           render json: to_json_api_format(monthly_expenditure)
@@ -15,9 +15,9 @@ module Api
       end
 
       def update
-        monthlyExpenditure = @current_user.monthlyExpenditure.find(params[:id])
+        monthly_expenditure = @current_user.monthly_expenditures.find(params[:id])
 
-        if monthly_expenditure.save
+        if monthly_expenditure.update(monthly_expenditure_params)
           render json: to_json_api_format(monthly_expenditure)
         else
           respnse_not_found(:monthly_expenditure)
@@ -25,7 +25,7 @@ module Api
       end
 
       def destroy
-        monthly_expenditure = @current_user.monthly_expenditure.find(params[:id])
+        monthly_expenditure = @current_user.monthly_expenditures.find(params[:id])
 
         if monthly_expenditure.destroy
           response_success(:monthly_expenditure, :destroy)
