@@ -9,11 +9,17 @@ module Api
 
         return response_conflict(:email) if User.find_by(email: user.email)
 
-        if user.save
-          session[:user_id] = user.id
-          Asset.create(user_id: user.id)
-          render json: to_json_api_format(user)
-        else
+        begin
+          ActiveRecord::Base.transaction do
+            session[:user_id] = user.id if user.save!
+
+            Asset.create!(user_id: user.id)
+
+            3.times { MonthlhExpenditure.create!(user_id: user.id) }
+
+            render json: to_json_api_format(user)
+          end
+        rescue => exception
           response_internal_server_error
         end
       end

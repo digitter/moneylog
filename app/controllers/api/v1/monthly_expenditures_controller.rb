@@ -4,15 +4,15 @@ module Api
       include ResponseHelper
       before_action :authenticate_user!
 
-      def create
-        monthly_expenditure = @current_user.monthly_expenditures.new(monthly_expenditure_params)
+      # def create
+      #   monthly_expenditure = @current_user.monthly_expenditures.new(monthly_expenditure_params)
 
-        if monthly_expenditure.save
-          render json: to_json_api_format(monthly_expenditure)
-        else
-          response_bad_request
-        end
-      end
+      #   if monthly_expenditure.save
+      #     render json: to_json_api_format(monthly_expenditure)
+      #   else
+      #     response_bad_request
+      #   end
+      # end
 
       def update
         monthly_expenditure = @current_user.monthly_expenditures.find(params[:id])
@@ -24,15 +24,15 @@ module Api
         end
       end
 
-      def destroy
-        monthly_expenditure = @current_user.monthly_expenditures.find(params[:id])
+      # def destroy
+      #   monthly_expenditure = @current_user.monthly_expenditures.find(params[:id])
 
-        if monthly_expenditure.destroy
-          response_success(:monthly_expenditure, :destroy)
-        else
-          response_internal_server_error
-        end
-      end
+      #   if monthly_expenditure.destroy
+      #     response_success(:monthly_expenditure, :destroy)
+      #   else
+      #     response_internal_server_error
+      #   end
+      # end
 
       private
         def monthly_expenditure_params
