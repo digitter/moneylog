@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2020_09_21_192107) do
 
   create_table "monthly_expenditures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
-    t.integer "amount"
+    t.integer "amount", default: 0, null: false
     t.text "content"
     t.integer "user_id"
     t.boolean "is_active"

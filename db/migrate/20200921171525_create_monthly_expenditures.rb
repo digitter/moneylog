@@ -2,7 +2,7 @@ class CreateMonthlyExpenditures < ActiveRecord::Migration[6.0]
   def change
     create_table :monthly_expenditures do |t|
       t.string :title
-      t.integer :amount
+      t.integer :amount, null: false, default: 0
       t.text :content
       t.integer :user_id
       t.boolean :is_active
