@@ -15,7 +15,7 @@ module Api
 
             Asset.create!(user_id: user.id)
 
-            3.times { MonthlhExpenditure.create!(user_id: user.id) }
+            3.times { MonthlyExpenditure.create!(user_id: user.id) }
 
             render json: to_json_api_format(user)
           end
