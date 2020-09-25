@@ -5,26 +5,31 @@ module Api
       before_action :authenticate_user!, only: %i[cancel]
 
       def signup
-        user = User.new(user_signup_params)
+        # 登録済みemmailは拒否
+        return response_conflict(:email) if User.find_by(email: user_signup_params[:email])
 
-        return response_conflict(:email) if User.find_by(email: user.email)
+        user = User.new(user_signup_params)
 
         begin
           ActiveRecord::Base.transaction do
-            session[:user_id] = user.id if user.save!
+            user.save!
 
             Asset.create!(user_id: user.id)
 
-            3.times do
+            3.times do |i|
+              i += 1
               MonthlyExpenditure.create!(
                 user_id: user.id,
-                title: '固定費タイトル',
+                title: "固定費タイトル #{i}",
                 is_active: false
               )
             end
-
-            render json: to_json_api_format(user)
           end
+
+          # transaction成功後、セッション管理
+          session[:user_id] = user.id
+
+          render json: to_json_api_format(user)
         rescue => exception
           response_internal_server_error
         end
