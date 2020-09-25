@@ -15,7 +15,13 @@ module Api
 
             Asset.create!(user_id: user.id)
 
-            3.times { MonthlyExpenditure.create!(user_id: user.id) }
+            3.times do
+              MonthlyExpenditure.create!(
+                user_id: user.id,
+                title: '固定費タイトル',
+                is_active: false
+              )
+            end
 
             render json: to_json_api_format(user)
           end
