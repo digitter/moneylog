@@ -59,7 +59,7 @@ class Auth extends React.Component<Props, State> {
             this.props.editAssets([])
             this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
             this.props.editIncomeLogs(incomeActionTypes.reset, [])
-            this.props.editMonthlyExpenditures(monthlyExpenditureTypes.initialize, [])
+            this.props.editMonthlyExpenditures(monthlyExpenditureTypes.reset, [])
             this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
           }
         })
@@ -68,7 +68,7 @@ class Auth extends React.Component<Props, State> {
           this.props.editAssets([])
           this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
           this.props.editIncomeLogs(incomeActionTypes.reset, [])
-          this.props.editMonthlyExpenditures(monthlyExpenditureTypes.initialize, [])
+          this.props.editMonthlyExpenditures(monthlyExpenditureTypes.reset, [])
           this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
 
           console.error(error)
