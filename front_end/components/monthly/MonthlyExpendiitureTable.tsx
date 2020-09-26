@@ -12,6 +12,7 @@ import MonthlyExpenditure from '../../models/MonthlyExpenditure';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import TextField from '@material-ui/core/TextField';
 import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
+import CustomizedSelects from './CustomizedSelects'
 
 const { useState } = React
 
@@ -26,34 +27,14 @@ interface Props {}
 const MonthlyExpenditureTable: React.FC = (props: Props) => {
   const monthlyExpenditures = useSelector(state => state.monthlyExpenditures)
 
-  const [title, setTitle] = useState('')
-  const [amount, setAmount] = useState(null)
-  const [content, setContent] = useState('')
-  const [isActive, setIsActive] = useState(null)
-  const [willCreateAt, setWillCreateAt] = useState(null)
-
   const classes = useStyles();
-
-  const handleMonthlyDataChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    switch (event.currentTarget.name) {
-      case 'title':
-        setTitle(event.currentTarget.value)
-        break;
-      case 'amount':
-        setAmount(Number(event.currentTarget.value))
-        break;
-      case 'content':
-        setContent(event.currentTarget.value)
-        break;
-    }
-  }
 
   const reflectMonthlyData = (row: MonthlyExpenditure) => event => {
     switch (event.currentTarget.name) {
       case 'title':
         if (event.currentTarget.value === row.title) { return null }
       case 'amount':
-        if (Number(event.currentTarget.value) === row.amount) { return null }
+        if (event.currentTarget.value === row.amount) { return null }
       case 'content':
         if (event.currentTarget.value === row.content) { return null }
     }
@@ -92,7 +73,6 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
                       label="title"
                       variant="outlined"
                       defaultValue={row.title}
-                      onChange={handleMonthlyDataChange}
                       onBlur={reflectMonthlyData(row)}
                     />
                   </TableCell>
@@ -104,7 +84,6 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
                       label="amount"
                       variant="outlined"
                       defaultValue={row.amount}
-                      onChange={handleMonthlyDataChange}
                       onBlur={reflectMonthlyData(row)}
                     />
                   </TableCell>
@@ -114,12 +93,11 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
                       rowsMax={2}
                       placeholder="Content"
                       defaultValue={row.content}
-                      onChange={handleMonthlyDataChange}
                       onBlur={reflectMonthlyData(row)}
                     />
                   </TableCell>
                   <TableCell align="right">
-                    {row.isActive ? '有効' : '無効'}
+                    <CustomizedSelects row={row} />
                   </TableCell>
                   <TableCell align="right">
                     {row.willCreateAt}
