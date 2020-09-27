@@ -18,6 +18,7 @@ import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../.
 import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
 import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule'
 import MonthlyExpenditure from '../../models/MonthlyExpenditure'
+import { successMessage, succesmMessages } from '../../GlobalMessage'
 
 interface LoginProps {
   history: History
@@ -64,7 +65,10 @@ class Login extends React.Component<LoginProps, LoginState> {
         this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
         this.props.editMonthlyExpenditures(monthlyActionTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat))
       })
-      .then(() => this.props.history.replace('/'))
+      .then(() => {
+        this.props.history.replace('/')
+        successMessage(succesmMessages.signin)
+      })
       .catch(error => console.error('login error', error))
   }
 

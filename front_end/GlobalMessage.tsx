@@ -5,6 +5,8 @@ interface Props {
 }
 
 export const succesmMessages = {
+  signup: 'はじめまして！',
+  signin: 'Hello !',
   create: '作成完了',
   update: '更新完了',
   destroy: '削除完了'

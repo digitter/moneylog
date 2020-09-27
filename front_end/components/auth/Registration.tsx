@@ -67,8 +67,10 @@ class Registration extends React.Component<Props, State> {
         this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
         this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
       })
+      .then(() => {
+        this.props.history.replace('/')
+        successMessage(succesmMessages.signup)
       })
-      .then(() => this.props.history.replace('/'))
       .catch(error => console.error(error))
   }
 
