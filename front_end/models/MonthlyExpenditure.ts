@@ -36,21 +36,21 @@ export default class MonthlyExpenditure {
     if (jsonApiFormat.data.type !== 'monthly_expenditure') { return null }
 
     const {
-      id,
       title,
       amount,
       content,
       is_active: isActive,
-      will_create_at: willCreateAt
+      will_create_at: willCreateAt,
+      id
     } = jsonApiFormat.data.attributes
 
     return new MonthlyExpenditure(
-      id,
       title,
       amount,
       content,
       isActive,
-      willCreateAt
+      willCreateAt,
+      id
     )
   }
 
@@ -72,12 +72,12 @@ export default class MonthlyExpenditure {
       } = expenditureLog.attributes
 
       return {
-        id,
         title,
         amount,
         content,
         isActive,
-        willCreateAt
+        willCreateAt,
+        id,
       }
     })
 
