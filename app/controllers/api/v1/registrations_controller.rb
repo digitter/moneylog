@@ -5,12 +5,12 @@ module Api
       before_action :authenticate_user!, only: %i[cancel]
 
       def signup
-        # 登録済みemmailは拒否
-        return response_conflict(:email) if User.find_by(email: user_signup_params[:email])
-
-        user = User.new(user_signup_params)
-
         begin
+          # 登録済みemmailは拒否
+          return response_conflict(:email) if User.find_by(email: user_signup_params[:email])
+
+          user = User.new(user_signup_params)
+
           ActiveRecord::Base.transaction do
             user.save!
 
