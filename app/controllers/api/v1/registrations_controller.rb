@@ -53,7 +53,7 @@ module Api
         end
 
         def to_json_api_format(user)
-          UserSerializer.new(user, { include: %i[asset monthly_expenditures] })
+          UserSerializer.new(user, { include: %i[asset monthly_expenditures expenditure_logs income_logs] })
         end
     end
   end

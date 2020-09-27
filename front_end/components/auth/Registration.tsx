@@ -9,10 +9,15 @@ import { userSignup } from '../../services/UserService'
 import User from '../../models/User'
 import Asset from '../../models/Asset'
 import MonthlyExpenditure from '../../models/MonthlyExpenditure'
+import ExpenditureLog from '../../models/ExpenditureLog'
+import IncomeLog from '../../models/IncomeLog'
 // Redux module
 import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
 import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule'
+import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
+import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
+import { successMessage, succesmMessages } from '../../GlobalMessage'
 
 interface Props {
   history: History
@@ -20,6 +25,8 @@ interface Props {
   editUser: typeof editUser
   editAssets: typeof editAssets
   editMonthlyExpenditures: typeof editMonthlyExpenditures
+  editExpenditureLogs: typeof editExpenditureLogs
+  editIncomeLogs: typeof editIncomeLogs
 }
 interface State {
 }
@@ -57,6 +64,9 @@ class Registration extends React.Component<Props, State> {
         this.props.editUser(jsonApiFormat.data.attributes)
         this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
         this.props.editMonthlyExpenditures(monthlyActionTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat))
+        this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
+        this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
+      })
       })
       .then(() => this.props.history.replace('/'))
       .catch(error => console.error(error))
@@ -124,7 +134,9 @@ const mapDispatchToProps = dispatch => {
     {
       editUser,
       editAssets,
-      editMonthlyExpenditures
+      editMonthlyExpenditures,
+      editExpenditureLogs,
+      editIncomeLogs
     },
     dispatch
   )
