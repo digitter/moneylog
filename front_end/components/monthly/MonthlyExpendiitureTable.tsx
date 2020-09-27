@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,9 +12,8 @@ import MonthlyExpenditure from '../../models/MonthlyExpenditure';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import TextField from '@material-ui/core/TextField';
 import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
-import CustomizedSelects from './CustomizedSelects'
-
-const { useState } = React
+import CustomizedSelects from './CustomizedSelects';
+import DatePickers from './DatePickers';
 
 const useStyles = makeStyles({
   table: {
@@ -69,7 +68,6 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
                   <TableCell component="th" scope="row">
                     <TextField
                       name="title"
-                      id="outlined-basic"
                       label="title"
                       variant="outlined"
                       defaultValue={row.title}
@@ -100,7 +98,7 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
                     <CustomizedSelects row={row} />
                   </TableCell>
                   <TableCell align="right">
-                    {row.willCreateAt}
+                    <DatePickers row={row} />
                   </TableCell>
                 </TableRow>
               ))}
