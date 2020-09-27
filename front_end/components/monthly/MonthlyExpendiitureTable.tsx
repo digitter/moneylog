@@ -14,6 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
 import CustomizedSelects from './CustomizedSelects';
 import DatePickers from './DatePickers';
+import { successMessage, errorMessage, succesmMessages, errorMessages } from '../../GlobalMessage';
 
 const useStyles = makeStyles({
   table: {
@@ -43,9 +44,11 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
     updateMonthlyExpenditure(newMonthlyData)
       .then(jsonApiFormat => {
         console.log(jsonApiFormat)
+        successMessage(succesmMessages.update)
       })
       .catch(response => {
         console.error(response)
+        errorMessage(errorMessages.update)
       })
   }
 
