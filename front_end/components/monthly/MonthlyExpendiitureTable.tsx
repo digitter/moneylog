@@ -29,7 +29,7 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
 
   const classes = useStyles();
 
-  const reflectMonthlyData = (row: MonthlyExpenditure) => event => {
+  const handleMonthlyDataBlur = (row: MonthlyExpenditure) => event => {
     switch (event.currentTarget.name) {
       case 'title':
         if (event.currentTarget.value === row.title) { return null }
@@ -74,7 +74,7 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
                       label="title"
                       variant="outlined"
                       defaultValue={row.title}
-                      onBlur={reflectMonthlyData(row)}
+                      onBlur={handleMonthlyDataBlur(row)}
                     />
                   </TableCell>
                   <TableCell align="right">
@@ -85,7 +85,7 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
                       label="amount"
                       variant="outlined"
                       defaultValue={row.amount}
-                      onBlur={reflectMonthlyData(row)}
+                      onBlur={handleMonthlyDataBlur(row)}
                     />
                   </TableCell>
                   <TableCell align="right">
@@ -94,7 +94,7 @@ const MonthlyExpenditureTable: React.FC = (props: Props) => {
                       rowsMax={2}
                       placeholder="Content"
                       defaultValue={row.content}
-                      onBlur={reflectMonthlyData(row)}
+                      onBlur={handleMonthlyDataBlur(row)}
                     />
                   </TableCell>
                   <TableCell align="right">

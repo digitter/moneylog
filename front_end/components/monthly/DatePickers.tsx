@@ -26,7 +26,7 @@ interface Props {
 export default function DatePickers(props: Props) {
   const classes = useStyles();
 
-  const reflectDate = event => {
+  const handleDateChange = event => {
     const newMonthlyData = Object.assign(props.row, { will_create_at: event.currentTarget.value })
 
     updateMonthlyExpenditure(newMonthlyData)
@@ -48,7 +48,7 @@ export default function DatePickers(props: Props) {
         InputLabelProps={{
           shrink: true,
         }}
-        onChange={reflectDate}
+        onChange={handleDateChange}
       />
     </form>
   );
