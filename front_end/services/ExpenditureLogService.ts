@@ -17,12 +17,12 @@ export const createExpenditureLog = (expenditureLog: ExpenditureLog) => {
   })
 }
 
-export const updateExpenditureLog = (expenditureLog: ExpenditureLog) => {
+export const updateExpenditureLog = (params: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/expenditure_logs/${expenditureLog.id}`
-    const updatedExpenditureLog = ExpenditureLog.serialized(expenditureLog)
+    const url = `http://localhost:3001/api/v1/expenditure_logs/${params.id}`
+    const expenditureLog = ExpenditureLog.serialized(params)
 
-    Axios.patch(url, updatedExpenditureLog)
+    Axios.patch(url, expenditureLog)
       .then(response => {
         const updatedLog = ExpenditureLog.fromJsonApi(response.data)
         resolve(updatedLog)

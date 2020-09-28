@@ -20,7 +20,7 @@ RSpec.describe 'Assetモデルのテスト', type: :model do
         asset.amount = nil
         expect(asset.valid?).to eq false
       end
-      it '100万以下であること' do
+      it '100文字以下であること' do
         asset.amount = 1000001
         expect(asset.valid?).to eq false
       end

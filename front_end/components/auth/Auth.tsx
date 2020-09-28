@@ -9,13 +9,16 @@ import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
 import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
 import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
+import { editMonthlyExpenditures, actionTypes as monthlyExpenditureTypes } from '../../modules/MonthlyExpenditureModule'
+
 import User from '../../models/User'
+import Asset from '../../models/Asset'
+import ExpenditureLog from '../../models/ExpenditureLog'
+import IncomeLog from '../../models/IncomeLog'
 
 import LoadingIcon from '../LoadingIcon'
-import ExpenditureLog from '../../models/ExpenditureLog'
-import Asset from '../../models/Asset'
 import Top from '../Top'
-import IncomeLog from '../../models/IncomeLog'
+import MonthlyExpenditure from '../../models/MonthlyExpenditure'
 
 interface Props {
   history: any
@@ -27,6 +30,7 @@ interface Props {
   editAssets: typeof editAssets
   editExpenditureLogs: typeof editExpenditureLogs
   editIncomeLogs: typeof editIncomeLogs
+  editMonthlyExpenditures: typeof editMonthlyExpenditures
 }
 interface State {
   loggedInStatus: string
@@ -46,6 +50,7 @@ class Auth extends React.Component<Props, State> {
             this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
             this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
             this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
+            this.props.editMonthlyExpenditures(monthlyExpenditureTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat))
 
             this.setState({ loggedInStatus: 'LOGGED_IN' })
           }
@@ -54,6 +59,7 @@ class Auth extends React.Component<Props, State> {
             this.props.editAssets([])
             this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
             this.props.editIncomeLogs(incomeActionTypes.reset, [])
+            this.props.editMonthlyExpenditures(monthlyExpenditureTypes.reset, [])
             this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
           }
         })
@@ -62,7 +68,8 @@ class Auth extends React.Component<Props, State> {
           this.props.editAssets([])
           this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
           this.props.editIncomeLogs(incomeActionTypes.reset, [])
-          this.setState({ loggedInStatus: 'NOT_LOGGED_IN'})
+          this.props.editMonthlyExpenditures(monthlyExpenditureTypes.reset, [])
+          this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
 
           console.error(error)
         })
@@ -94,7 +101,8 @@ const mapDispatchToProps = dispatch => {
       editUser,
       editAssets,
       editExpenditureLogs,
-      editIncomeLogs
+      editIncomeLogs,
+      editMonthlyExpenditures
     },
     dispatch
   )

@@ -16,6 +16,9 @@ import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
 import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
 import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
+import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule'
+import MonthlyExpenditure from '../../models/MonthlyExpenditure'
+import { successMessage, succesmMessages } from '../../GlobalMessage'
 
 interface LoginProps {
   history: History
@@ -23,6 +26,7 @@ interface LoginProps {
   editAssets: typeof editAssets
   editExpenditureLogs: typeof editExpenditureLogs
   editIncomeLogs: typeof editIncomeLogs
+  editMonthlyExpenditures: typeof editMonthlyExpenditures
 }
 
 interface LoginState {
@@ -59,8 +63,12 @@ class Login extends React.Component<LoginProps, LoginState> {
         this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
         this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
         this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
+        this.props.editMonthlyExpenditures(monthlyActionTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat))
       })
-      .then(() => this.props.history.replace('/'))
+      .then(() => {
+        this.props.history.replace('/')
+        successMessage(succesmMessages.signin)
+      })
       .catch(error => console.error('login error', error))
   }
 
@@ -107,7 +115,8 @@ const mapDispatchToProps = dispatch => {
       editUser,
       editAssets,
       editExpenditureLogs,
-      editIncomeLogs
+      editIncomeLogs,
+      editMonthlyExpenditures
     },
     dispatch
   )

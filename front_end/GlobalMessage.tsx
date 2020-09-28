@@ -4,6 +4,20 @@ import { ToastContainer, toast, Flip } from 'react-toastify'
 interface Props {
 }
 
+export const succesmMessages = {
+  signup: 'はじめまして！',
+  signin: 'Hello !',
+  create: '作成完了',
+  update: '更新完了',
+  destroy: '削除完了'
+}
+
+export const errorMessages = {
+  create: '作成失敗',
+  update: '更新失敗',
+  destroy: '削除失敗'
+}
+
 export const successMessage = (msg: string) => {
     toast.success(`🦄` + msg, {
     position: "top-right",

@@ -9,7 +9,7 @@ const { useState } = React
 interface Props {
 }
 
-const CreateExpenditureLogModal: React.FC<Props> = (props: Props) => {
+const CreateExpenditureLogModal: React.FC<Props> = props => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState(null)

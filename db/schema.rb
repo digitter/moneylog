@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_29_171706) do
+ActiveRecord::Schema.define(version: 2020_09_21_192107) do
 
   create_table "assets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "user_id", null: false
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 2020_08_29_171706) do
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "paid_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.integer "monthly_expenditure_id"
   end
 
   create_table "income_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -35,6 +37,18 @@ ActiveRecord::Schema.define(version: 2020_08_29_171706) do
     t.integer "amount", null: false
     t.string "title"
     t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "earned_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+  end
+
+  create_table "monthly_expenditures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title"
+    t.integer "amount", default: 0, null: false
+    t.text "content"
+    t.integer "user_id"
+    t.boolean "is_active"
+    t.datetime "will_create_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
