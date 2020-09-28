@@ -56,7 +56,7 @@ interface Props {
   row: MonthlyExpenditure
 }
 
-export default function CustomizedSelects(props: Props) {
+const CustomizedSelects: React.FC<Props> = props => {
   const classes = useStyles()
   const [isValid, setIsValid] = React.useState(props.row.isActive ? 1 : 0)
 
@@ -93,3 +93,5 @@ export default function CustomizedSelects(props: Props) {
     </React.Fragment>
   )
 }
+
+export default CustomizedSelects

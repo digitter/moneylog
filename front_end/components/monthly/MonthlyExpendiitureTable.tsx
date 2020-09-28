@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 
 interface Props {}
 
-const MonthlyExpenditureTable: React.FC = (props: Props) => {
+const MonthlyExpenditureTable: React.FC<Props> = props => {
   const monthlyExpenditures = useSelector(state => state.monthlyExpenditures)
 
   const classes = useStyles();
