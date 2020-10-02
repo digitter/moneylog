@@ -19,7 +19,7 @@ export const errorMessages = {
 }
 
 export const successMessage = (msg: string) => {
-    toast.success(`🦄` + msg, {
+    toast.success(`🦄 ` + msg, {
     position: "top-right",
     autoClose: 5000,
     hideProgressBar: false,

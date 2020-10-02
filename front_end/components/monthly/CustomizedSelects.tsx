@@ -6,6 +6,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import MonthlyExpenditure from '../../models/MonthlyExpenditure';
 import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
+import { successMessage, succesmMessages } from '../../GlobalMessage';
 
 const BootstrapInput = withStyles((theme: Theme) =>
   createStyles({
@@ -70,6 +71,7 @@ const CustomizedSelects: React.FC<Props> = props => {
     updateMonthlyExpenditure(newMonthlyData)
       .then(jsonApiFormat => {
         console.log(jsonApiFormat)
+        successMessage(succesmMessages.update)
       })
       .catch(response => {
         console.error(response)
