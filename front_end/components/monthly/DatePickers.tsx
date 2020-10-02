@@ -4,6 +4,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
 import MonthlyExpenditure from '../../models/MonthlyExpenditure';
+import { succesmMessages, successMessage } from '../../GlobalMessage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +33,7 @@ export default function DatePickers(props: Props) {
     updateMonthlyExpenditure(newMonthlyData)
       .then(jsonApiFormat => {
         console.log(jsonApiFormat)
+        successMessage(succesmMessages.update)
       })
       .catch(response => {
         console.error(response)
