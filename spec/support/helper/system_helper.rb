@@ -15,7 +15,7 @@ module FeatureHelper
     fill_in 'Email', with: email
     fill_in 'Password', with: password
 
-    page.find_button('Login').click
+    page.find_button('Sign In').click
 
     expect(page).to have_content 'This is boilerplate'
 
