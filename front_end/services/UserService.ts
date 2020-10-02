@@ -1,5 +1,5 @@
 import Axios from './Axios'
-import { errorMessage } from '../GlobalMessage'
+import { errorMessage, errorMessages } from '../GlobalMessage'
 
 export const fetchUser = () => {
   return new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ export const userSignup = (user: signupData) => {
         resolve(response.data)
       })
       .catch(response => {
-        errorMessage(response)
+        errorMessage(errorMessages.signup)
         reject(response)
       })
   })
@@ -46,7 +46,7 @@ export const userSignin = (user: { email: string, password: string }) => {
         resolve(response.data)
       })
       .catch(response => {
-        errorMessage(response)
+        errorMessage(errorMessages.signin)
         reject(response)
       })
   })
