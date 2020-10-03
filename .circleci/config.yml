@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
         environment:
-          RAILS_ENV: development
+          RAILS_ENV: test
           BUNDLER_VERSION: 2.1.4
           DB_HOST: 127.0.0.1
           DB_USERNAME: 'root'
@@ -28,7 +28,7 @@ jobs:
           command: |
             gem install bundler
             bundle config set path 'vendor/bundle'
-            RAILS_ENV=test bundle install --jobs=4 --retry=3
+            bundle install --jobs=4 --retry=3
       - run:
           name: Setup database
           command: |
@@ -39,7 +39,8 @@ jobs:
           name: Run RSpec
           command: |
 
-            bundle exec rspec spec/api/ && bundle exec rspec spec/models/
+            bundle exec rspec spec/api/ && \
+            bundle exec rspec spec/models/
 
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               # bundle exec rspec spec/system/
