@@ -208,10 +208,10 @@ const SignUp: React.FC<Props> = () => {
                   variant="outlined"
                   required
                   fullWidth
-                  name="passwordConfirmation"
-                  label="Password Confirmation"
+                  name="confirmation"
+                  label="Confirmation"
                   type="password"
-                  id="password-comfirmation"
+                  id="comfirmation"
                   autoComplete="current-password"
                   onChange={handleChange}
                 />
