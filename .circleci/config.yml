@@ -26,21 +26,18 @@ jobs:
       - run:
           name: Run bundle install
           command: |
-            puts Rails.env
             gem install bundler
             bundle config set path 'vendor/bundle'
             bundle install --jobs=4 --retry=3
       - run:
           name: Setup database
           command: |
-            puts Rails.env
             ./bin/rails db:create
             ./bin/rails db:schema:load
             ./bin/rails db:migrate
       - run:
           name: Run RSpec
           command: |
-            puts Rails.env
             bundle exec rspec spec/api/
             bundle exec rspec spec/models/
 
