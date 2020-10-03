@@ -1,147 +1,252 @@
-import * as React from 'react'
-import { bindActionCreators } from 'redux'
-import { History } from 'history'
-import { connect } from 'react-redux'
+import * as React from 'react';
+// ui
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom'
-// Request
-import { userSignup } from '../../services/UserService'
-// Models
-import User from '../../models/User'
-import Asset from '../../models/Asset'
-import MonthlyExpenditure from '../../models/MonthlyExpenditure'
-import ExpenditureLog from '../../models/ExpenditureLog'
-import IncomeLog from '../../models/IncomeLog'
-// Redux module
-import { editUser } from '../../modules/UserModule'
-import { editAssets } from '../../modules/AssetModule'
-import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule'
-import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
-import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
-import { successMessage, succesmMessages } from '../../GlobalMessage'
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+// requests
+import { userSignup } from '../../services/UserService';
+// models
+import User from '../../models/User';
+import Asset from '../../models/Asset';
+import MonthlyExpenditure from '../../models/MonthlyExpenditure';
+import ExpenditureLog from '../../models/ExpenditureLog';
+import IncomeLog from '../../models/IncomeLog';
+import { successMessage, succesmMessages } from '../../GlobalMessage';
+// module
+import { editUser } from '../../modules/UserModule';
+import { editAssets } from '../../modules/AssetModule';
+import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule';
+import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule';
+import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule';
+import { useDispatch } from 'react-redux'
+import { history } from '../../modules/store'
 
-interface Props {
-  history: History
-  user: User
-  editUser: typeof editUser
-  editAssets: typeof editAssets
-  editMonthlyExpenditures: typeof editMonthlyExpenditures
-  editExpenditureLogs: typeof editExpenditureLogs
-  editIncomeLogs: typeof editIncomeLogs
-}
-interface State {
+
+const { useState } = React
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <a href="https://material-ui.com/">
+        Your Website
+      </a>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
 }
 
-class Registration extends React.Component<Props, State> {
-  state = {
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: ''
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.info.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+interface Props {}
+
+const SignUp: React.FC<Props> = () => {
+  const dispatch = useDispatch()
+
+  const [name, setName] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [password_confirmation, setPasswordConfirmation] = useState(null)
+
+  const classes = useStyles();
+
+  const handleChange = event => {
+    switch (event.currentTarget.name) {
+      case 'name':
+        setName(event.currentTarget.value)
+        break
+      case 'email':
+        setEmail(event.currentTarget.value)
+        break
+      case 'password':
+        setPassword(event.currentTarget.value)
+        break
+      case 'userName':
+        setName(event.currentTarget.value)
+        break
+      case 'passwordConfirmation':
+        setPasswordConfirmation(event.currentTarget.value)
+        break
+      default: return null
+    }
   }
 
-  handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({
-      [event.currentTarget.name]: event.currentTarget.value
-    })
-  }
-
-  handleSubmit = () => {
+  const handleSubmit = event => {
     event.preventDefault()
 
-    const {
-      name,
-      email,
-      password,
-      password_confirmation
-    } = this.state
+    const signupData = { name, email, password, password_confirmation }
 
-    const user = { name, email, password, password_confirmation }
+    console.log(signupData)
 
-    userSignup(user)
+    userSignup(signupData)
       .then((jsonApiFormat: any) => {
-        if (jsonApiFormat.data.type === 'user') { this.props.editUser(User.fromJsonApi(jsonApiFormat)) }
+        if (jsonApiFormat.data.type === 'user') { dispatch(editUser(User.fromJsonApi(jsonApiFormat))) }
 
-        this.props.editUser(jsonApiFormat.data.attributes)
-        this.props.editAssets(Asset.fromIncluded(jsonApiFormat))
-        this.props.editMonthlyExpenditures(monthlyActionTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat))
-        this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
-        this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
+        dispatch(editUser(jsonApiFormat.data.attributes))
+        dispatch(editAssets(Asset.fromIncluded(jsonApiFormat)))
+        dispatch(editMonthlyExpenditures(monthlyActionTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat)))
+        dispatch(editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat)))
+        dispatch(editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat)))
       })
       .then(() => {
-        this.props.history.replace('/')
+        history.replace('/')
         successMessage(succesmMessages.signup)
       })
       .catch(error => console.error(error))
   }
 
-  render() {
-    return (
-      <React.Fragment>
-        <h2>Signup</h2>
-        <Link to='/'>LINK</Link>
+  return (
+    <React.Fragment>
+      <div>
+        <Link to='/'>HOME</Link>
+      </div>
+      <div>
+        <Link to='/signin'>Sign In</Link>
+      </div>
 
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type='text'
-            name='name'
-            placeholder='Name'
-            defaultValue={this.state.name}
-            onChange={this.handleChange}
-            required
-          />
-
-          <input
-            type='email'
-            name='email'
-            placeholder='Email'
-            defaultValue={this.state.email}
-            onChange={this.handleChange}
-            required
-          />
-
-          <input
-            type='password'
-            name='password'
-            placeholder='Passowrd'
-            defaultValue={this.state.password}
-            onChange={this.handleChange}
-            required
-          />
-
-          <input
-            type='password'
-            name='password_confirmation'
-            placeholder='Passowrd_confirmation'
-            defaultValue={this.state.password_confirmation}
-            onChange={this.handleChange}
-            required
-          />
-
-          <button type='submit'>Signup</button>
-        </form>
-      </React.Fragment>
-    )
-  }
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            {/* <LockOutlinedIcon /> */}
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              {/* <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="fname"
+                  name="firstName"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                />
+              </Grid> */}
+              {/* <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="lname"
+                />
+              </Grid> */}
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="userName"
+                  label="User Name"
+                  name="name"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="confirmation"
+                  label="Confirmation"
+                  type="password"
+                  id="comfirmation"
+                  autoComplete="current-password"
+                  onChange={handleChange}
+                />
+              </Grid>
+              {/* <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  label="I want to receive inspiration, marketing promotions and updates via email."
+                />
+              </Grid> */}
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link to='/signin'>
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
+    </React.Fragment>
+  );
 }
 
-
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      editUser,
-      editAssets,
-      editMonthlyExpenditures,
-      editExpenditureLogs,
-      editIncomeLogs
-    },
-    dispatch
-  )
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Registration)
+export default SignUp

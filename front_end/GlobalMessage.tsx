@@ -13,6 +13,8 @@ export const succesmMessages = {
 }
 
 export const errorMessages = {
+  signup: 'ユーザー登録に失敗しました...',
+  signin: 'ログインに失敗しました...',
   create: '作成失敗',
   update: '更新失敗',
   destroy: '削除失敗'

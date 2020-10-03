@@ -15,10 +15,33 @@ module FeatureHelper
     fill_in 'Email', with: email
     fill_in 'Password', with: password
 
-    page.find_button('Login').click
+    page.find_button('Sign In').click
 
     expect(page).to have_content 'This is boilerplate'
+    expect(page).to have_current_path('/')
+  end
 
+  def signup
+    visit('http://localhost:8080/')
+
+    page.find_link('Signup').click
+
+    expect(page).to have_current_path('/signup')
+
+    timestamp = Time.zone.now.to_i
+
+    name = "#{timestamp}さん"
+    email = "#{timestamp}@a.a"
+    password = 'aaaaaa'
+    password_confirmation = 'aaaaaa'
+
+    fill_in 'Name', with: name
+    fill_in 'Email', with: email
+    fill_in 'Password', with: password
+    fill_in 'Confirmation', with: password_confirmation
+
+    page.find_button('Sign Up').click
+    expect(page).to have_content 'This is boilerplate'
     expect(page).to have_current_path('/')
   end
 end
