@@ -25,10 +25,9 @@ class Logout extends React.Component<Props, State> {
   render() {
     return (
       <React.Fragment>
-        <h2>Signout</h2>
-        <button onClick={this.handleSignoutClick} >
+        <div onClick={this.handleSignoutClick}>
           Signout
-        </button>
+        </div>
       </React.Fragment>
     )
   }

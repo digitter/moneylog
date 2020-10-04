@@ -6,7 +6,6 @@ import store, { history } from './modules/store'
 import { ConnectedRouter } from 'connected-react-router'
 
 import Routing from './Routing'
-import GlobalMessage from './GlobalMessage'
 
 interface state {
 }
@@ -18,7 +17,6 @@ export default class App extends React.Component<state, props> {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <GlobalMessage />
           <Routing history={history} />
         </ConnectedRouter>
       </Provider>
