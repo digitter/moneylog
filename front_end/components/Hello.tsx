@@ -27,8 +27,6 @@ class Hello extends React.Component<HelloProps, HelloState> {
   render() {
     return (
       <React.Fragment>
-        <h2>Hello {this.props.user.name} ! This is boilerplate</h2>
-        <img src ="/public/hello.png" style={{width: 200, height: 200}} />
 
         <Logout />
         <Cancellation />

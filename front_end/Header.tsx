@@ -56,11 +56,10 @@ export default function Header() {
                     Income
                   </Typography>
                   <Button color="inherit">
-                    Hello {user.name}
-                  </Button>
-                  <Button color="inherit">
                     <Logout/>
                   </Button>
+                  {user.name}
+                  <img src ="/public/hello.png" style={{width: 40, height: 40}} />
                 </>
               )
             : (
