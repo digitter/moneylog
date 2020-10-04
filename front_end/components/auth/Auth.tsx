@@ -84,7 +84,7 @@ class Auth extends React.Component<Props, State> {
             Object.keys(this.props.user).length
               ? this.props.children
               : <LoadingIcon />
-          : <Top history={this.props.history} />
+          : <Top />
         }
       </React.Fragment>
     )

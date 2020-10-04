@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Logout from './auth/Logout'
 import Cancellation from './auth/Cancellation'
 import User from '../models/User'
 import Asset from '../models/Asset'
@@ -27,10 +26,6 @@ class Hello extends React.Component<HelloProps, HelloState> {
   render() {
     return (
       <React.Fragment>
-        <h2>Hello {this.props.user.name} ! This is boilerplate</h2>
-        <img src ="/public/hello.png" style={{width: 200, height: 200}} />
-
-        <Logout />
         <Cancellation />
 
         <AssetPage assets={this.props.assets} />

@@ -8,6 +8,8 @@ import Hello from './components/Hello'
 import Auth from './components/auth/Auth'
 import Login from './components/auth/Login'
 import Registration from './components/auth/Registration'
+import GlobalMessage from './GlobalMessage'
+import Header from './Header'
 
 interface Props {
   history: any
@@ -19,6 +21,9 @@ class Routing extends React.Component<Props, State> {
   render() {
     return (
       <React.Fragment>
+        <Header />
+        <GlobalMessage />
+
         <Switch>
           <Route exact path='/signup' component={Registration} />
           <Route exact path='/signin' component={Login} />

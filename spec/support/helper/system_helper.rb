@@ -6,7 +6,7 @@ module FeatureHelper
   def signin
     visit('http://localhost:8080/')
 
-    page.find_link('Signin').click
+    page.find_link('Sign In').click
 
     expect(page).to have_current_path('/signin')
 
@@ -17,14 +17,14 @@ module FeatureHelper
 
     page.find_button('Sign In').click
 
-    expect(page).to have_content 'This is boilerplate'
+    expect(page).to have_content 'Aさん'
     expect(page).to have_current_path('/')
   end
 
   def signup
     visit('http://localhost:8080/')
 
-    page.find_link('Signup').click
+    page.find_link('Sign Up').click
 
     expect(page).to have_current_path('/signup')
 
@@ -41,7 +41,7 @@ module FeatureHelper
     fill_in 'Confirmation', with: password_confirmation
 
     page.find_button('Sign Up').click
-    expect(page).to have_content 'This is boilerplate'
+    expect(page).to have_content "#{timestamp}さん"
     expect(page).to have_current_path('/')
   end
 end

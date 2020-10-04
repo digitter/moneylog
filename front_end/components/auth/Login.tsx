@@ -110,13 +110,6 @@ const Login: React.FC<Props> = () => {
 
   return (
     <React.Fragment>
-      <div>
-        <Link to='/'>HOME</Link>
-      </div>
-      <div>
-        <Link to='/signup'>Sign Up</Link>
-      </div>
-
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
