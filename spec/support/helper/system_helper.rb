@@ -6,7 +6,7 @@ module FeatureHelper
   def signin
     visit('http://localhost:8080/')
 
-    page.find_link('SIGNIN').click
+    page.find_link('Sign In').click
 
     expect(page).to have_current_path('/signin')
 
@@ -24,7 +24,7 @@ module FeatureHelper
   def signup
     visit('http://localhost:8080/')
 
-    page.find_link('SIGNUP').click
+    page.find_link('Sign Up').click
 
     expect(page).to have_current_path('/signup')
 
