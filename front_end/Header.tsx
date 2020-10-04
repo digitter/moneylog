@@ -41,6 +41,7 @@ export default function Header() {
     <div className={classes.root} style={{marginBottom: "65px"}}>
       <AppBar position="fixed" style={{ backgroundColor: '#151b26' }}>
         <Toolbar>
+          {/* TODO: スマホサイズ で ハンバーガーメニューを表示 */}
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
