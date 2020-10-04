@@ -28,7 +28,6 @@ export default function Header() {
   const classes = useStyles();
   const user = useSelector(state => state.user)
 
-
   return (
     <div className={classes.root} style={{marginBottom: "65px"}}>
       <AppBar position="fixed">

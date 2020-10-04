@@ -27,8 +27,6 @@ class Hello extends React.Component<HelloProps, HelloState> {
   render() {
     return (
       <React.Fragment>
-
-        <Logout />
         <Cancellation />
 
         <AssetPage assets={this.props.assets} />
