@@ -105,8 +105,6 @@ const SignUp: React.FC<Props> = () => {
 
     const signupData = { name, email, password, password_confirmation }
 
-    console.log(signupData)
-
     userSignup(signupData)
       .then((jsonApiFormat: any) => {
         if (jsonApiFormat.data.type === 'user') { dispatch(editUser(User.fromJsonApi(jsonApiFormat))) }

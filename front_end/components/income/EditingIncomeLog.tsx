@@ -9,6 +9,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import IncomeLog from '../../models/IncomeLog';
 import { editIncomeLog, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
+import { successMessage, succesmMessages, errorMessage, errorMessages } from '../../GlobalMessage';
 
 const customStyles = {
   content : {
@@ -67,9 +68,11 @@ export default function EdtingIncomeLog(props){
     updateIncomeLog({ id, title, amount, content })
       .then((incomeLog: IncomeLog) => {
         dispatch(editIncomeLog(incomeActionTypes.update, incomeLog))
+        successMessage(succesmMessages.update)
       })
       .catch(response => {
         console.error(response)
+        errorMessage(errorMessages.update)
       })
   }
 

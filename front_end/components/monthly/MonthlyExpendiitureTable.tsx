@@ -17,6 +17,9 @@ import DatePickers from './DatePickers';
 import { successMessage, errorMessage, succesmMessages, errorMessages } from '../../GlobalMessage';
 
 const useStyles = makeStyles({
+  root: {
+    width: '70%'
+  },
   table: {
     minWidth: 650,
   }
@@ -43,7 +46,6 @@ const MonthlyExpenditureTable: React.FC<Props> = props => {
 
     updateMonthlyExpenditure(newMonthlyData)
       .then(jsonApiFormat => {
-        console.log(jsonApiFormat)
         successMessage(succesmMessages.update)
       })
       .catch(response => {
@@ -54,6 +56,7 @@ const MonthlyExpenditureTable: React.FC<Props> = props => {
 
   return (
     <React.Fragment>
+      <div className={classes.root}>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -108,6 +111,7 @@ const MonthlyExpenditureTable: React.FC<Props> = props => {
               </TableBody>
             </Table>
         </TableContainer>
+      </div>
     </React.Fragment>
   );
 }

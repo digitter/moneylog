@@ -32,7 +32,6 @@ export default function DatePickers(props: Props) {
 
     updateMonthlyExpenditure(newMonthlyData)
       .then(jsonApiFormat => {
-        console.log(jsonApiFormat)
         successMessage(succesmMessages.update)
       })
       .catch(response => {

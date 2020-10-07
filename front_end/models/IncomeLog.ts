@@ -3,29 +3,48 @@ export default class IncomeLog {
     public title: string,
     public amount: number,
     public content: string,
-    public id?: number,
+    public earnedAt?: Date,
+    readonly id?: number,
     public created_at?: Date,
     public updated_at?: Date
   ) {}
 
+  // Request
   static serialized(params: IncomeLog): IncomeLog {
     const {
       title,
       amount,
-      content
+      content,
+      earnedAt: earned_at,
     } = params
 
    return new IncomeLog(
      title,
      amount,
-     content
+     content,
+     earned_at
    )
   }
 
+  // Response
   static fromJsonApi(jsonApiFormat: any): IncomeLog {
     if (jsonApiFormat.data.type !== 'income_log') { return null }
 
-    return jsonApiFormat.data.attributes
+    const {
+      id,
+      title,
+      amount,
+      content,
+      earned_at: earnedAt
+    } = jsonApiFormat.data.attributes
+
+    return new IncomeLog(
+      title,
+      amount,
+      content,
+      earnedAt,
+      id,
+    )
   }
 
   static fromIncluded(jsonApiFormat: any):IncomeLog[] {
@@ -36,7 +55,21 @@ export default class IncomeLog {
     })
 
     const incomeLogsAttributes = incomeLogs.map(incomeLog => {
-      return incomeLog.attributes
+      const {
+        id,
+        title,
+        amount,
+        content,
+        earned_at: earnedAt
+      } = incomeLog.attributes
+
+      return {
+        id,
+        title,
+        amount,
+        content,
+        earnedAt
+      }
     })
 
     return incomeLogsAttributes

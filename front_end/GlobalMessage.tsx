@@ -23,7 +23,7 @@ export const errorMessages = {
 export const successMessage = (msg: string) => {
     toast.success(`🦄 ` + msg, {
     position: "top-right",
-    autoClose: 5000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -35,7 +35,7 @@ export const successMessage = (msg: string) => {
 export const errorMessage = (msg: string) => {
     toast.error(`🦄` + msg, {
     position: "top-right",
-    autoClose: 5000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

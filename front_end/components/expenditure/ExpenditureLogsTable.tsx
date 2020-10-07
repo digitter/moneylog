@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux'
 
 import ExpenditureLog from '../../models/ExpenditureLog';
@@ -27,8 +28,9 @@ interface tableData {
   title: string;
   amount: number;
   content: string;
-  edit?: string;
-  delete?: string;
+  paidAt: Date;
+  edit: string;
+  delete: string;
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -65,7 +67,7 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
+      width: '70%',
     },
     paper: {
       width: '100%',
@@ -111,6 +113,7 @@ const ExpenditureLogsTable: React.FC = () => {
         log.title,
         log.amount,
         log.content,
+        log.paidAt,
         log.id
       )
     })
@@ -239,13 +242,22 @@ const ExpenditureLogsTable: React.FC = () => {
                                 onClick={(event) => handleCheckClick(event, row)}
                               />
                             </TableCell>
-                            <TableCell component="th" id={labelId} scope="row" padding="none">
+                            <TableCell align='left'>
                               {row.title}
                             </TableCell>
-                            <TableCell align="center">{row.amount}</TableCell>
-                            <TableCell align="left">{row.content}</TableCell>
-                            <TableCell align="center"><EdtingExpenditureLog expenditureLog={row} /></TableCell>
-                            <TableCell align="center">
+                            <TableCell align='left'>
+                              {row.amount}
+                            </TableCell>
+                            <TableCell align='left'>
+                              {row.content}
+                            </TableCell>
+                            <TableCell align='left'>
+                              {moment(row.paidAt).format('YYYY-MM-DD')}
+                            </TableCell>
+                            <TableCell align='left'>
+                              <EdtingExpenditureLog expenditureLog={row} />
+                            </TableCell>
+                            <TableCell align='left'>
                               <Tooltip title="Delete">
                                 <IconButton aria-label="delete" onClick={() => handleDeleteClick(row)}>
                                   <DeleteForeverIcon />

@@ -3,29 +3,50 @@ export default class ExpenditureLog {
     public title: string,
     public amount: number,
     public content: string,
-    public id?: number,
-    public created_at?: Date,
-    public updated_at?: Date
+    public paidAt?: Date,
+    readonly id?: number,
+    public createdAt?: Date,
+    public updatedAt?: Date
   ) {}
 
+  // Request
+  // snake ケースに変換
   static serialized(params: ExpenditureLog): ExpenditureLog {
     const {
       title,
       amount,
-      content
+      content,
+      paidAt: paid_at
     } = params
 
    return new ExpenditureLog(
      title,
      amount,
-     content
+     content,
+     paid_at
    )
   }
 
+  // Response
+  // camel ケースに変換
   static fromJsonApi(jsonApiFormat: any): ExpenditureLog {
     if (jsonApiFormat.data.type !== 'expenditure_log') { return null }
 
-    return jsonApiFormat.data.attributes
+    const {
+      id,
+      title,
+      amount,
+      content,
+      paid_at: paidAt,
+    } = jsonApiFormat.data.attributes
+
+    return new ExpenditureLog(
+      title,
+      amount,
+      content,
+      paidAt,
+      id
+    )
   }
 
   static fromIncluded(jsonApiFormat: any):ExpenditureLog[] {
@@ -36,7 +57,21 @@ export default class ExpenditureLog {
     })
 
     const expenditureLogsAttributes = expenditureLogs.map(expenditureLog => {
-      return expenditureLog.attributes
+      const {
+        id,
+        title,
+        amount,
+        content,
+        paid_at: paidAt
+      } = expenditureLog.attributes
+
+      return {
+        id,
+        title,
+        amount,
+        content,
+        paidAt
+      }
     })
 
     return expenditureLogsAttributes

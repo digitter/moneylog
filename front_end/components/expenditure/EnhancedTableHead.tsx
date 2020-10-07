@@ -10,6 +10,7 @@ interface tableData {
   title: string;
   amount: number;
   content: string;
+  paidAt: Date;
   edit?: string;
   delete?: string;
 }
@@ -72,16 +73,17 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 }
 
 interface HeadCell {
-  disablePadding: boolean;
   id: keyof tableData;
-  label: string;
   numeric: boolean;
+  disablePadding: boolean;
+  label: string;
 }
 
 const headCells: HeadCell[] = [
   { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount (yen)' },
   { id: 'content', numeric: false, disablePadding: false, label: 'Content' },
+  { id: 'paidAt', numeric: true, disablePadding: false, label: 'Payment Date' },
   { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];
@@ -115,7 +117,7 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={'center'}
+            align='left'
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >

@@ -8,6 +8,7 @@ module Api
         expenditure_log = @current_user.expenditure_logs.new(expenditure_log_params)
 
         if expenditure_log.save
+          expenditure_log.paid_at = expenditure_log.created_at
           render json: to_json_api_format(expenditure_log)
         else
           response_bad_request
@@ -54,7 +55,12 @@ module Api
 
       private
         def expenditure_log_params
-          params.require(:expenditure_log).permit(:title, :amount, :content)
+          params.require(:expenditure_log).permit(
+            :title,
+            :amount,
+            :content,
+            :paid_at
+          )
         end
 
         def expenditure_log_ids

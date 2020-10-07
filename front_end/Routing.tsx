@@ -21,7 +21,6 @@ class Routing extends React.Component<Props, State> {
   render() {
     return (
       <React.Fragment>
-        <Header />
         <GlobalMessage />
 
         <Switch>
@@ -29,6 +28,7 @@ class Routing extends React.Component<Props, State> {
           <Route exact path='/signin' component={Login} />
 
           <Auth history={this.props.history}>
+            <Header />
             <Switch>
               <Route exact path="/" component={Hello} />
 

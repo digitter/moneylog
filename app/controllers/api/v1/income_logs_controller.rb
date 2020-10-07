@@ -8,6 +8,7 @@ module Api
         income_log = @current_user.income_logs.new(income_log_params)
 
         if income_log.save
+          income_log.earned_at = income_log.created_at
           render json: to_json_api_format(income_log)
         else
           response_bad_request
@@ -54,7 +55,12 @@ module Api
 
       private
         def income_log_params
-          params.require(:income_log).permit(:title, :amount, :content)
+          params.require(:income_log).permit(
+            :title,
+            :amount,
+            :content,
+            :earned_at
+          )
         end
 
         def income_log_ids

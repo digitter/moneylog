@@ -70,7 +70,6 @@ const CustomizedSelects: React.FC<Props> = props => {
 
     updateMonthlyExpenditure(newMonthlyData)
       .then(jsonApiFormat => {
-        console.log(jsonApiFormat)
         successMessage(succesmMessages.update)
       })
       .catch(response => {
