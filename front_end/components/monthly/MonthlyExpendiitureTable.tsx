@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
 import CustomizedSelects from './CustomizedSelects';
 import DatePickers from './DatePickers';
-import { successMessage, errorMessage, succesmMessages, errorMessages } from '../../GlobalMessage';
+import { successMessage, errorMessage, succesmMessages, errorMessages } from '../GlobalMessage';
 
 const useStyles = makeStyles({
   root: {

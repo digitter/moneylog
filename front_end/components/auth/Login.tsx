@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { userSignin } from '../../services/UserService'
-import { successMessage, succesmMessages } from '../../GlobalMessage'
+import { successMessage, succesmMessages } from '../GlobalMessage'
 // models
 import User from '../../models/User'
 import Asset from '../../models/Asset'

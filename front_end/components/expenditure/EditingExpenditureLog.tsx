@@ -9,7 +9,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ExpenditureLog from '../../models/ExpenditureLog';
 import { editExpenditureLog, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
-import { successMessage, succesmMessages, errorMessage, errorMessages } from '../../GlobalMessage';
+import { successMessage, succesmMessages, errorMessage, errorMessages } from '../GlobalMessage';
 
 const customStyles = {
   content : {

@@ -21,7 +21,7 @@ import Asset from '../../models/Asset';
 import MonthlyExpenditure from '../../models/MonthlyExpenditure';
 import ExpenditureLog from '../../models/ExpenditureLog';
 import IncomeLog from '../../models/IncomeLog';
-import { successMessage, succesmMessages } from '../../GlobalMessage';
+import { successMessage, succesmMessages } from '../GlobalMessage';
 // module
 import { editUser } from '../../modules/UserModule';
 import { editAssets } from '../../modules/AssetModule';
