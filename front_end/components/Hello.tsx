@@ -28,7 +28,7 @@ class Hello extends React.Component<HelloProps, HelloState> {
       <React.Fragment>
         <Cancellation />
 
-        <AssetPage assets={this.props.assets} />
+        <AssetPage />
         <MonthlyExpenditureTable />
 
         <CreateIncomeLogModal/>
