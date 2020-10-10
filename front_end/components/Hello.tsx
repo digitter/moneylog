@@ -16,13 +16,13 @@ class Hello extends React.Component<HelloProps, HelloState> {
   render() {
     return (
       <React.Fragment>
+        <h2>Logs of this month</h2>
         <Cancellation />
 
         <AssetPage />
         <MonthlyExpenditureTable />
 
         <IncomeLogsTable/>
-
         <ExpenditureLogsTable/>
       </React.Fragment>
     )

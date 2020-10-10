@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import IncomeLog from '../../../models/IncomeLog';
 import EdtingIncomeLog from './EditingIncomeLog';
 import { editIncomeLog } from '../../../modules/IncomeLogModule';
-import EnhancedTableHead from './EnhancedTableHead'
-import EnhancedTableToolbar from './EnhancedTableToolbar'
+import IncomeTableHead from './IncomeTableHead'
+import IncomeTableToolbar from './IncomeTableToolbar'
 import { deleteIncomeLog } from '../../../services/IncomeLogService';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -209,7 +209,7 @@ const IncomeLogsTable: React.FC = () => {
             <CreateIncomeLogModal />
 
             <Paper className={classes.paper}>
-              <EnhancedTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
+              <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
               <TableContainer className={classes.container}>
                 <Table
                   stickyHeader
@@ -218,7 +218,7 @@ const IncomeLogsTable: React.FC = () => {
                   size={dense ? 'small' : 'medium'}
                   aria-label="enhanced table"
                 >
-                  <EnhancedTableHead
+                  <IncomeTableHead
                     classes={classes}
                     numSelected={checkedLogs.length}
                     order={order}

@@ -6,8 +6,8 @@ import ExpenditureLog from '../../../models/ExpenditureLog';
 import EdtingExpenditureLog from './EditingExpenditureLog';
 import { deleteExpenditureLog } from '../../../services/ExpenditureLogService';
 import { editExpenditureLog } from '../../../modules/ExpenditureLogModule';
-import EnhancedTableHead from './EnhancedTableHead'
-import EnhancedTableToolbar from './EnhancedTableToolbar'
+import ExpenditureTableHead from './ExpeditureTableHead'
+import ExpenditureTableToolbar from './ExpenditureTableToolbar'
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -208,7 +208,7 @@ const ExpenditureLogsTable: React.FC = () => {
             <CreateExpenditureLogModal />
 
             <Paper className={classes.paper}>
-              <EnhancedTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
+              <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
               <TableContainer className={classes.container}>
                 <Table
                   stickyHeader
@@ -217,7 +217,7 @@ const ExpenditureLogsTable: React.FC = () => {
                   size={dense ? 'small' : 'medium'}
                   aria-label="enhanced table"
                 >
-                  <EnhancedTableHead
+                  <ExpenditureTableHead
                     classes={classes}
                     numSelected={checkedLogs.length}
                     order={order}
