@@ -2,14 +2,14 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 
-import { updateIncomeLog } from '../../services/IncomeLogService'
+import { updateIncomeLog } from '../../../services/IncomeLogService'
 
 import EditIcon from '@material-ui/icons/Edit'
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import IncomeLog from '../../models/IncomeLog';
-import { editIncomeLog, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
-import { successMessage, succesmMessages, errorMessage, errorMessages } from '../GlobalMessage';
+import IncomeLog from '../../../models/IncomeLog';
+import { editIncomeLog, actionTypes as incomeActionTypes } from '../../../modules/IncomeLogModule'
+import { successMessage, succesmMessages, errorMessage, errorMessages } from '../../GlobalMessage';
 
 const customStyles = {
   content : {

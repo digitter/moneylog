@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux'
-import ExpenditureLog from '../../models/ExpenditureLog';
-import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule';
+import ExpenditureLog from '../../../models/ExpenditureLog';
+import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../../modules/ExpenditureLogModule';
 
 import clsx from 'clsx';
-import { bulkDeleteExpenditureLogs } from '../../services/ExpenditureLogService';
+import { bulkDeleteExpenditureLogs } from '../../../services/ExpenditureLogService';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';

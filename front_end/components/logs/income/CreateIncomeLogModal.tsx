@@ -1,19 +1,22 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux'
-import { createExpenditureLog } from '../../services/ExpenditureLogService'
-import ExpenditureLog from '../../models/ExpenditureLog'
-import { editExpenditureLog, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
+import { createIncomeLog } from '../../../services/IncomeLogService'
+import IncomeLog from '../../../models/IncomeLog'
+import { editIncomeLog, actionTypes as incomeActionTypes } from '../../../modules/IncomeLogModule'
 
 const { useState } = React
 
-const CreateExpenditureLogModal: React.FC = () => {
+interface Props {
+}
+
+const CreateIncomeLogModal: React.FC<Props> = props => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState(null)
   const [amount, setAmount] = useState(null)
   const [content, setContent] = useState(null)
 
-  const handleExpenditureLogChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleIncomeLogChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     switch (event.currentTarget.name) {
       case 'title':
         setTitle(event.currentTarget.value)
@@ -31,9 +34,9 @@ const CreateExpenditureLogModal: React.FC = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    createExpenditureLog({ title, amount, content })
-      .then((newExpenditureLog: ExpenditureLog) => {
-        dispatch(editExpenditureLog(expenditureActionTypes.create, newExpenditureLog))
+    createIncomeLog({ title, amount, content })
+      .then((newIncomeLog: IncomeLog) => {
+        dispatch(editIncomeLog(incomeActionTypes.create, newIncomeLog))
       })
       .catch(response => {
         console.error(response)
@@ -42,13 +45,13 @@ const CreateExpenditureLogModal: React.FC = () => {
 
   return (
     <React.Fragment>
-      <h2>Create ExpenditureLog</h2>
+      <h2>Create IncomeLog</h2>
         <form onSubmit={handleSubmit}>
           <input
             name='title'
             placeholder='Title'
             defaultValue ={title}
-            onChange={handleExpenditureLogChange}
+            onChange={handleIncomeLogChange}
           />
 
           <input
@@ -56,14 +59,14 @@ const CreateExpenditureLogModal: React.FC = () => {
             name='amount'
             placeholder='Amount'
             defaultValue ={amount}
-            onChange={handleExpenditureLogChange}
+            onChange={handleIncomeLogChange}
           />
 
           <textarea
             name='content'
             placeholder='Content'
             defaultValue ={content}
-            onChange={handleExpenditureLogChange}
+            onChange={handleIncomeLogChange}
           />
 
           <button type='submit'>Create!</button>
@@ -72,4 +75,4 @@ const CreateExpenditureLogModal: React.FC = () => {
   )
 }
 
-export default CreateExpenditureLogModal
+export default CreateIncomeLogModal

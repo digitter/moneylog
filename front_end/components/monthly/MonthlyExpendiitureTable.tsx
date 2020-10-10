@@ -18,7 +18,8 @@ import { successMessage, errorMessage, succesmMessages, errorMessages } from '..
 
 const useStyles = makeStyles({
   root: {
-    width: '70%'
+    width: '90%',
+    margin: '0 auto'
   },
   table: {
     minWidth: 650,
@@ -57,6 +58,8 @@ const MonthlyExpenditureTable: React.FC<Props> = props => {
   return (
     <React.Fragment>
       <div className={classes.root}>
+        <h2>Monthly Expenditures</h2>
+
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>

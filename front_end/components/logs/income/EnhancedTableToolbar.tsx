@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux'
-import IncomeLog from '../../models/IncomeLog';
-import { editIncomeLogs, actionTypes as incomeLogActionTypes } from '../../modules/IncomeLogModule';
+import IncomeLog from '../../../models/IncomeLog';
+import { editIncomeLogs, actionTypes as incomeLogActionTypes } from '../../../modules/IncomeLogModule';
 
 import clsx from 'clsx';
-import { bulkDeleteIncomeLogs } from '../../services/IncomeLogService';
+import { bulkDeleteIncomeLogs } from '../../../services/IncomeLogService';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';

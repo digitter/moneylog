@@ -2,14 +2,14 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 
-import { updateExpenditureLog } from '../../services/ExpenditureLogService'
+import { updateExpenditureLog } from '../../../services/ExpenditureLogService'
 
 import EditIcon from '@material-ui/icons/Edit'
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import ExpenditureLog from '../../models/ExpenditureLog';
-import { editExpenditureLog, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
-import { successMessage, succesmMessages, errorMessage, errorMessages } from '../GlobalMessage';
+import ExpenditureLog from '../../../models/ExpenditureLog';
+import { editExpenditureLog, actionTypes as expenditureActionTypes } from '../../../modules/ExpenditureLogModule'
+import { successMessage, succesmMessages, errorMessage, errorMessages } from '../../GlobalMessage';
 
 const customStyles = {
   content : {
