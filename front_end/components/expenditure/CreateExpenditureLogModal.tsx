@@ -6,10 +6,7 @@ import { editExpenditureLog, actionTypes as expenditureActionTypes } from '../..
 
 const { useState } = React
 
-interface Props {
-}
-
-const CreateExpenditureLogModal: React.FC<Props> = props => {
+const CreateExpenditureLogModal: React.FC = () => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState(null)
