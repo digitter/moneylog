@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { Route, Switch, Redirect } from 'react-router'
 import { bindActionCreators } from 'redux'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -80,11 +81,16 @@ class Auth extends React.Component<Props, State> {
     return (
       <React.Fragment>
         {
-          this.state.loggedInStatus === 'LOGGED_IN' ?
-            Object.keys(this.props.user).length
-              ? this.props.children
-              : <LoadingIcon />
-          : <Top />
+          this.state.loggedInStatus === 'LOGGED_IN'
+            ?
+              Object.keys(this.props.user).length
+                ? this.props.children
+                : <LoadingIcon />
+            :
+              <Switch>
+                <Route exact path='/' component={Top} />
+                <Redirect from='*' to='/' />
+              </Switch>
         }
       </React.Fragment>
     )

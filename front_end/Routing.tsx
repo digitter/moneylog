@@ -38,7 +38,7 @@ class Routing extends React.Component<Props, State> {
                 <Route path='*' component={Hello} />
               </Route>
 
-              <Route path="*" render={() => <h1>No content</h1>} />
+              <Route path="*" render={() => <h1>No contents</h1>} />
             </Switch>
           </Auth>
 
