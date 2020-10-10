@@ -23,6 +23,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import CreateIncomeLogModal from './CreateIncomeLogModal';
 
 interface tableData {
   title: string;
@@ -201,6 +202,8 @@ const IncomeLogsTable: React.FC = () => {
 
   return (
     <React.Fragment>
+        <CreateIncomeLogModal />
+
         {incomeLogs ? (
           <div className={classes.root}>
             <Paper className={classes.paper}>
