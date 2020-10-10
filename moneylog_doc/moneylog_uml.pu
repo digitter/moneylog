@@ -7,6 +7,7 @@
   User ---o{ IncomeLog
   User ---o{ MonthlyExpenditure
   User ---o{ MonthlyIncome
+  User ---o{ Tag
 
   MonthlyExpenditure ---o{ ExpenditureLog
   MonthlyIncome ---o{ IncomeLog
@@ -75,7 +76,7 @@
   }
   class Tag {
     id
-    income_log_id (foreign_key)
+    user_id (foreign_key)
     expenditure_log_id (optional_foreign_key)
     income_log_id (optional_foreign_key)
     name
