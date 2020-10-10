@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { editUser } from './modules/UserModule';
-import { userSignout } from './services/UserService';
+import { editUser } from '../modules/UserModule';
+import { userSignout } from '../services/UserService';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -75,7 +75,7 @@ export default function ToggleSideBar() {
             { text: 'Asset', path: '/asset'},
             { text: 'Expenditure Logs', path: '/expenditure_logs' },
             { text: 'Income Logs', path: '/income_logs'},
-            { text: 'Monthly Expenditure', path: '/monthly_expenditure'},
+            { text: 'Monthly Expenditures', path: '/monthly_expenditures'},
           ].map((obj, index) => (
             <div key={index}>
               <Link to={obj.path} style={{textDecoration: 'none', color: 'gray'}}>
