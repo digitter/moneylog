@@ -14,11 +14,12 @@ import TextField from '@material-ui/core/TextField';
 import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
 import CustomizedSelects from './CustomizedSelects';
 import DatePickers from './DatePickers';
-import { successMessage, errorMessage, succesmMessages, errorMessages } from '../../GlobalMessage';
+import { successMessage, errorMessage, succesmMessages, errorMessages } from '../GlobalMessage';
 
 const useStyles = makeStyles({
   root: {
-    width: '70%'
+    width: '90%',
+    margin: '0 auto'
   },
   table: {
     minWidth: 650,
@@ -57,6 +58,8 @@ const MonthlyExpenditureTable: React.FC<Props> = props => {
   return (
     <React.Fragment>
       <div className={classes.root}>
+        <h2>Monthly Expenditures</h2>
+
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>

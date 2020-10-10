@@ -6,7 +6,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import MonthlyExpenditure from '../../models/MonthlyExpenditure';
 import { updateMonthlyExpenditure } from '../../services/MonthlyExpenditureService';
-import { successMessage, succesmMessages } from '../../GlobalMessage';
+import { successMessage, succesmMessages } from '../GlobalMessage';
 
 const BootstrapInput = withStyles((theme: Theme) =>
   createStyles({

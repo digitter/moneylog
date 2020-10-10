@@ -12,13 +12,7 @@ const LoadingIcon: React.FC<LoadingIconProps> = props => {
 
     return (
       <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center">
-        <Box p={1}>
-        </Box>
-        <Box p={1}>
-        </Box>
-        <Box p={1}>
-        </Box>
-        <Box>
+        <Box p={3}>
           <p>NOW LOADING ...</p>
         </Box>
         <Box>

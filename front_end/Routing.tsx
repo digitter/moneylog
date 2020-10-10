@@ -8,8 +8,12 @@ import Hello from './components/Hello'
 import Auth from './components/auth/Auth'
 import Login from './components/auth/Login'
 import Registration from './components/auth/Registration'
-import GlobalMessage from './GlobalMessage'
-import Header from './Header'
+import GlobalMessage from './components/GlobalMessage'
+import Header from './components/Header'
+import ExpenditureLogsTable from './components/logs/expenditure/ExpenditureLogsTable'
+import IncomeLogsTable from './components/logs/income/IncomeLogsTable'
+import MonthlyExpenditureTable from './components/monthly/MonthlyExpendiitureTable'
+import AssetPage from './components/asset/AssetPage'
 
 interface Props {
   history: any
@@ -32,11 +36,16 @@ class Routing extends React.Component<Props, State> {
             <Switch>
               <Route exact path="/" component={Hello} />
 
-              <Route path='/assets' component={Hello}>
-                <Redirect from='assets/:id' to='/assets' />
-                {/* <Route path='assets/:id' component={Hello} /> */}
-                <Route path='*' component={Hello} />
-              </Route>
+              <Route path='/asset' component={AssetPage} />
+              <Redirect from='asset/:any' to='/asset' />
+
+              <Route path='/expenditure_logs' component={ExpenditureLogsTable} />
+              <Route path='expenditure_logs/:id' component={Hello} />
+
+              <Route path='/income_logs' component={IncomeLogsTable} />
+              <Route path='income_logs/:id' component={Hello} />
+
+              <Route path='/monthly_expenditures' component={MonthlyExpenditureTable} />
 
               <Route path="*" render={() => <h1>No contents</h1>} />
             </Switch>

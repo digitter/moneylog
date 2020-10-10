@@ -97,7 +97,7 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
-const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
+const IncomeTableHead: React.FC<EnhancedTableProps> = (props) => {
   const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property: keyof tableData) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
@@ -147,4 +147,4 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
   );
 }
 
-export default EnhancedTableHead
+export default IncomeTableHead

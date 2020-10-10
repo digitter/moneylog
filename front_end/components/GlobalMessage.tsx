@@ -9,7 +9,8 @@ export const succesmMessages = {
   signin: 'Hello !',
   create: '作成完了',
   update: '更新完了',
-  destroy: '削除完了'
+  destroy: '削除完了',
+  bulkDestroy: '一括削除完了'
 }
 
 export const errorMessages = {
@@ -17,7 +18,8 @@ export const errorMessages = {
   signin: 'ログインに失敗しました...',
   create: '作成失敗',
   update: '更新失敗',
-  destroy: '削除失敗'
+  destroy: '削除失敗',
+  bulkDestroy: '一括削除失敗'
 }
 
 export const successMessage = (msg: string) => {

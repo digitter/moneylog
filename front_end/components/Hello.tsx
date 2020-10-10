@@ -2,39 +2,27 @@ import * as React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Cancellation from './auth/Cancellation'
-import User from '../models/User'
-import Asset from '../models/Asset'
 import AssetPage from './asset/AssetPage'
-import ExpenditureLog from '../models/ExpenditureLog'
-import ExpenditureLogsTable from './expenditure/ExpenditureLogsTable'
-import CreateExpenditureLogModal from './expenditure/CreateExpenditureLogModal'
-import CreateIncomeLogModal from './income/CreateIncomeLogModal'
-import IncomeLogsTable from './income/IncomeLogsTable'
+import ExpenditureLogsTable from './logs/expenditure/ExpenditureLogsTable'
+import IncomeLogsTable from './logs/income/IncomeLogsTable'
 import MonthlyExpenditureTable from './monthly/MonthlyExpendiitureTable'
 
-interface HelloProps {
-  user: User
-  assets: Asset[]
-  expenditureLogs: ExpenditureLog[]
-}
+interface HelloProps {}
 
-interface HelloState {
-}
+interface HelloState {}
 
 class Hello extends React.Component<HelloProps, HelloState> {
 
   render() {
     return (
       <React.Fragment>
+        <h2>Logs of this month</h2>
         <Cancellation />
 
-        <AssetPage assets={this.props.assets} />
+        <AssetPage />
         <MonthlyExpenditureTable />
 
-        <CreateIncomeLogModal/>
         <IncomeLogsTable/>
-
-        <CreateExpenditureLogModal/>
         <ExpenditureLogsTable/>
       </React.Fragment>
     )
@@ -42,11 +30,7 @@ class Hello extends React.Component<HelloProps, HelloState> {
 }
 
 const mapStateToProps = (state: any) => {
-  return {
-    user: state.user,
-    assets: state.assets,
-    expenditureLogs: state.expenditureLogs
-  }
+  return {}
 }
 
 const mapDispatchToProps = (dispatch: any) => {

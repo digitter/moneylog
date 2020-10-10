@@ -2,13 +2,13 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 
-import { updateExpenditureLog } from '../../services/ExpenditureLogService'
+import { updateIncomeLog } from '../../../services/IncomeLogService'
 
 import EditIcon from '@material-ui/icons/Edit'
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import ExpenditureLog from '../../models/ExpenditureLog';
-import { editExpenditureLog, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
+import IncomeLog from '../../../models/IncomeLog';
+import { editIncomeLog, actionTypes as incomeActionTypes } from '../../../modules/IncomeLogModule'
 import { successMessage, succesmMessages, errorMessage, errorMessages } from '../../GlobalMessage';
 
 const customStyles = {
@@ -24,7 +24,7 @@ const customStyles = {
 
 Modal.setAppElement('#root')
 
-export default function EdtingExpenditureLog(props){
+export default function EdtingIncomeLog(props){
   const dispatch = useDispatch();
 
   var subtitle;
@@ -42,12 +42,12 @@ export default function EdtingExpenditureLog(props){
     setIsOpen(false);
   }
 
-  const [id] = React.useState(props.expenditureLog.id);
-  const [title, setTitle] = React.useState(props.expenditureLog.title);
-  const [amount, setAmount] = React.useState(props.expenditureLog.amount);
-  const [content, setContent] = React.useState(props.expenditureLog.content);
+  const [id] = React.useState(props.incomeLog.id);
+  const [title, setTitle] = React.useState(props.incomeLog.title);
+  const [amount, setAmount] = React.useState(props.incomeLog.amount);
+  const [content, setContent] = React.useState(props.incomeLog.content);
 
-  const handleExpenditureLogChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleIncomeLogChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     switch (event.currentTarget.name) {
       case 'title':
         setTitle(event.currentTarget.value)
@@ -65,9 +65,9 @@ export default function EdtingExpenditureLog(props){
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    updateExpenditureLog({ id, title, amount, content })
-      .then((expenditureLog: ExpenditureLog) => {
-        dispatch(editExpenditureLog(expenditureActionTypes.update, expenditureLog))
+    updateIncomeLog({ id, title, amount, content })
+      .then((incomeLog: IncomeLog) => {
+        dispatch(editIncomeLog(incomeActionTypes.update, incomeLog))
         successMessage(succesmMessages.update)
       })
       .catch(response => {
@@ -99,7 +99,7 @@ export default function EdtingExpenditureLog(props){
               name='title'
               placeholder='Title'
               defaultValue ={title}
-              onChange={handleExpenditureLogChange}
+              onChange={handleIncomeLogChange}
             />
 
             <input
@@ -107,14 +107,14 @@ export default function EdtingExpenditureLog(props){
               name='amount'
               placeholder='Amount'
               defaultValue ={amount}
-              onChange={handleExpenditureLogChange}
+              onChange={handleIncomeLogChange}
             />
 
             <textarea
               name='content'
               placeholder='Content'
               defaultValue ={content}
-              onChange={handleExpenditureLogChange}
+              onChange={handleIncomeLogChange}
             />
 
             <button type='submit'>update</button>

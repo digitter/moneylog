@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux'
-import IncomeLog from '../../models/IncomeLog';
-import { editIncomeLogs, actionTypes as incomeLogActionTypes } from '../../modules/IncomeLogModule';
+import ExpenditureLog from '../../../models/ExpenditureLog';
+import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../../modules/ExpenditureLogModule';
 
 import clsx from 'clsx';
-import { bulkDeleteIncomeLogs } from '../../services/IncomeLogService';
+import { bulkDeleteExpenditureLogs } from '../../../services/ExpenditureLogService';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
@@ -38,21 +38,21 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
-  incomeLogs: IncomeLog[];
+  expenditureLogs: ExpenditureLog[];
   setCheckedLogs: any;
 }
 
-const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
+const ExpenditureTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   const dispatch = useDispatch();
   const classes = useToolbarStyles();
   const { numSelected } = props;
 
-  const handleBulkDeleteClick = incomeLogs => {
+  const handleBulkDeleteClick = expenditureLogs => {
     if (!window.confirm('Are you sure ?')) return
 
-    bulkDeleteIncomeLogs(incomeLogs)
+    bulkDeleteExpenditureLogs(expenditureLogs)
       .then((deleteIds: number[]) => {
-        dispatch(editIncomeLogs(incomeLogActionTypes.bulkDestroy, deleteIds))
+        dispatch(editExpenditureLogs(expenditureActionTypes.bulkDestroy, deleteIds))
         props.setCheckedLogs([])
       })
       .catch(response => {
@@ -87,7 +87,7 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
           <Tooltip title="Bulk delete">
             <IconButton
               aria-label="delete"
-              onClick={() => handleBulkDeleteClick(props.incomeLogs)}
+              onClick={() => handleBulkDeleteClick(props.expenditureLogs)}
             >
               <DeleteForeverIcon />
             </IconButton>
@@ -104,4 +104,4 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   );
 };
 
-export default EnhancedTableToolbar
+export default ExpenditureTableToolbar

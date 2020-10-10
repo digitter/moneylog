@@ -1,5 +1,5 @@
 import Axios from './Axios'
-import { errorMessage, errorMessages } from '../GlobalMessage'
+import { errorMessage, errorMessages } from '../components/GlobalMessage'
 
 export const fetchUser = () => {
   return new Promise((resolve, reject) => {

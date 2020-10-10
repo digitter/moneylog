@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux'
 
-import IncomeLog from '../../models/IncomeLog';
-import EdtingIncomeLog from './EditingIncomeLog';
-import { deleteIncomeLog } from '../../services/IncomeLogService';
-import { editIncomeLog } from '../../modules/IncomeLogModule';
-import EnhancedTableHead from './EnhancedTableHead'
-import EnhancedTableToolbar from './EnhancedTableToolbar'
+import ExpenditureLog from '../../../models/ExpenditureLog';
+import EdtingExpenditureLog from './EditingExpenditureLog';
+import { deleteExpenditureLog } from '../../../services/ExpenditureLogService';
+import { editExpenditureLog } from '../../../modules/ExpenditureLogModule';
+import ExpenditureTableHead from './ExpeditureTableHead'
+import ExpenditureTableToolbar from './ExpenditureTableToolbar'
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -18,17 +18,18 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import CreateExpenditureLogModal from './CreateExpenditureLogModal';
+import LoadingIcon from '../../LoadingIcon';
+import DeleteAlert from '../common/DeleteAlert';
+import { successMessage, succesmMessages } from '../../GlobalMessage';
 
 interface tableData {
   title: string;
   amount: number;
   content: string;
-  earnedAt: Date;
+  paidAt: Date;
   edit: string;
   delete: string;
 }
@@ -66,8 +67,12 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    container: {
+      maxHeight: 671
+    },
     root: {
-      width: '70%',
+      width: '90%',
+      margin: '0 auto'
     },
     paper: {
       width: '100%',
@@ -90,36 +95,36 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const IncomeLogsTable: React.FC = () => {
+const ExpenditureLogsTable: React.FC = () => {
   const { useState } = React
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof tableData>('amount')
   const [page, setPage] = useState(0)
   const [dense, setDense] = useState(true)
   const [rowsPerPage, setRowsPerPage] = useState<number>(1)
-  const [checkedLogs, setCheckedLogs] = useState<IncomeLog[]>([])
-  const [rows, setRows] = useState<IncomeLog[]>([])
+  const [checkedLogs, setCheckedLogs] = useState<ExpenditureLog[]>([])
+  const [rows, setRows] = useState<ExpenditureLog[]>([])
 
   const classes = useStyles()
 
-  const incomeLogs = useSelector(state => state.incomeLogs)
+  const expenditureLogs = useSelector(state => state.expenditureLogs)
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    setRowsPerPage(incomeLogs.length)
+    setRowsPerPage(expenditureLogs.length)
 
-    const logs = incomeLogs.map((incomeLog: IncomeLog) => {
-      return new IncomeLog(
-        incomeLog.title,
-        incomeLog.amount,
-        incomeLog.content,
-        incomeLog.earnedAt,
-        incomeLog.id
+    const logs = expenditureLogs.map((log: ExpenditureLog) => {
+      return new ExpenditureLog(
+        log.title,
+        log.amount,
+        log.content,
+        log.paidAt,
+        log.id
       )
     })
 
     setRows(logs)
-  }, [incomeLogs])
+  }, [expenditureLogs])
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof tableData) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -135,35 +140,35 @@ const IncomeLogsTable: React.FC = () => {
     setCheckedLogs([])
   }
 
-  const removeCheck = (incomeLog: IncomeLog) => {
+  const removeCheck = (expenditureLog: ExpenditureLog) => {
     setCheckedLogs(checkedLogs.filter(log => {
-      if (log.id !== incomeLog.id) return log
+      if (log.id !== expenditureLog.id) return log
     }))
   }
 
-  const handleCheckClick = (event: React.MouseEvent<unknown>, incomeLog: IncomeLog) => {
+  const handleCheckClick = (event: React.MouseEvent<unknown>, expenditureLog: ExpenditureLog) => {
     const logIds = checkedLogs.map(log => { return log.id})
 
-    const selectedIndex = logIds.indexOf(incomeLog.id)
+    const selectedIndex = logIds.indexOf(expenditureLog.id)
     let newSelected: number[] = []
 
     if (selectedIndex === -1) { // Adding: 存在しない場合
-      newSelected = newSelected.concat(logIds, incomeLog.id)
+      newSelected = newSelected.concat(logIds, expenditureLog.id)
 
-      setCheckedLogs(checkedLogs.concat(incomeLog))
+      setCheckedLogs(checkedLogs.concat(expenditureLog))
     } else if (selectedIndex === 0) { // Removing: 最初に存在する場合
       newSelected = newSelected.concat(logIds.slice(1))
-      removeCheck(incomeLog)
+      removeCheck(expenditureLog)
     } else if (selectedIndex === logIds.length - 1) { // Removing: 最後に存在するもの
       newSelected = newSelected.concat(logIds.slice(0, -1))
-      removeCheck(incomeLog)
+      removeCheck(expenditureLog)
     } else if (selectedIndex > 0) { // Adding: 1番目以降にあるなら
       newSelected = newSelected.concat( // 3つの配列を連結させる
         logIds.slice(0, selectedIndex), // 最初〜取得した番号前まで取得
         logIds.slice(selectedIndex + 1), // 取得した番号+1番から最後まで取得
       )
 
-      removeCheck(incomeLog)
+      removeCheck(expenditureLog)
     }
   }
 
@@ -176,40 +181,43 @@ const IncomeLogsTable: React.FC = () => {
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => setDense(event.target.checked)
 
-  const isSelected = (row: IncomeLog) => {
+  const isSelected = (row: ExpenditureLog) => {
     return checkedLogs.map(log => { return log.id })
                       .indexOf(row.id) !== -1
   }
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
-  const handleDeleteClick = (incomeLog: IncomeLog) => {
-    if (window.confirm('Are you sure ?')) {
-      deleteIncomeLog(incomeLog)
-        .then((incomeLog: IncomeLog) => {
-          dispatch(editIncomeLog('DESTROY_INCOME_LOG', incomeLog))
-          removeCheck(incomeLog)
-        })
-        .catch(response => {
-          console.error(response)
-        })
-    }
+  const handleDeleteClick = (expenditureLog: ExpenditureLog) => {
+    deleteExpenditureLog(expenditureLog)
+      .then((expenditureLog: ExpenditureLog) => {
+        dispatch(editExpenditureLog('DESTROY_EXPENDITURE_LOG', expenditureLog))
+        removeCheck(expenditureLog)
+        successMessage(succesmMessages.destroy)
+      })
+      .catch(response => {
+        console.error(response)
+      })
   }
 
   return (
     <React.Fragment>
-        {incomeLogs ? (
+
+        {expenditureLogs ? (
           <div className={classes.root}>
+            <CreateExpenditureLogModal />
+
             <Paper className={classes.paper}>
-              <EnhancedTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
-              <TableContainer>
+              <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
+              <TableContainer className={classes.container}>
                 <Table
+                  stickyHeader
                   className={classes.table}
                   aria-labelledby="tableTitle"
                   size={dense ? 'small' : 'medium'}
                   aria-label="enhanced table"
                 >
-                  <EnhancedTableHead
+                  <ExpenditureTableHead
                     classes={classes}
                     numSelected={checkedLogs.length}
                     order={order}
@@ -242,27 +250,23 @@ const IncomeLogsTable: React.FC = () => {
                                 onClick={(event) => handleCheckClick(event, row)}
                               />
                             </TableCell>
-                            <TableCell align="left">
+                            <TableCell align='left'>
                               {row.title}
                             </TableCell>
-                            <TableCell align="left">
+                            <TableCell align='left'>
                               {row.amount}
                             </TableCell>
-                            <TableCell align="left">
+                            <TableCell align='left'>
                               {row.content}
                             </TableCell>
-                            <TableCell align="left">
-                              {moment(row.earnedAt).format('YYYY-MM-DD')}
+                            <TableCell align='left'>
+                              {moment(row.paidAt).format('YYYY-MM-DD')}
                             </TableCell>
-                            <TableCell align="left">
-                              <EdtingIncomeLog incomeLog={row} />
+                            <TableCell align='left'>
+                              <EdtingExpenditureLog expenditureLog={row} />
                             </TableCell>
-                            <TableCell align="left">
-                              <Tooltip title="Delete">
-                                <IconButton aria-label="delete" onClick={() => handleDeleteClick(row)}>
-                                  <DeleteForeverIcon />
-                                </IconButton>
-                              </Tooltip>
+                            <TableCell align='left'>
+                              <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
                             </TableCell>
                           </TableRow>
                         );
@@ -276,7 +280,7 @@ const IncomeLogsTable: React.FC = () => {
                 </Table>
               </TableContainer>
               <TablePagination
-                rowsPerPageOptions={[1, 7, incomeLogs.length]}
+                rowsPerPageOptions={[1, 7, expenditureLogs.length]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
@@ -290,8 +294,8 @@ const IncomeLogsTable: React.FC = () => {
               label="Dense padding"
             />
           </div>)
-        : null}
+        : <LoadingIcon />}
     </React.Fragment>
   );
 }
-export default IncomeLogsTable
+export default ExpenditureLogsTable
