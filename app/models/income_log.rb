@@ -5,6 +5,7 @@ class IncomeLog < ApplicationRecord
   validates :content, length: { minimum: 1, maximum: 100 }
 
   # associations
+  has_many :tags
   belongs_to :user
 
   # method
