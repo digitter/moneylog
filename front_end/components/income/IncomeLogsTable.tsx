@@ -66,6 +66,9 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    container: {
+      maxHeight: 671
+    },
     root: {
       width: '70%',
     },
@@ -202,8 +205,9 @@ const IncomeLogsTable: React.FC = () => {
           <div className={classes.root}>
             <Paper className={classes.paper}>
               <EnhancedTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
-              <TableContainer>
+              <TableContainer className={classes.container}>
                 <Table
+                  stickyHeader
                   className={classes.table}
                   aria-labelledby="tableTitle"
                   size={dense ? 'small' : 'medium'}

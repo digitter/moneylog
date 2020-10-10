@@ -72,13 +72,14 @@ export default function ToggleSideBar() {
       <List>
         {
           [
+            { text: 'Home', path: '/'},
             { text: 'Asset', path: '/asset'},
             { text: 'Expenditure Logs', path: '/expenditure_logs' },
             { text: 'Income Logs', path: '/income_logs'},
             { text: 'Monthly Expenditures', path: '/monthly_expenditures'},
           ].map((obj, index) => (
             <div key={index}>
-              <Link to={obj.path} style={{textDecoration: 'none', color: 'gray'}}>
+              <Link to={obj.path} style={{textDecoration: 'none', color: '#151b26'}}>
                 <ListItem button key={index}>
                   <ListItemText primary={obj.text} />
                 </ListItem>
