@@ -18,7 +18,12 @@ Rails.application.routes.draw do
 
       resources :monthly_expenditures, only: %i[update]
 
-      resources :tags, only: %i[index create update destroy]
+      resources :tags, only: %i[create update destroy] do
+        member do
+          patch '/log' => 'tags#relate'
+          put '/log' => 'tags#relate'
+        end
+      end
     end
   end
 
