@@ -5,7 +5,8 @@ class ExpenditureLog < ApplicationRecord
   validates :content, length: { maximum: 100 }
 
   # association
-  has_many :tags
+  has_many :tag_relations
+  has_many :tags, through: :tag_relations
   belongs_to :user
   belongs_to :monthly_expenditure, optional: true
 
