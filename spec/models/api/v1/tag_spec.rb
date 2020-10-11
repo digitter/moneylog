@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::Tag, type: :model do
+RSpec.describe 'Tagモデル', type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
