@@ -12,8 +12,10 @@
   MonthlyExpenditure ---o{ ExpenditureLog
   MonthlyIncome ---o{ IncomeLog
 
-  IncomeLog ---o{ Tag
-  ExpenditureLog ---o{ Tag
+  IncomeLog ---o{ TagRelation
+  ExpenditureLog ---o{ TagRelation
+
+  Tag --o{ TagRelation
 
   class User {
     id
@@ -73,6 +75,12 @@
     paid_at
     created_at
     updated_at
+  }
+  class TagRelation {
+    id
+    tag_id(foreign_key)
+    expenditure_log_id(optional_foreign_key)
+    income_log_id(optional_foreign_key)
   }
   class Tag {
     id
