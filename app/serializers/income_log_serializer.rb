@@ -4,5 +4,4 @@ class IncomeLogSerializer
 
   has_many :tags
   belongs_to :user
-  belongs_to :monthly_expenditure
 end
