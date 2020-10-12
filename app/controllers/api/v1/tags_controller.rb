@@ -24,19 +24,31 @@ module Api
         end
       end
 
-      def relate
+      # TODO: フロントRedux Storeへ反映
+      def relate_to_expenditure_log
         tag = @current_user.tags.find(params[:id])
 
-        if expenditure_log_id.present?
-          log = @current_user.ExpenditureLog.find(expenditure_log_id)
-          tag_relation = TagRelation.new(tag_id: tag.id, expenditure_log_id: log.id)
-        elsif income_log_id.present?
-          log = @current_user.IncomeLog.find(income_log_id)
-          tag_relation = TagRelation.new(tag_id: tag.id, income_log_id: log.id)
-        end
+        return response_bad_request if expenditure_log_id.blank? ||
+                                       tag.associated_with_expenditure?(expenditure_log_id) ||
+                                       !@current_user.expenditure_logs.exists?(id: expenditure_log_id)
 
-        if tag_relation.save
-          response_success(:tag_relation)
+        if TagRelation.create(tag_id: tag.id, expenditure_log_id: expenditure_log_id)
+          response_success(:tag, :relate_to_expenditure_log)
+        else
+          response_internal_server_error
+        end
+      end
+
+      # TODO: フロントRedux Storeへ反映
+      def relate_to_income_log
+        tag = @current_user.tags.find(params[:id])
+
+        return response_bad_request if income_log_id.blank? ||
+                                       tag.associated_with_income?(income_log_id) ||
+                                       !@current_user.income_logs.exists?(id: income_log_id)
+
+        if TagRelation.create(tag_id: tag.id, income_log_id: income_log_id)
+          response_success(:tag, :relate_to_income_log)
         else
           response_internal_server_error
         end
@@ -58,11 +70,11 @@ module Api
         end
 
         def expenditure_log_id
-          params.require(:expenditure_log).permit(:id)
+          params.require(:expenditure_log).require(:id)
         end
 
-        def expenditure_log_id
-          params.require(:income_log).permit(:id)
+        def income_log_id
+          params.require(:income_log).require(:id)
         end
 
         def to_json_api_format(tag)

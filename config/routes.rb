@@ -20,8 +20,8 @@ Rails.application.routes.draw do
 
       resources :tags, only: %i[create update destroy] do
         member do
-          patch '/log' => 'tags#relate'
-          put '/log' => 'tags#relate'
+          post '/expenditure_log' => 'tags#relate_to_expenditure_log'
+          post '/income_log' => 'tags#relate_to_income_log'
         end
       end
     end
