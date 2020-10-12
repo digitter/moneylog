@@ -1,5 +1,5 @@
 class Tag < ApplicationRecord
-  has_many :tag_relations
+  has_many :tag_relations, dependent: :destroy
   has_many :expenditure_logs, through: :tag_relations
   has_many :income_logs, through: :tag_relations
   belongs_to :user
