@@ -17,6 +17,13 @@ Rails.application.routes.draw do
       delete '/bulk_delete/income_logs' => 'income_logs#bulk_delete'
 
       resources :monthly_expenditures, only: %i[update]
+
+      resources :tags, only: %i[create update destroy] do
+        member do
+          post '/expenditure_log' => 'tags#relate_to_expenditure_log'
+          post '/income_log' => 'tags#relate_to_income_log'
+        end
+      end
     end
   end
 

@@ -6,4 +6,5 @@ class UserSerializer
   has_many :expenditure_logs
   has_many :income_logs
   has_many :monthly_expenditures
+  has_many :tags
 end

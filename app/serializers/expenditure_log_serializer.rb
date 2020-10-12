@@ -1,7 +1,8 @@
 class ExpenditureLogSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :id, :title, :amount, :content, :created_at, :updated_at, :paid_at
+  attributes :id, :title, :amount, :content, :paid_at
 
+  has_many :tag_relations
   belongs_to :user
   belongs_to :monthly_expenditure
 end

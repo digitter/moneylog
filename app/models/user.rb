@@ -16,6 +16,7 @@ class User < ApplicationRecord
     user.has_many :expenditure_logs
     user.has_many :income_logs
     user.has_many :monthly_expenditures
+    user.has_many :tags
   end
 
   # method

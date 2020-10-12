@@ -1,6 +1,6 @@
-class IncomeLogSerializer
+class TagSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :id, :title, :amount, :content, :earned_at
+  attributes :id, :name
 
   has_many :tag_relations
   belongs_to :user
