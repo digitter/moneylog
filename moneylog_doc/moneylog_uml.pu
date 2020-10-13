@@ -57,7 +57,7 @@
   class IncomeLog {
     id
     user_id (foreign_key)
-    monthly_expenditure_id (optional_foreign_key)
+    monthly_income_id (optional_foreign_key)
     amount
     title
     content
