@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { createIncomeLog } from '../../../services/IncomeLogService'
 import IncomeLog from '../../../models/IncomeLog'
 import { editIncomeLog, actionTypes as incomeActionTypes } from '../../../modules/IncomeLogModule'
+import { succesmMessages, successMessage, errorMessage, errorMessages } from '../../GlobalMessage'
 
 const { useState } = React
 
@@ -37,8 +38,10 @@ const CreateIncomeLogModal: React.FC<Props> = props => {
     createIncomeLog({ title, amount, content })
       .then((newIncomeLog: IncomeLog) => {
         dispatch(editIncomeLog(incomeActionTypes.create, newIncomeLog))
+        successMessage(succesmMessages.create)
       })
       .catch(response => {
+        errorMessage(errorMessages.create)
         console.error(response)
       })
   }
