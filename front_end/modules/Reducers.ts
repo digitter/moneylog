@@ -26,7 +26,7 @@ const reducers = (history: History) => combineReducers({
 export default reducers
 
 type RootState = ReturnType<typeof store.getState>
-type AddDispatch = typeof store.dispatch
+type AddDispatch = ReturnType<typeof store.dispatch>
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useTypedDispatch: AddDispatch = useDispatch
