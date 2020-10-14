@@ -24,6 +24,7 @@ import CreateExpenditureLogModal from './CreateExpenditureLogModal';
 import LoadingIcon from '../../LoadingIcon';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
+import TagAttached from '../common/TagAttached';
 
 interface tableData {
   title: string;
@@ -119,6 +120,7 @@ const ExpenditureLogsTable: React.FC = () => {
         log.amount,
         log.content,
         log.paidAt,
+        log.tagIds,
         log.id
       )
     })
@@ -261,6 +263,9 @@ const ExpenditureLogsTable: React.FC = () => {
                             </TableCell>
                             <TableCell align='left'>
                               {moment(row.paidAt).format('YYYY-MM-DD')}
+                            </TableCell>
+                            <TableCell align='left'>
+                              <TagAttached row={row} />
                             </TableCell>
                             <TableCell align='left'>
                               <EdtingExpenditureLog expenditureLog={row} />

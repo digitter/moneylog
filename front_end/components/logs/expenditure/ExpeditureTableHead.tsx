@@ -11,8 +11,9 @@ interface tableData {
   amount: number;
   content: string;
   paidAt: Date;
-  edit?: string;
-  delete?: string;
+  tag: string;
+  edit: string;
+  delete: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -84,6 +85,7 @@ const headCells: HeadCell[] = [
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount (yen)' },
   { id: 'content', numeric: false, disablePadding: false, label: 'Content' },
   { id: 'paidAt', numeric: true, disablePadding: false, label: 'Payment Date' },
+  { id: 'tag', numeric: false, disablePadding: false, label: 'Tag' },
   { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];
