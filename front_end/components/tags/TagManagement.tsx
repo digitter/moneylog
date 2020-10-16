@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import EditingTags from './EditingTags';
+import TagList from './TagList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,16 +30,9 @@ const TagManagement: React.FC<Props> = () => {
   return (
     <React.Fragment>
       <h2>Tag List</h2>
-
-      <div className={classes.root}>
-        <div className={classes.leftContent}>
-          <div>作成機能</div>
-          <EditingTags />
-        </div>
-        <div className={classes.rightContent}>
-          <div>Chart</div>
-        </div>
-      </div>
+      <div>作成機能</div>
+      <TagList />
+      <div>Chart</div>
     </React.Fragment>
   )
 }

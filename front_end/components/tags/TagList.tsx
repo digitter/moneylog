@@ -5,6 +5,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputBase from '@material-ui/core/InputBase';
 import Tag from '../../models/Tag';
 import { useTypedSelector } from '../../modules/Reducers';
+import EditingTagModal from './EditingTagModal';
+
+const { useState, useEffect, useRef } = React
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     popperDisablePortal: {
       position: 'relative',
+      zIndex: 1
     },
     color: {
       width: 14,
@@ -78,24 +82,53 @@ const useStyles = makeStyles((theme: Theme) =>
     text: {
       flexGrow: 1,
     },
+    modal: {
+      width: '40%',
+      height: '40%',
+      position: 'absolute',
+      zIndex: 2,
+      border: '1px solid black',
+      backgroundColor: 'gray'
+    }
   }),
 );
 
-const EditingTags: React.FC = () => {
+const TagList: React.FC = () => {
   const tags = useTypedSelector(state => state.tags)
+  const myRef = useRef<any>()
+  const classes = useStyles();
 
-  React.useEffect(() => {
+  // TODO: 命名整理
+  const [pendingValue, setPendingValue] = useState([])
+  const [clickedOutside, setClickedOutside] = useState(true)
+  const [selectedTag, setSelectedTag] = useState(null)
+
+  useEffect(() => {
     setPendingValue(tags)
   }, [tags])
 
-  const [pendingValue, setPendingValue] = React.useState([]);
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  })
 
-  const classes = useStyles();
+  const handleClickOutside = e => {
+    if (!myRef.current.contains(e.target)) {
+      setClickedOutside(true)
+    }
+  }
+  const handleClickInside = (option: Tag)=> {
+    console.log(option)
+
+    if (option) {setSelectedTag(option)}
+
+    setClickedOutside(false)
+  }
 
   return (
     <React.Fragment>
       <div className={classes.popper}>
-        <div className={classes.header}>Search</div>
+        <div className={classes.header}>Search by tag name</div>
         <Autocomplete
           open
           multiple
@@ -110,14 +143,16 @@ const EditingTags: React.FC = () => {
           renderTags={() => null}
           noOptionsText="No tags"
           renderOption={(option: Tag) => (
-            <React.Fragment>
+            <React.Fragment >
               <span className={classes.color} style={{ backgroundColor: option.color }} />
-              <div className={classes.text}>
-                {option.name}
-                <br />
+              <div
+                className={classes.text}
+                ref={myRef}
+                onClick={() => handleClickInside(option)}
+              >
+                {option.name}<br />
                 {option.description}
               </div>
-              <div>Delete</div>
             </React.Fragment>
           )}
           options={tags}
@@ -132,8 +167,15 @@ const EditingTags: React.FC = () => {
           )}
         />
       </div>
+
+      {clickedOutside
+        ? null
+        : <EditingTagModal
+            ref={myRef}
+            tag={selectedTag}
+          />}
     </React.Fragment>
   );
 }
 
-export default EditingTags
+export default TagList
