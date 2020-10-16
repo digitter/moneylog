@@ -196,7 +196,7 @@ export default function TagAttached(props) {
         placement="bottom-start"
         className={classes.popper}
       >
-        <div className={classes.header}>Apply tags to this pull request</div>
+        <div className={classes.header}>Apply tags to this expenditure log</div>
         <Autocomplete
           open
           onClose={handleClose}
