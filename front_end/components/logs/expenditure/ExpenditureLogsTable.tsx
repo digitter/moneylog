@@ -21,7 +21,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import CreateExpenditureLogModal from './CreateExpenditureLogModal';
-import LoadingIcon from '../../LoadingIcon';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttached from '../common/TagAttached';
