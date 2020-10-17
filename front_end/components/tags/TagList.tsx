@@ -6,13 +6,18 @@ import InputBase from '@material-ui/core/InputBase';
 import Tag from '../../models/Tag';
 import { useTypedSelector } from '../../modules/Reducers';
 import EditingTagModal from './EditingTagModal';
+import TagCreationForm from './TagCreationForm';
 
 const { useState, useEffect, useRef } = React
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
     tag: {
-      width: '50%',
+      width: '90%',
       marginTop: 3,
       height: 20,
       padding: '.15em 4px',
@@ -23,7 +28,8 @@ const useStyles = makeStyles((theme: Theme) =>
     popper: {
       border: '1px solid rgba(27,31,35,.15)',
       borderRadius: 3,
-      width: 350,
+      width: '90%',
+      margin: '0 auto',
       fontSize: 13,
       color: '#586069',
       backgroundColor: '#f6f8fa',
@@ -83,10 +89,8 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     modal: {
-      width: '40%',
-      height: '40%',
       position: 'absolute',
-      zIndex: 2,
+      zIndex: 1,
       border: '1px solid black',
       backgroundColor: 'gray'
     }
@@ -127,53 +131,56 @@ const TagList: React.FC = () => {
 
   return (
     <React.Fragment>
-      <div className={classes.popper}>
-        <div className={classes.header}>Search by tag name</div>
-        <Autocomplete
-          open
-          multiple
-          classes={{
-            paper: classes.paper,
-            option: classes.option,
-            popperDisablePortal: classes.popperDisablePortal,
-          }}
-          value={pendingValue}
-          disableCloseOnSelect
-          disablePortal
-          renderTags={() => null}
-          noOptionsText="No tags"
-          renderOption={(option: Tag) => (
-            <React.Fragment >
-              <span className={classes.color} style={{ backgroundColor: option.color }} />
-              <div
-                className={classes.text}
-                ref={myRef}
-                onClick={() => handleClickInside(option)}
-              >
-                {option.name}<br />
-                {option.description}
-              </div>
-            </React.Fragment>
-          )}
-          options={tags}
-          getOptionLabel={(option: Tag) => option.name}
-          renderInput={(params) => (
-            <InputBase
-              ref={params.InputProps.ref}
-              inputProps={params.inputProps}
-              autoFocus
-              className={classes.inputBase}
-            />
-          )}
-        />
-      </div>
+      <div className={classes.root}>
+        {clickedOutside
+          ? <TagCreationForm />
+          : <EditingTagModal
+              ref={myRef}
+              tag={selectedTag}
+            />}
 
-      {clickedOutside
-        ? null
-        : <EditingTagModal
-            ref={myRef}
-            tag={selectedTag}
-          />}
+        <div className={classes.popper}>
+          <div className={classes.header}>Search by tag name</div>
+          <Autocomplete
+            open
+            multiple
+            classes={{
+              paper: classes.paper,
+              option: classes.option,
+              popperDisablePortal: classes.popperDisablePortal,
+            }}
+            value={pendingValue}
+            disableCloseOnSelect
+            disablePortal
+            renderTags={() => null}
+            noOptionsText="No tags"
+            renderOption={(option: Tag) => (
+              <React.Fragment >
+                <span className={classes.color} style={{ backgroundColor: option.color }} />
+                <div
+                  className={classes.text}
+                  ref={myRef}
+                  onClick={() => handleClickInside(option)}
+                >
+                  {option.name}<br />
+                  {option.description}
+                </div>
+                <div>Delete</div>
+              </React.Fragment>
+            )}
+            options={tags}
+            getOptionLabel={(option: Tag) => option.name}
+            renderInput={(params) => (
+              <InputBase
+                ref={params.InputProps.ref}
+                inputProps={params.inputProps}
+                autoFocus
+                className={classes.inputBase}
+              />
+            )}
+          />
+        </div>
+      </div>
     </React.Fragment>
   );
 }

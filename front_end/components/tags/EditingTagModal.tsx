@@ -3,9 +3,8 @@ import Tag from "../../models/Tag";
 
 const styles =  {
   width:  '100%',
-  height: 300,
-  position: 'absolute' as 'absolute',
-  backgroundColor: '#f8f8ff'
+  height: 200,
+  backgroundColor: '#f3f3f3'
 }
 
 interface Props {
@@ -17,8 +16,7 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
     <div ref={ref} style={styles}>
       <p>{props.tag.name}</p>
       <p>{props.tag.color}</p>
-      <p>編集</p>
-      <p>削除</p>
+      <p>更新</p>
     </div>
   );
 });
