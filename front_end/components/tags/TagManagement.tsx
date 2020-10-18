@@ -7,11 +7,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
       flexWrap: 'wrap',
-      border: '1px solid gray'
     },
     sideContents: {
       flex: '1 0 400px',
-      background: '#ddd',
       border: '1px solid gray'
     }
   })

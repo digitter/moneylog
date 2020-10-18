@@ -3,25 +3,38 @@ import TextField from '@material-ui/core/TextField';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
+import SketchExample from './ScketchExample';
 
-interface Props {}
+const { useState } = React
 
-const TagCreationForm: React.FC = (props: Props) => {
-  const handleSubmit = () => {
+const TagCreationForm: React.FC = () => {
+  const [tagName, setTagName] = useState<string>('')
+  const [hex, setHex] = useState<string>('4A90E2')
 
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTagName(event.currentTarget.name)
   }
 
+  const handleSubmit = () => {}
+
   return (
-    <div style={{height: 200, width: '100%', border: '1px solid gray'}}>
+    <div style={{height: 200, width: '90%', margin: '0 auto'}}>
       <h2>Create Tag</h2>
 
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1} alignItems="flex-end">
+        <Grid container spacing={2} alignItems="flex-end">
           <Grid item>
             <LocalOfferIcon/>
           </Grid>
           <Grid item>
-            <TextField id="input-with-icon-grid" label="tag name" />
+            <TextField
+              id="input-with-icon-grid"
+              label="tag name"
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item>
+            <SketchExample setHex={setHex} />
           </Grid>
           <Grid item>
             <Button
@@ -34,11 +47,7 @@ const TagCreationForm: React.FC = (props: Props) => {
               CREATE
             </Button>
           </Grid>
-          <Grid item>
-            <select></select><br/>
-          </Grid>
         </Grid>
-
       </form>
     </div>
   )

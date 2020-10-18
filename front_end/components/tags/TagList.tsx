@@ -91,7 +91,6 @@ const useStyles = makeStyles((theme: Theme) =>
     modal: {
       position: 'absolute',
       zIndex: 1,
-      border: '1px solid black',
       backgroundColor: 'gray'
     }
   }),
