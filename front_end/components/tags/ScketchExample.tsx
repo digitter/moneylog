@@ -2,10 +2,12 @@
 
 import * as React from 'react'
 import reactCSS from 'reactcss'
-import { SketchPicker } from 'react-color'
+import { CompactPicker } from 'react-color'
+import Tag from '../../models/Tag';
 
 interface Props {
   setHex: any
+  editingTag?: Tag
 }
 
 interface State {}
@@ -13,14 +15,14 @@ interface State {}
 class SketchExample extends React.Component<Props, State> {
   state = {
     displayColorPicker: false,
-    color: {
-      r: '74',
-      g: '144',
-      b: '226',
-      a: '100',
-    },
     hex: '#4A90E2'
   };
+
+  componentDidMount() {
+    if (this.props.editingTag) {
+      this.setState({hex: this.props.editingTag.color})
+    }
+  }
 
   handleClick = async() => {
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
@@ -31,7 +33,7 @@ class SketchExample extends React.Component<Props, State> {
   };
 
   handleChange = (color) => {
-    this.setState({ color: color.rgb, hex: color.hex })
+    this.setState({ hex: color.hex })
     this.props.setHex(color.hex)
   };
 
@@ -42,7 +44,7 @@ class SketchExample extends React.Component<Props, State> {
           width: '36px',
           height: '14px',
           borderRadius: '2px',
-          background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
+          backgroundColor: `${this.state.hex}`
         },
         swatch: {
           padding: '5px',
@@ -74,7 +76,7 @@ class SketchExample extends React.Component<Props, State> {
         </div>
         { this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose }/>
-          <SketchPicker color={ this.state.color } onChange={ this.handleChange } />
+          <CompactPicker color={this.state.hex} onChange={this.handleChange} />
         </div> : null }
 
       </div>

@@ -5,8 +5,6 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import SketchExample from "./ScketchExample";
 
 const { useState } = React
@@ -15,17 +13,9 @@ interface Props {
   tag: Tag
 }
 
-const useStyles = makeStyles((theme: Theme) => {
-  createStyles({
-    header: {
-      color: 'white'
-    }
-  })
-})
 
 const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
-  const [hex, setHex] = useState<string>('#4A90E2')
-  const classes = useStyles()
+  const [hex, setHex] = useState<string>(props.tag.color)
 
   const handleSubmit = (event: React.FormEvent) => {}
   const handleChange = (event: React.ChangeEvent) => {}
@@ -45,11 +35,12 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
               <TextField
                 id="input-with-icon-grid"
                 label="tag name"
+                defaultValue={props.tag.name}
                 onChange={handleChange}
               />
             </Grid>
             <Grid item>
-              <SketchExample setHex={setHex} />
+              <SketchExample setHex={setHex} editingTag={props.tag} />
             </Grid>
             <Grid item>
               <Button
