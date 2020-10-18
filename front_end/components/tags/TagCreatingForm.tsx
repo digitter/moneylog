@@ -68,17 +68,6 @@ const TagCreatingForm: React.FC = () => {
             <Grid item>
               <SketchExample setHex={setHex} />
             </Grid>
-            <Grid item>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="inherit"
-                style={{width: 60, background: '#547599', color: 'white'}}
-              >
-                CREATE
-              </Button>
-            </Grid>
           </Grid>
 
           <Grid container spacing={2} alignItems="flex-end">
@@ -91,6 +80,17 @@ const TagCreatingForm: React.FC = () => {
                 name="description"
                 onChange={handleChange}
               />
+            </Grid>
+            <Grid item>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="inherit"
+                style={{width: 60, background: '#547599', color: 'white', fontSize: 10}}
+              >
+                CREATE
+              </Button>
             </Grid>
           </Grid>
         </form>

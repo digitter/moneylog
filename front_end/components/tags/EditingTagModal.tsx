@@ -72,17 +72,6 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
             <Grid item>
               <SketchExample setHex={setHex} editingTag={props.tag} />
             </Grid>
-            <Grid item>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="inherit"
-                style={{width: 60, background: '#0F7C3F', color: 'white'}}
-              >
-                EDIT
-              </Button>
-            </Grid>
           </Grid>
 
           <Grid container spacing={2} alignItems="flex-end">
@@ -96,6 +85,17 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
                 defaultValue={props.tag.description}
                 onChange={handleChange}
               />
+            </Grid>
+            <Grid item>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="inherit"
+                style={{width: 60, background: '#0F7C3F', color: 'white', fontSize: 10}}
+              >
+                EDIT
+              </Button>
             </Grid>
           </Grid>
         </form>
