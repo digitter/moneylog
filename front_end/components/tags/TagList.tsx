@@ -107,13 +107,12 @@ const TagList: React.FC = () => {
   const myRef = useRef<any>()
   const classes = useStyles();
 
-  // TODO: 命名整理
-  const [pendingValue, setPendingValue] = useState([])
+  const [value, setValue] = useState([])
   const [clickedOutside, setClickedOutside] = useState(true)
   const [selectedTag, setSelectedTag] = useState(null)
 
   useEffect(() => {
-    setPendingValue(tags)
+    setValue(tags)
   }, [tags])
 
   useEffect(() => {
@@ -162,7 +161,7 @@ const TagList: React.FC = () => {
               option: classes.option,
               popperDisablePortal: classes.popperDisablePortal,
             }}
-            value={pendingValue}
+            value={value}
             disableCloseOnSelect
             disablePortal
             renderTags={() => null}
