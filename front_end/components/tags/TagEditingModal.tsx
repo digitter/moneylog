@@ -20,8 +20,7 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
   const dispatch = useDispatch()
 
   const [tagName, setTagName] = useState<string>(props.tag.name)
-  // TODO: description
-  const [description, setDescription] = useState(props.tag.description)
+  const [description, setDescription] = useState<string>(props.tag.description)
   const [hex, setHex] = useState<string>(props.tag.color)
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -53,13 +52,12 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
     <React.Fragment>
       <Paper elevation={2} ref={ref} style={{height: 150, margin: '10px 10px'}}>
         <div style={{background: '#2E3947', color: 'white', paddingLeft: '20px', borderRadius: '3px'}}>
-          Edit Tag
+          Edit tag
         </div>
 
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2} alignItems="flex-end">
-            <Grid item>
-            </Grid>
+            <Grid item></Grid>
             <Grid item>
               <TextField
                 id="input-with-icon-grid"
@@ -75,18 +73,18 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
           </Grid>
 
           <Grid container spacing={2} alignItems="flex-end">
-            <Grid item>
-            </Grid>
-            <Grid item>
+            <Grid item></Grid>
+            <Grid item style={{flexGrow: 3.0}}>
               <TextField
+                style={{width: '90%'}}
                 id="input-with-icon-grid"
-                label="tag description"
+                label="description"
                 name="description"
                 defaultValue={props.tag.description}
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item>
+            <Grid item style={{flexGrow: 1.0}}>
               <Button
                 type="submit"
                 fullWidth
