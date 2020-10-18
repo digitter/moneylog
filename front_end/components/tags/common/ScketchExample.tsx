@@ -3,7 +3,7 @@
 import * as React from 'react'
 import reactCSS from 'reactcss'
 import { CompactPicker } from 'react-color'
-import Tag from '../../models/Tag';
+import Tag from '../../../models/Tag';
 
 interface Props {
   setHex: any

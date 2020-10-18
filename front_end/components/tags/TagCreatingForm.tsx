@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
-import SketchExample from './ScketchExample';
+import SketchExample from './common/ScketchExample';
 import { editTag, tagActionTypes } from '../../modules/TagModule';
 import Tag from '../../models/Tag';
 import { createTag } from '../../services/TagService';

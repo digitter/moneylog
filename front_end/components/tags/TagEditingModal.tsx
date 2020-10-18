@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper';
-import SketchExample from "./ScketchExample";
+import SketchExample from "./common/ScketchExample";
 import { updateTag } from "../../services/TagService";
 import { successMessage, succesmMessages, errorMessage, errorMessages } from "../GlobalMessage";
 import { editTag, tagActionTypes } from "../../modules/TagModule";
