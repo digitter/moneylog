@@ -6,7 +6,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Tag from '../../models/Tag';
 import { useTypedSelector } from '../../modules/Reducers';
 import EditingTagModal from './EditingTagModal';
-import TagCreationForm from './TagCreationForm';
+import TagCreatingForm from './TagCreatingForm';
 
 const { useState, useEffect, useRef } = React
 
@@ -132,7 +132,7 @@ const TagList: React.FC = () => {
     <React.Fragment>
       <div className={classes.root}>
         {clickedOutside
-          ? <TagCreationForm />
+          ? <TagCreatingForm />
           : <EditingTagModal
               ref={myRef}
               tag={selectedTag}

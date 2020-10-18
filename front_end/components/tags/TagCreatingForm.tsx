@@ -7,7 +7,7 @@ import SketchExample from './ScketchExample';
 
 const { useState } = React
 
-const TagCreationForm: React.FC = () => {
+const TagCreatingForm: React.FC = () => {
   const [tagName, setTagName] = useState<string>('')
   const [hex, setHex] = useState<string>('4A90E2')
 
@@ -53,4 +53,4 @@ const TagCreationForm: React.FC = () => {
   )
 }
 
-export default TagCreationForm
+export default TagCreatingForm
