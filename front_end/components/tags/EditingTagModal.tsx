@@ -3,7 +3,7 @@ import Tag from "../../models/Tag";
 
 const styles =  {
   width:  '100%',
-  height: 200,
+  height: 150,
   backgroundColor: '#f3f3f3'
 }
 

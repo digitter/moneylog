@@ -66,7 +66,7 @@ module Api
 
       private
         def tag_params
-          params.require(:tag).permit(:name)
+          params.require(:tag).permit(:name, :color, :description)
         end
 
         def expenditure_log_id

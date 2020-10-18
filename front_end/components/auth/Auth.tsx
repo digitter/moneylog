@@ -11,7 +11,7 @@ import { editAssets } from '../../modules/AssetModule'
 import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule'
 import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule'
 import { editMonthlyExpenditures, actionTypes as monthlyExpenditureTypes } from '../../modules/MonthlyExpenditureModule'
-import { editTags, actionTypes as tagTypes } from '../../modules/TagModule'
+import { editTags, tagActionTypes } from '../../modules/TagModule'
 
 import User from '../../models/User'
 import Asset from '../../models/Asset'
@@ -55,7 +55,7 @@ class Auth extends React.Component<Props, State> {
             this.props.editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat))
             this.props.editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat))
             this.props.editMonthlyExpenditures(monthlyExpenditureTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat))
-            this.props.editTags(tagTypes.initialize, Tag.fromIncluded(jsonApiFormat))
+            this.props.editTags(tagActionTypes.initialize, Tag.fromIncluded(jsonApiFormat))
 
             this.setState({ loggedInStatus: 'LOGGED_IN' })
           }
@@ -65,7 +65,7 @@ class Auth extends React.Component<Props, State> {
             this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
             this.props.editIncomeLogs(incomeActionTypes.reset, [])
             this.props.editMonthlyExpenditures(monthlyExpenditureTypes.reset, [])
-            this.props.editTags(tagTypes.reset, [])
+            this.props.editTags(tagActionTypes.reset, [])
 
             this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
           }
@@ -76,7 +76,7 @@ class Auth extends React.Component<Props, State> {
           this.props.editExpenditureLogs(expenditureActionTypes.reset, [])
           this.props.editIncomeLogs(incomeActionTypes.reset, [])
           this.props.editMonthlyExpenditures(monthlyExpenditureTypes.reset, [])
-          this.props.editTags(tagTypes.reset, [])
+          this.props.editTags(tagActionTypes.reset, [])
 
           this.setState({ loggedInStatus: 'NOT_LOGGED_IN' })
           console.error(error)

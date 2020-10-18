@@ -1,12 +1,18 @@
 /* eslint-disable no-use-before-define */
 import * as React from 'react';
+import { useDispatch } from 'react-redux'
 import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import Tag from '../../models/Tag';
 import { useTypedSelector } from '../../modules/Reducers';
 import EditingTagModal from './EditingTagModal';
 import TagCreatingForm from './TagCreatingForm';
+import { deleteTag } from '../../services/TagService';
+import { successMessage, succesmMessages, errorMessages, errorMessage } from '../GlobalMessage';
+import { tagActionTypes, editTag } from '../../modules/TagModule';
 
 const { useState, useEffect, useRef } = React
 
@@ -17,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column'
     },
     tag: {
-      width: '90%',
       marginTop: 3,
       height: 20,
       padding: '.15em 4px',
@@ -97,6 +102,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const TagList: React.FC = () => {
+  const dispatch = useDispatch()
   const tags = useTypedSelector(state => state.tags)
   const myRef = useRef<any>()
   const classes = useStyles();
@@ -115,14 +121,25 @@ const TagList: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   })
 
+  const handleDeleteClick = (tag: Tag) => {
+    if (!window.confirm(`タグ: ${tag.name}を削除しますか?`)) {return null}
+
+    deleteTag(tag)
+      .then(() => {
+        dispatch(editTag(tagActionTypes.destroy, tag))
+        successMessage(succesmMessages.destroy)
+      })
+      .catch(() => {
+        errorMessage(errorMessages.destroy)
+      })
+  }
+
   const handleClickOutside = e => {
     if (!myRef.current.contains(e.target)) {
       setClickedOutside(true)
     }
   }
   const handleClickInside = (option: Tag)=> {
-    console.log(option)
-
     if (option) {setSelectedTag(option)}
 
     setClickedOutside(false)
@@ -154,17 +171,20 @@ const TagList: React.FC = () => {
             renderTags={() => null}
             noOptionsText="No tags"
             renderOption={(option: Tag) => (
-              <React.Fragment >
+              <React.Fragment>
                 <span className={classes.color} style={{ backgroundColor: option.color }} />
                 <div
                   className={classes.text}
                   ref={myRef}
                   onClick={() => handleClickInside(option)}
                 >
-                  {option.name}<br />
+                  {option.name}<br/>
                   {option.description}
+                  <Divider />
                 </div>
-                <div>Delete</div>
+                <div onClick={() => handleDeleteClick(option)}>
+                  <DeleteForeverIcon />
+                </div>
               </React.Fragment>
             )}
             options={tags}

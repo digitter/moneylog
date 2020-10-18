@@ -29,7 +29,7 @@ import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/
 import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule'
 import { history } from '../../modules/store'
 import { Link } from 'react-router-dom'
-import { editTags, actionTypes as tagActionTypes } from '../../modules/TagModule'
+import { editTags, tagActionTypes } from '../../modules/TagModule'
 
 const { useState } = React
 

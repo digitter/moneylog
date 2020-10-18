@@ -19,7 +19,7 @@ class SketchExample extends React.Component<Props, State> {
       b: '226',
       a: '100',
     },
-    hex: '4A90E2'
+    hex: '#4A90E2'
   };
 
   handleClick = async() => {
@@ -55,7 +55,7 @@ class SketchExample extends React.Component<Props, State> {
         popover: {
           position: 'absolute',
           zIndex: '2',
-          left: '50px'
+          left: '100px'
         },
         cover: {
           position: 'fixed',

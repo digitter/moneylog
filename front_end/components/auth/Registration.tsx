@@ -31,7 +31,7 @@ import { editAssets } from '../../modules/AssetModule';
 import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule';
 import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule';
 import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule';
-import { editTags, actionTypes as tagActionTypes } from '../../modules/TagModule';
+import { editTags, tagActionTypes } from '../../modules/TagModule';
 
 
 const { useState } = React

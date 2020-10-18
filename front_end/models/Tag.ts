@@ -2,13 +2,13 @@ export default class Tag {
   constructor(
     public name: string,
     public color: string,
-    public description: string,
+    public description?: string,
     public id?: number,
   ) {}
 
   // toRequest()
   // snake ケースに変換
-  static serialized(params: Tag) {
+  static serialized(params: any) {
     const {
       id,
       name,
@@ -18,10 +18,10 @@ export default class Tag {
 
     return {
       tag: {
-        id,
         name,
         color,
-        description
+        description,
+        id,
       }
     }
   }
@@ -32,17 +32,17 @@ export default class Tag {
     if (jsonApiFormat.data.type !== 'tag') { return null }
 
     const {
-      id,
       name,
       color,
-      description
+      description,
+      id,
     } = jsonApiFormat.data.attributes
 
     return new Tag(
-      id,
       name,
       color,
-      description
+      description,
+      id,
     )
   }
 

@@ -8,8 +8,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexWrap: 'wrap',
     },
-    sideContents: {
+    leftContents: {
       flex: '1 0 400px',
+      border: '1px solid gray'
+    },
+    rightContents: {
+      flex: '4 0 400px',
       border: '1px solid gray'
     }
   })
@@ -23,10 +27,10 @@ const TagManagement: React.FC = () => {
       <h2>Tag List</h2>
 
       <div className={classes.root}>
-        <div className={classes.sideContents}>
+        <div className={classes.leftContents}>
           <TagList />
         </div>
-        <div className={classes.sideContents}>
+        <div className={classes.rightContents}>
           <div>右にChart</div>
           <div>右にChart</div>
         </div>
