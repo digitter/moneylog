@@ -21,17 +21,25 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
 
   const [tagName, setTagName] = useState<string>(props.tag.name)
   // TODO: description
-  const [tagDescription, setTagDescription] = useState('sample description')
+  const [description, setDescription] = useState(props.tag.description)
   const [hex, setHex] = useState<string>(props.tag.color)
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTagName(event.currentTarget.value)
+    switch (event.currentTarget.name) {
+      case 'name':
+        setTagName(event.currentTarget.value)
+        break;
+      case 'description':
+        setDescription(event.currentTarget.value)
+        break;
+      default: return null;
+    }
   }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
-    updateTag({ id: props.tag.id, name: tagName, color: hex, description: tagDescription })
+    updateTag({ id: props.tag.id, name: tagName, color: hex, description: description })
       .then((tag: Tag) => {
         dispatch(editTag(tagActionTypes.update, tag))
         successMessage(succesmMessages.update)
@@ -57,6 +65,7 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
                 id="input-with-icon-grid"
                 label="tag name"
                 defaultValue={props.tag.name}
+                name="name"
                 onChange={handleChange}
               />
             </Grid>
@@ -73,6 +82,20 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
               >
                 EDIT
               </Button>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} alignItems="flex-end">
+            <Grid item>
+            </Grid>
+            <Grid item>
+              <TextField
+                id="input-with-icon-grid"
+                label="tag description"
+                name="description"
+                defaultValue={props.tag.description}
+                onChange={handleChange}
+              />
             </Grid>
           </Grid>
         </form>

@@ -17,17 +17,25 @@ const TagCreatingForm: React.FC = () => {
 
   const [tagName, setTagName] = useState<string>('')
   // TODO: description
-  const [tagDescription, setTagDescription] = useState('sample description')
+  const [description, setDescription] = useState('')
   const [hex, setHex] = useState<string>('#4A90E2')
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTagName(event.currentTarget.value)
+    switch (event.currentTarget.name) {
+      case 'name':
+        setTagName(event.currentTarget.value)
+        break;
+      case 'description':
+        setDescription(event.currentTarget.value)
+        break;
+      default: return null;
+    }
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    createTag({name: tagName, color: hex, description: tagDescription})
+    createTag({name: tagName, color: hex, description: description})
       .then((tag: Tag) => {
         dispatch(editTag(tagActionTypes.create, tag))
         successMessage(succesmMessages.create)
@@ -53,6 +61,7 @@ const TagCreatingForm: React.FC = () => {
               <TextField
                 id="input-with-icon-grid"
                 label="tag name"
+                name="name"
                 onChange={handleChange}
               />
             </Grid>
@@ -69,6 +78,19 @@ const TagCreatingForm: React.FC = () => {
               >
                 CREATE
               </Button>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} alignItems="flex-end">
+            <Grid item>
+            </Grid>
+            <Grid item>
+              <TextField
+                id="input-with-icon-grid"
+                label="tag description"
+                name="description"
+                onChange={handleChange}
+              />
             </Grid>
           </Grid>
         </form>
