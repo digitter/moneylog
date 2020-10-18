@@ -8,7 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import Tag from '../../models/Tag';
 import { useTypedSelector } from '../../modules/Reducers';
-import EditingTagModal from './EditingTagModal';
+import TagEditingModal from './TagEditingModal';
 import TagCreatingForm from './TagCreatingForm';
 import { deleteTag } from '../../services/TagService';
 import { successMessage, succesmMessages, errorMessages, errorMessage } from '../GlobalMessage';
@@ -150,10 +150,7 @@ const TagList: React.FC = () => {
       <div className={classes.root}>
         {clickedOutside
           ? <TagCreatingForm />
-          : <EditingTagModal
-              ref={myRef}
-              tag={selectedTag}
-            />}
+          : <TagEditingModal ref={myRef} tag={selectedTag} />}
 
         <div className={classes.popper}>
           <div className={classes.header}>Search by tag name</div>

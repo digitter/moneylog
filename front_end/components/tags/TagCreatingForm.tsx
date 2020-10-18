@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux'
 import TextField from '@material-ui/core/TextField';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 import SketchExample from './ScketchExample';
@@ -16,8 +15,7 @@ const TagCreatingForm: React.FC = () => {
   const dispatch = useDispatch()
 
   const [tagName, setTagName] = useState<string>('')
-  // TODO: description
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState<string>('')
   const [hex, setHex] = useState<string>('#4A90E2')
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -49,14 +47,12 @@ const TagCreatingForm: React.FC = () => {
   return (
     <React.Fragment>
       <div style={{height: 150, margin: '10px 10px', border: '1px solid #E8E8E9'}}>
-        <div style={{background: '#2E3947', color: 'white', paddingLeft: '20px', borderRadius: '3px'}}>
-          Create Tag
-        </div>
-
         <form onSubmit={handleSubmit}>
+          <div style={{background: '#2E3947', color: 'white', paddingLeft: '20px', borderRadius: '2px'}}>
+            Create tag
+          </div>
           <Grid container spacing={2} alignItems="flex-end">
-            <Grid item>
-            </Grid>
+            <Grid item></Grid>
             <Grid item>
               <TextField
                 id="input-with-icon-grid"
@@ -71,17 +67,17 @@ const TagCreatingForm: React.FC = () => {
           </Grid>
 
           <Grid container spacing={2} alignItems="flex-end">
-            <Grid item>
-            </Grid>
-            <Grid item>
+            <Grid item ></Grid>
+            <Grid item style={{flexGrow: 3.0}}>
               <TextField
+                style={{width: '90%'}}
                 id="input-with-icon-grid"
-                label="tag description"
+                label="description"
                 name="description"
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item>
+            <Grid item style={{flexGrow: 1.0}}>
               <Button
                 type="submit"
                 fullWidth

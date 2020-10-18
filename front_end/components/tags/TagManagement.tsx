@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import TagList from './TagList';
+import TagChart from './TagChart';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -10,11 +11,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     leftContents: {
       flex: '1 0 400px',
-      border: '1px solid gray'
     },
     rightContents: {
       flex: '4 0 400px',
-      border: '1px solid gray'
     }
   })
 )
@@ -24,15 +23,12 @@ const TagManagement: React.FC = () => {
 
   return (
     <React.Fragment>
-      <h2>Tag List</h2>
-
       <div className={classes.root}>
         <div className={classes.leftContents}>
           <TagList />
         </div>
         <div className={classes.rightContents}>
-          <div>右にChart</div>
-          <div>右にChart</div>
+          <TagChart />
         </div>
       </div>
     </React.Fragment>
