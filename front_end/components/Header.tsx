@@ -38,7 +38,7 @@ export default function Header() {
 
   return (
     <div className={classes.root} style={{marginBottom: "65px"}}>
-      <AppBar position="fixed" style={{ backgroundColor: '#151b26' }}>
+      <AppBar position="fixed" style={{ backgroundColor: '#2E3947' }}>
         <Toolbar>
           <Typography variant="h6" className={classes.menuButton}>
             <ToggleSideBar />

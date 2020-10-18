@@ -39,38 +39,41 @@ const TagCreatingForm: React.FC = () => {
   }
 
   return (
-    <div style={{height: 150, width: '90%', margin: '0 auto'}}>
-      <h2>Create Tag</h2>
+    <React.Fragment>
+      <div style={{height: 150, margin: '10px 10px', border: '1px solid #E8E8E9'}}>
+        <div style={{background: '#2E3947', color: 'white', paddingLeft: '20px', borderRadius: '3px'}}>
+          Create Tag
+        </div>
 
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2} alignItems="flex-end">
-          <Grid item>
-            <LocalOfferIcon/>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2} alignItems="flex-end">
+            <Grid item>
+            </Grid>
+            <Grid item>
+              <TextField
+                id="input-with-icon-grid"
+                label="tag name"
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item>
+              <SketchExample setHex={setHex} />
+            </Grid>
+            <Grid item>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="inherit"
+                style={{width: 60, background: '#547599', color: 'white'}}
+              >
+                CREATE
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item>
-            <TextField
-              id="input-with-icon-grid"
-              label="tag name"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item>
-            <SketchExample setHex={setHex} />
-          </Grid>
-          <Grid item>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              style={{width: 60}}
-            >
-              CREATE
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    </div>
+        </form>
+      </div>
+    </React.Fragment>
   )
 }
 
