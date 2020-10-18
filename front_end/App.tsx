@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import store, { history } from './modules/store'
+import './App.css'
 
 // Router
 import { ConnectedRouter } from 'connected-react-router'
