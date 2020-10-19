@@ -10,6 +10,9 @@ import Autocomplete, { AutocompleteCloseReason } from '@material-ui/lab/Autocomp
 import ButtonBase from '@material-ui/core/ButtonBase';
 import InputBase from '@material-ui/core/InputBase';
 import Tag from '../../../models/Tag';
+import ExpenditureLog from '../../../models/ExpenditureLog';
+import IncomeLog from '../../../models/IncomeLog';
+import { relateToExpneditureLog } from '../../../services/TagService';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -121,10 +124,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function TagAttached(props) {
+interface Props {
+  row: ExpenditureLog | IncomeLog
+}
+
+const TagAttached: React.FC<Props> = (props) => {
+  const tags = useSelector(state => state.tags)
   const classes = useStyles();
 
-  const tags = useSelector(state => state.tags)
   const tagIds = props.row.tagIds
 
   React.useEffect(() => {
@@ -136,11 +143,8 @@ export default function TagAttached(props) {
   }, [tags])
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [value, setValue] = React.useState<LabelType[]>([]);
-  const [pendingValue, setPendingValue] = React.useState([]);
-
-  // const [value, setValue] = React.useState<LabelType[]>([tags[1], tags[2]]); // デフォルト
-  // const [pendingValue, setPendingValue] = React.useState<LabelType[]>([]);
+  const [value, setValue] = React.useState<Tag[]>([]);
+  const [pendingValue, setPendingValue] = React.useState<Tag[]>([]);
 
   const theme = useTheme();
 
@@ -150,14 +154,22 @@ export default function TagAttached(props) {
   };
 
   const handleClose = (event: React.ChangeEvent<{}>, reason: AutocompleteCloseReason) => {
-    if (reason === 'toggleInput') {
-      return;
-    }
+    if (reason === 'toggleInput') { return; }
+
     setValue(pendingValue);
-    if (anchorEl) {
-      anchorEl.focus();
-    }
+
+    if (anchorEl) { anchorEl.focus(); }
+
     setAnchorEl(null);
+
+    // TODO: 変化がないならリクエスト送りたくない
+    relateToExpneditureLog(pendingValue, props.row)
+      .then(res => {
+        // action creatorで対象のログ（props.row）のtagIdsを変更したい
+      })
+      .catch(res => {
+
+      })
   };
 
   const open = Boolean(anchorEl);
@@ -255,8 +267,4 @@ export default function TagAttached(props) {
   );
 }
 
-interface LabelType {
-  name: string;
-  color: string;
-  description?: string;
-}
+export default TagAttached

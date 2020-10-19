@@ -71,4 +71,8 @@ export default class Tag {
 
     return tagsAttributes
   }
+
+  static extractIds(tags: Tag[]): number[] {
+    return tags.map(tag => tag.id)
+  }
 }

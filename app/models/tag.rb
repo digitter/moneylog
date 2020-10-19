@@ -11,11 +11,4 @@ class Tag < ApplicationRecord
   validates :color, presence: true
   validates :description, length: { maximum: 20 }
 
-  def associated_with_expenditure?(log_id)
-    self.expenditure_logs.exists?(id: log_id)
-  end
-
-  def associated_with_income?(log_id)
-    self.income_logs.exists?(id: log_id)
-  end
 end

@@ -24,19 +24,29 @@ module Api
         end
       end
 
-      # TODO: フロントRedux Storeへ反映
+      # OPTIMIZE: 見にくい. private以下とかにいくつか関数化したものをまとめてみる。
       def relate_to_expenditure_log
-        tag = @current_user.tags.find(params[:id])
+        log = @current_user.expenditure_logs.find(expenditure_log_id)
+        using_tag_relations = log.tag_relations
+        using_tag_ids = using_tag_relations.pluck(:tag_id)
 
-        return response_bad_request if expenditure_log_id.blank? ||
-                                       tag.associated_with_expenditure?(expenditure_log_id) ||
-                                       !@current_user.expenditure_logs.exists?(id: expenditure_log_id)
+        if params[:ids].blank?
+          using_tag_relations.destroy_all # ログに紐づくタグリレーションを全て削除 # delete_allにする？
+        elsif params[:ids].present?
+          params[:ids].each do |tag_id| # ログに新しいタグリレーションを作成
+            unless using_tag_ids.include?(tag_id)
+              TagRelation.create!(tag_id: tag_id, expenditure_log_id: expenditure_log_id)
+            end
+          end
 
-        if TagRelation.create(tag_id: tag.id, expenditure_log_id: expenditure_log_id)
-          response_success(:tag, :relate_to_expenditure_log)
-        else
-          response_internal_server_error
+          using_tag_relations.each do |r| # 外されたタグのリレーションを削除
+            unless params[:ids].include?(r.tag_id)
+              using_tag_relations.find_by(tag_id: r.tag_id).try(:destroy!)
+            end
+          end
         end
+
+        # TODO: フロントRedux Storeへ反映
       end
 
       # TODO: フロントRedux Storeへ反映
@@ -70,7 +80,7 @@ module Api
         end
 
         def expenditure_log_id
-          params.require(:expenditure_log).require(:id)
+          params[:id]
         end
 
         def income_log_id

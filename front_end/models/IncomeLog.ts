@@ -4,9 +4,8 @@ export default class IncomeLog {
     public amount: number,
     public content: string,
     public earnedAt?: Date,
-    readonly id?: number,
-    public created_at?: Date,
-    public updated_at?: Date
+    public tagIds?: number[],
+    readonly id?: number
   ) {}
 
   // Request
@@ -15,6 +14,7 @@ export default class IncomeLog {
       title,
       amount,
       content,
+      tagIds: tag_ids,
       earnedAt: earned_at,
     } = params
 
@@ -22,7 +22,8 @@ export default class IncomeLog {
      title,
      amount,
      content,
-     earned_at
+     earned_at,
+    tag_ids
    )
   }
 
@@ -35,7 +36,8 @@ export default class IncomeLog {
       title,
       amount,
       content,
-      earned_at: earnedAt
+      earned_at: earnedAt,
+      tag_ids: tagIds,
     } = jsonApiFormat.data.attributes
 
     return new IncomeLog(
@@ -43,6 +45,7 @@ export default class IncomeLog {
       amount,
       content,
       earnedAt,
+      tagIds,
       id,
     )
   }
@@ -60,7 +63,8 @@ export default class IncomeLog {
         title,
         amount,
         content,
-        earned_at: earnedAt
+        earned_at: earnedAt,
+        tag_ids: tagIds
       } = incomeLog.attributes
 
       return {
@@ -68,7 +72,8 @@ export default class IncomeLog {
         title,
         amount,
         content,
-        earnedAt
+        earnedAt,
+        tagIds
       }
     })
 

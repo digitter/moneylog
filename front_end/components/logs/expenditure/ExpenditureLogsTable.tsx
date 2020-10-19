@@ -155,7 +155,6 @@ const ExpenditureLogsTable: React.FC = () => {
 
     if (selectedIndex === -1) { // Adding: 存在しない場合
       newSelected = newSelected.concat(logIds, expenditureLog.id)
-
       setCheckedLogs(checkedLogs.concat(expenditureLog))
     } else if (selectedIndex === 0) { // Removing: 最初に存在する場合
       newSelected = newSelected.concat(logIds.slice(1))

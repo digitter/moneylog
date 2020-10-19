@@ -120,6 +120,7 @@ const IncomeLogsTable: React.FC = () => {
         incomeLog.amount,
         incomeLog.content,
         incomeLog.earnedAt,
+        incomeLog.tagIds,
         incomeLog.id
       )
     })
