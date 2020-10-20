@@ -85,4 +85,11 @@ export default class ExpenditureLog {
   static extractIds(expenditureLogs: ExpenditureLog[]): number[] {
     return expenditureLogs.map(log => log.id)
   }
+
+  static updateUsingTagIds(log: ExpenditureLog, usingTagIds: number[]): ExpenditureLog {
+    const expenditureLog = Object.assign({}, log)
+    expenditureLog.tagIds = usingTagIds
+
+    return expenditureLog
+  }
 }

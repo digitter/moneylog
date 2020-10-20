@@ -7,7 +7,8 @@ export const actionTypes = {
   create: 'CREATE_EXPENDITURE_LOG',
   update: 'UPDATE_EXPENDITURE_LOG',
   destroy: 'DESTROY_EXPENDITURE_LOG',
-  bulkDestroy: 'BULK_DESTROY_EXPENDITURE_LOG'
+  bulkDestroy: 'BULK_DESTROY_EXPENDITURE_LOG',
+  updateUsingTags: 'UPDATE_USING_TAGS'
 }
 
 // Action Creators
@@ -50,6 +51,7 @@ export default function ExpenditureLogsReducer(state = [], action: fluxAction) {
     case actionTypes.create:
       return [action.payload.params, ...action.payload.existingLogs]
     case actionTypes.update:
+    case actionTypes.updateUsingTags:
       return action.payload.existingLogs.map((log: ExpenditureLog) => {
         if (log.id == action.payload.params.id) return action.payload.params;
         return log;

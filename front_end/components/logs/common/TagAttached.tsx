@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import * as React from 'react';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTheme, fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -13,6 +13,8 @@ import Tag from '../../../models/Tag';
 import ExpenditureLog from '../../../models/ExpenditureLog';
 import IncomeLog from '../../../models/IncomeLog';
 import { relateToExpneditureLog } from '../../../services/TagService';
+import { editExpenditureLog, actionTypes } from '../../../modules/ExpenditureLogModule';
+import { errorMessage, errorMessages } from '../../GlobalMessage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -129,12 +131,13 @@ interface Props {
 }
 
 const TagAttached: React.FC<Props> = (props) => {
+  const dispatch = useDispatch()
   const tags = useSelector(state => state.tags)
+
   const classes = useStyles();
 
-  const tagIds = props.row.tagIds
-
   React.useEffect(() => {
+    const tagIds = props.row.tagIds
     const usingTags = tags.filter((tag: Tag) => {
       if (tagIds.includes(tag.id)) return tag;
     })
@@ -164,12 +167,12 @@ const TagAttached: React.FC<Props> = (props) => {
 
     // TODO: 変化がないならリクエスト送りたくない
     relateToExpneditureLog(pendingValue, props.row)
-      .then(res => {
-        // action creatorで対象のログ（props.row）のtagIdsを変更したい
+      .then(() => {
+        const tagIds = Tag.extractIds(pendingValue)
+        const expenditureLog = ExpenditureLog.updateUsingTagIds(props.row, tagIds)
+        dispatch(editExpenditureLog(actionTypes.updateUsingTags, expenditureLog))
       })
-      .catch(res => {
-
-      })
+      .catch(() => errorMessage(errorMessages.update))
   };
 
   const open = Boolean(anchorEl);
