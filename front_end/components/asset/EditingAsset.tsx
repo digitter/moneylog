@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { editAssets } from '../../modules/AssetModule'
 import { updateAsset } from '../../services/AssetService'
 import Asset from '../../models/Asset';
+import Button from '@material-ui/core/Button'
 
 const customStyles = {
   content : {
@@ -74,7 +75,16 @@ const EdtingAsset: React.FC<Props>  = (props) => {
     return (
       <React.Fragment>
         <div>
-          <button onClick={openModal}>Edit</button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="inherit"
+            style={{width: 60, background: '#0F7C3F', color: 'white', fontSize: 10}}
+            onClick={openModal}
+          >
+            EDIT
+          </Button>
         </div>
 
         <Modal
