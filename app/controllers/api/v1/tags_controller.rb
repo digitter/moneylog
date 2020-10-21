@@ -24,29 +24,28 @@ module Api
         end
       end
 
-      # OPTIMIZE: 見にくい. private以下とかにいくつか関数化したものをまとめてみる。
+      # 1 or 2のどちらかが実行される。
       def relate_to_expenditure_log
-        log = @current_user.expenditure_logs.find(expenditure_log_id)
+        log = @current_user.expenditure_logs.find(log_id)
         using_tag_relations = log.tag_relations
         using_tag_ids = using_tag_relations.pluck(:tag_id)
 
-        if params[:ids].blank?
-          using_tag_relations.destroy_all # ログに紐づくタグリレーションを全て削除 # delete_allにする？
-        elsif params[:ids].present?
-          params[:ids].each do |tag_id| # ログに新しいタグリレーションを作成
-            unless using_tag_ids.include?(tag_id)
-              TagRelation.create!(tag_id: tag_id, expenditure_log_id: expenditure_log_id)
-            end
+        # 1: ログに紐づくタグリレーションを全て削除
+        using_tag_relations.destroy_all if params[:ids].blank?
+
+        # 2: ログに紐づく新しいタグリレーションを作成し、
+        # 外されたタグのリレーションを削除
+        if params[:ids].present?
+          params[:ids].each do |tag_id|
+            TagRelation.create!(
+              tag_id: tag_id,
+              expenditure_log_id: log_id) unless using_tag_ids.include?(tag_id)
           end
 
-          using_tag_relations.each do |r| # 外されたタグのリレーションを削除
-            unless params[:ids].include?(r.tag_id)
-              using_tag_relations.find_by(tag_id: r.tag_id).try(:destroy!)
-            end
+          using_tag_relations.each do |r|
+            using_tag_relations.find_by(tag_id: r.tag_id).try(:destroy!) unless params[:ids].include?(r.tag_id)
           end
         end
-
-        # TODO: フロントRedux Storeへ反映
       end
 
       # TODO: フロントRedux Storeへ反映
@@ -79,12 +78,8 @@ module Api
           params.require(:tag).permit(:name, :color, :description)
         end
 
-        def expenditure_log_id
+        def log_id
           params[:id]
-        end
-
-        def income_log_id
-          params.require(:income_log).require(:id)
         end
 
         def to_json_api_format(tag)
