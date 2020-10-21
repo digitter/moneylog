@@ -5,7 +5,7 @@ class ExpenditureLogSerializer
   # custom attributes
   # フロント側で、支出ログに紐づくタグのidを全て保持させておく
   attributes :tag_ids do |object|
-    object.tags.pluck(:id)
+    object.tags.ids
   end
 
   has_many :tag_relations
