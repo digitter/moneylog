@@ -24,6 +24,7 @@ import CreateIncomeLogModal from './CreateIncomeLogModal';
 import LoadingIcon from '../../LoadingIcon';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
+import TagAttachedToIncome from './TagAttachedToIncome';
 
 
 interface tableData {
@@ -263,6 +264,9 @@ const IncomeLogsTable: React.FC = () => {
                             </TableCell>
                             <TableCell align="left">
                               {moment(row.earnedAt).format('YYYY-MM-DD')}
+                            </TableCell>
+                            <TableCell align="left">
+                              <TagAttachedToIncome row={row} />
                             </TableCell>
                             <TableCell align="left">
                               <EdtingIncomeLog incomeLog={row} />

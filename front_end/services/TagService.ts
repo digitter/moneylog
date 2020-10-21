@@ -1,6 +1,7 @@
 import Axios from './Axios'
 import Tag from '../models/Tag'
 import ExpenditureLog from '../models/ExpenditureLog'
+import IncomeLog from '../models/IncomeLog'
 
 export const createTag = (tag: Tag) => {
   return new Promise((resolve, reject) => {
@@ -48,9 +49,24 @@ export const deleteTag = (tag: Tag) => {
   })
 }
 
-export const relateToExpneditureLog = (tags: Tag[], log: ExpenditureLog) => {
+export const relateToExpenditureLog = (tags: Tag[], log: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
     const url = `http://localhost:3001/api/v1/tags/${log.id}/expenditure_log`
+    const tagIds: number[] = Tag.extractIds(tags)
+
+    Axios.post(url, { ids: tagIds })
+      .then(response => {
+        resolve(response)
+      })
+      .catch(response => {
+        reject(response)
+      })
+  })
+}
+
+export const relateToIncomeLog = (tags: Tag[], log: IncomeLog) => {
+  return new Promise((resolve, reject) => {
+    const url = `http://localhost:3001/api/v1/tags/${log.id}/income_log`
     const tagIds: number[] = Tag.extractIds(tags)
 
     Axios.post(url, { ids: tagIds })

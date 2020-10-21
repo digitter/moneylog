@@ -10,10 +10,9 @@ import Autocomplete, { AutocompleteCloseReason } from '@material-ui/lab/Autocomp
 import ButtonBase from '@material-ui/core/ButtonBase';
 import InputBase from '@material-ui/core/InputBase';
 import Tag from '../../../models/Tag';
-import ExpenditureLog from '../../../models/ExpenditureLog';
 import IncomeLog from '../../../models/IncomeLog';
-import { relateToExpneditureLog } from '../../../services/TagService';
-import { editExpenditureLog, actionTypes } from '../../../modules/ExpenditureLogModule';
+import { relateToIncomeLog } from '../../../services/TagService';
+import { editIncomeLog, actionTypes } from '../../../modules/IncomeLogModule';
 import { errorMessage, errorMessages } from '../../GlobalMessage';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -127,10 +126,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  row: ExpenditureLog | IncomeLog
+  row: IncomeLog | IncomeLog
 }
 
-const TagAttached: React.FC<Props> = (props) => {
+const TagAttachedToIncome: React.FC<Props> = (props) => {
   const dispatch = useDispatch()
   const tags = useSelector(state => state.tags)
 
@@ -166,11 +165,11 @@ const TagAttached: React.FC<Props> = (props) => {
     setAnchorEl(null);
 
     // TODO: 変化がないならリクエスト送りたくない
-    relateToExpneditureLog(pendingValue, props.row)
+    relateToIncomeLog(pendingValue, props.row)
       .then(() => {
         const tagIds = Tag.extractIds(pendingValue)
-        const expenditureLog = ExpenditureLog.updateUsingTagIds(props.row, tagIds)
-        dispatch(editExpenditureLog(actionTypes.updateUsingTags, expenditureLog))
+        const incomeLog = IncomeLog.updateUsingTagIds(props.row, tagIds)
+        dispatch(editIncomeLog(actionTypes.updateTagRelated, incomeLog))
       })
       .catch(() => errorMessage(errorMessages.update))
   };
@@ -211,7 +210,7 @@ const TagAttached: React.FC<Props> = (props) => {
         placement="bottom-start"
         className={classes.popper}
       >
-        <div className={classes.header}>Apply tags to this expenditure log</div>
+        <div className={classes.header}>Apply tags to this income log</div>
         <Autocomplete
           open
           onClose={handleClose}
@@ -270,4 +269,4 @@ const TagAttached: React.FC<Props> = (props) => {
   );
 }
 
-export default TagAttached
+export default TagAttachedToIncome

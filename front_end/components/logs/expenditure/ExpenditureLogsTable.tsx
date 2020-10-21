@@ -23,7 +23,7 @@ import Switch from '@material-ui/core/Switch';
 import CreateExpenditureLogModal from './CreateExpenditureLogModal';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
-import TagAttached from '../common/TagAttached';
+import TagAttachedToExpenditure from './TagAttachedToExpenditure';
 
 interface tableData {
   title: string;
@@ -261,7 +261,7 @@ const ExpenditureLogsTable: React.FC = () => {
                           {moment(row.paidAt).format('YYYY-MM-DD')}
                         </TableCell>
                         <TableCell align='left'>
-                          <TagAttached row={row} />
+                          <TagAttachedToExpenditure row={row} />
                         </TableCell>
                         <TableCell align='left'>
                           <EdtingExpenditureLog expenditureLog={row} />

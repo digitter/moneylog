@@ -83,4 +83,11 @@ export default class IncomeLog {
   static extractIds(incomeLogs: IncomeLog[]): number[] {
     return incomeLogs.map(log => log.id)
   }
+
+  static updateUsingTagIds(log: IncomeLog, usingTagIds: number[]): IncomeLog {
+    const incomeLog = Object.assign({}, log)
+    incomeLog.tagIds = usingTagIds
+
+    return incomeLog
+  }
 }
