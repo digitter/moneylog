@@ -4,9 +4,8 @@ export default class ExpenditureLog {
     public amount: number,
     public content: string,
     public paidAt?: Date,
+    public tagIds?: number[],
     readonly id?: number,
-    public createdAt?: Date,
-    public updatedAt?: Date
   ) {}
 
   // Request
@@ -16,6 +15,7 @@ export default class ExpenditureLog {
       title,
       amount,
       content,
+      tagIds: tag_ids,
       paidAt: paid_at
     } = params
 
@@ -23,7 +23,8 @@ export default class ExpenditureLog {
      title,
      amount,
      content,
-     paid_at
+     paid_at,
+     tag_ids
    )
   }
 
@@ -38,6 +39,7 @@ export default class ExpenditureLog {
       amount,
       content,
       paid_at: paidAt,
+      tag_ids: tagIds
     } = jsonApiFormat.data.attributes
 
     return new ExpenditureLog(
@@ -45,6 +47,7 @@ export default class ExpenditureLog {
       amount,
       content,
       paidAt,
+      tagIds,
       id
     )
   }
@@ -62,7 +65,8 @@ export default class ExpenditureLog {
         title,
         amount,
         content,
-        paid_at: paidAt
+        paid_at: paidAt,
+        tag_ids: tagIds
       } = expenditureLog.attributes
 
       return {
@@ -70,7 +74,8 @@ export default class ExpenditureLog {
         title,
         amount,
         content,
-        paidAt
+        paidAt,
+        tagIds
       }
     })
 
@@ -79,5 +84,12 @@ export default class ExpenditureLog {
 
   static extractIds(expenditureLogs: ExpenditureLog[]): number[] {
     return expenditureLogs.map(log => log.id)
+  }
+
+  static updateUsingTagIds(log: ExpenditureLog, usingTagIds: number[]): ExpenditureLog {
+    const expenditureLog = Object.assign({}, log)
+    expenditureLog.tagIds = usingTagIds
+
+    return expenditureLog
   }
 }

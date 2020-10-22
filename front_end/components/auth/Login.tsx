@@ -20,6 +20,7 @@ import Asset from '../../models/Asset'
 import ExpenditureLog from '../../models/ExpenditureLog'
 import IncomeLog from '../../models/IncomeLog'
 import MonthlyExpenditure from '../../models/MonthlyExpenditure'
+import Tag from '../../models/Tag'
 // modules
 import { editUser } from '../../modules/UserModule'
 import { editAssets } from '../../modules/AssetModule'
@@ -28,6 +29,7 @@ import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/
 import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule'
 import { history } from '../../modules/store'
 import { Link } from 'react-router-dom'
+import { editTags, tagActionTypes } from '../../modules/TagModule'
 
 const { useState } = React
 
@@ -100,6 +102,7 @@ const Login: React.FC<Props> = () => {
         dispatch(editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat)))
         dispatch(editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat)))
         dispatch(editMonthlyExpenditures(monthlyActionTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat)))
+        dispatch(editTags(tagActionTypes.initialize, Tag.fromIncluded(jsonApiFormat)))
       })
       .then(() => {
         history.replace('/')

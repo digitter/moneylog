@@ -21,9 +21,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import CreateExpenditureLogModal from './CreateExpenditureLogModal';
-import LoadingIcon from '../../LoadingIcon';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
+import TagAttachedToExpenditure from './TagAttachedToExpenditure';
 
 interface tableData {
   title: string;
@@ -119,6 +119,7 @@ const ExpenditureLogsTable: React.FC = () => {
         log.amount,
         log.content,
         log.paidAt,
+        log.tagIds,
         log.id
       )
     })
@@ -154,7 +155,6 @@ const ExpenditureLogsTable: React.FC = () => {
 
     if (selectedIndex === -1) { // Adding: 存在しない場合
       newSelected = newSelected.concat(logIds, expenditureLog.id)
-
       setCheckedLogs(checkedLogs.concat(expenditureLog))
     } else if (selectedIndex === 0) { // Removing: 最初に存在する場合
       newSelected = newSelected.concat(logIds.slice(1))
@@ -202,99 +202,99 @@ const ExpenditureLogsTable: React.FC = () => {
 
   return (
     <React.Fragment>
+      <div className={classes.root}>
+        <CreateExpenditureLogModal />
 
-        {expenditureLogs ? (
-          <div className={classes.root}>
-            <CreateExpenditureLogModal />
-
-            <Paper className={classes.paper}>
-              <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
-              <TableContainer className={classes.container}>
-                <Table
-                  stickyHeader
-                  className={classes.table}
-                  aria-labelledby="tableTitle"
-                  size={dense ? 'small' : 'medium'}
-                  aria-label="enhanced table"
-                >
-                  <ExpenditureTableHead
-                    classes={classes}
-                    numSelected={checkedLogs.length}
-                    order={order}
-                    orderBy={orderBy}
-                    onSelectAllClick={handleSelectAllClick}
-                    onRequestSort={handleRequestSort}
-                    rowCount={rows.length}
-                  />
-                  <TableBody>
-                    {stableSort(rows, getComparator(order, orderBy))
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((row: any, index: number) => {
-
-                        const isItemSelected = isSelected(row);
-                        const labelId = `enhanced-table-checkbox-${index}`;
-
-                        return (
-                          <TableRow
-                            hover
-                            role="checkbox"
-                            aria-checked={isItemSelected}
-                            tabIndex={-1}
-                            key={row.id}
-                            selected={isItemSelected}
-                          >
-                            <TableCell padding="checkbox">
-                              <Checkbox
-                                checked={isItemSelected}
-                                inputProps={{ 'aria-labelledby': labelId }}
-                                onClick={(event) => handleCheckClick(event, row)}
-                              />
-                            </TableCell>
-                            <TableCell align='left'>
-                              {row.title}
-                            </TableCell>
-                            <TableCell align='left'>
-                              {row.amount}
-                            </TableCell>
-                            <TableCell align='left'>
-                              {row.content}
-                            </TableCell>
-                            <TableCell align='left'>
-                              {moment(row.paidAt).format('YYYY-MM-DD')}
-                            </TableCell>
-                            <TableCell align='left'>
-                              <EdtingExpenditureLog expenditureLog={row} />
-                            </TableCell>
-                            <TableCell align='left'>
-                              <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[1, 7, expenditureLogs.length]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
+        <Paper className={classes.paper}>
+          <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
+          <TableContainer className={classes.container}>
+            <Table
+              stickyHeader
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              size={dense ? 'small' : 'medium'}
+              aria-label="enhanced table"
+            >
+              <ExpenditureTableHead
+                classes={classes}
+                numSelected={checkedLogs.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
               />
-            </Paper>
-            <FormControlLabel
-              control={<Switch checked={dense} onChange={handleChangeDense} />}
-              label="Dense padding"
-            />
-          </div>)
-        : <LoadingIcon />}
+              <TableBody>
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row: any, index: number) => {
+
+                    const isItemSelected = isSelected(row);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                            onClick={(event) => handleCheckClick(event, row)}
+                          />
+                        </TableCell>
+                        <TableCell align='left'>
+                          {row.title}
+                        </TableCell>
+                        <TableCell align='left'>
+                          {row.amount}
+                        </TableCell>
+                        <TableCell align='left'>
+                          {row.content}
+                        </TableCell>
+                        <TableCell align='left'>
+                          {moment(row.paidAt).format('YYYY-MM-DD')}
+                        </TableCell>
+                        <TableCell align='left'>
+                          <TagAttachedToExpenditure row={row} />
+                        </TableCell>
+                        <TableCell align='left'>
+                          <EdtingExpenditureLog expenditureLog={row} />
+                        </TableCell>
+                        <TableCell align='left'>
+                          <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[1, 7, expenditureLogs.length]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </Paper>
+        <FormControlLabel
+          control={<Switch checked={dense} onChange={handleChangeDense} />}
+          label="Dense padding"
+        />
+      </div>
     </React.Fragment>
   );
 }

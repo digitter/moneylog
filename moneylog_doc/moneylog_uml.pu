@@ -85,9 +85,9 @@
   class Tag {
     id
     user_id (foreign_key)
-    expenditure_log_id (optional_foreign_key)
-    income_log_id (optional_foreign_key)
     name
+    color
+    description
     created_at
     updated_at
   }

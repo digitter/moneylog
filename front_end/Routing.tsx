@@ -14,6 +14,7 @@ import ExpenditureLogsTable from './components/logs/expenditure/ExpenditureLogsT
 import IncomeLogsTable from './components/logs/income/IncomeLogsTable'
 import MonthlyExpenditureTable from './components/monthly/MonthlyExpendiitureTable'
 import AssetPage from './components/asset/AssetPage'
+import TagManagement from './components/tags/TagManagement'
 import { History } from 'history'
 
 interface Props {
@@ -47,6 +48,8 @@ class Routing extends React.Component<Props, State> {
               <Route path='income_logs/:id' component={Hello} />
 
               <Route path='/monthly_expenditures' component={MonthlyExpenditureTable} />
+
+              <Route path='/tags' component={TagManagement} />
 
               <Route path="*" render={() => <h1>No contents</h1>} />
             </Switch>

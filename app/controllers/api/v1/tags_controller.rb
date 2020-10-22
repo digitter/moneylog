@@ -24,57 +24,61 @@ module Api
         end
       end
 
-      # TODO: フロントRedux Storeへ反映
+      # 1 or 2のどちらかが実行される。
       def relate_to_expenditure_log
-        tag = @current_user.tags.find(params[:id])
+        log = @current_user.expenditure_logs.find(log_id)
+        using_tag_relations = log.tag_relations
+        using_tag_ids = using_tag_relations.pluck(:tag_id)
 
-        return response_bad_request if expenditure_log_id.blank? ||
-                                       tag.associated_with_expenditure?(expenditure_log_id) ||
-                                       !@current_user.expenditure_logs.exists?(id: expenditure_log_id)
+        # 1: ログに紐づくタグリレーションを全て削除
+        using_tag_relations.destroy_all if params[:ids].blank?
 
-        if TagRelation.create(tag_id: tag.id, expenditure_log_id: expenditure_log_id)
-          response_success(:tag, :relate_to_expenditure_log)
-        else
-          response_internal_server_error
+        # 2: ログに紐づく新しいタグリレーションを作成し、
+        # 外されたタグのリレーションを削除
+        if params[:ids].present?
+          params[:ids].each do |tag_id|
+            TagRelation.create!(
+              tag_id: tag_id,
+              expenditure_log_id: log_id) unless using_tag_ids.include?(tag_id)
+          end
+
+          using_tag_relations.each do |r|
+            using_tag_relations.find_by(tag_id: r.tag_id).try(:destroy!) unless params[:ids].include?(r.tag_id)
+          end
         end
       end
 
       # TODO: フロントRedux Storeへ反映
       def relate_to_income_log
-        tag = @current_user.tags.find(params[:id])
+        log = @current_user.income_logs.find(log_id)
+        using_tag_relations = log.tag_relations
+        using_tag_ids = using_tag_relations.pluck(:tag_id)
 
-        return response_bad_request if income_log_id.blank? ||
-                                       tag.associated_with_income?(income_log_id) ||
-                                       !@current_user.income_logs.exists?(id: income_log_id)
+        # 1: ログに紐づくタグリレーションを全て削除
+        using_tag_relations.destroy_all if params[:ids].blank?
 
-        if TagRelation.create(tag_id: tag.id, income_log_id: income_log_id)
-          response_success(:tag, :relate_to_income_log)
-        else
-          response_internal_server_error
-        end
-      end
+        # 2: ログに紐づく新しいタグリレーションを作成し、
+        # 外されたタグのリレーションを削除
+        if params[:ids].present?
+          params[:ids].each do |tag_id|
+            TagRelation.create!(
+              tag_id: tag_id,
+              income_log_id: log_id) unless using_tag_ids.include?(tag_id)
+          end
 
-      def destroy
-        tag = @current_user.tags.find(params[:id])
-
-        if tag.destroy
-          response_success(:tag, :destroy)
-        else
-          response_internal_server_error
+          using_tag_relations.each do |r|
+            using_tag_relations.find_by(tag_id: r.tag_id).try(:destroy!) unless params[:ids].include?(r.tag_id)
+          end
         end
       end
 
       private
         def tag_params
-          params.require(:tag).permit(:name)
+          params.require(:tag).permit(:name, :color, :description)
         end
 
-        def expenditure_log_id
-          params.require(:expenditure_log).require(:id)
-        end
-
-        def income_log_id
-          params.require(:income_log).require(:id)
+        def log_id
+          params[:id]
         end
 
         def to_json_api_format(tag)

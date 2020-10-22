@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useDispatch } from 'react-redux'
+import { history } from '../../modules/store'
 // requests
 import { userSignup } from '../../services/UserService';
 // models
@@ -22,14 +24,14 @@ import MonthlyExpenditure from '../../models/MonthlyExpenditure';
 import ExpenditureLog from '../../models/ExpenditureLog';
 import IncomeLog from '../../models/IncomeLog';
 import { successMessage, succesmMessages } from '../GlobalMessage';
+import Tag from '../../models/Tag';
 // module
 import { editUser } from '../../modules/UserModule';
 import { editAssets } from '../../modules/AssetModule';
 import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../modules/ExpenditureLogModule';
 import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule';
 import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule';
-import { useDispatch } from 'react-redux'
-import { history } from '../../modules/store'
+import { editTags, tagActionTypes } from '../../modules/TagModule';
 
 
 const { useState } = React
@@ -114,6 +116,7 @@ const SignUp: React.FC<Props> = () => {
         dispatch(editMonthlyExpenditures(monthlyActionTypes.initialize, MonthlyExpenditure.fromIncluded(jsonApiFormat)))
         dispatch(editExpenditureLogs(expenditureActionTypes.initialize, ExpenditureLog.fromIncluded(jsonApiFormat)))
         dispatch(editIncomeLogs(incomeActionTypes.initialize, IncomeLog.fromIncluded(jsonApiFormat)))
+        dispatch(editTags(tagActionTypes.initialize, Tag.fromIncluded(jsonApiFormat)))
       })
       .then(() => {
         history.replace('/')

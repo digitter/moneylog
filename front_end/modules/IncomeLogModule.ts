@@ -7,7 +7,8 @@ export const actionTypes = {
   create: 'CREATE_INCOME_LOG',
   update: 'UPDATE_INCOME_LOG',
   destroy: 'DESTROY_INCOME_LOG',
-  bulkDestroy: 'BULK_DESTROY_INCOME_LOGS'
+  bulkDestroy: 'BULK_DESTROY_INCOME_LOGS',
+  updateTagRelated: 'UPDATE_TAGS_RELATED_TO_INCOME'
 }
 
 // Action Creators
@@ -50,6 +51,7 @@ export default function IncomeLogsReducer(state = [], action: fluxAction) {
     case actionTypes.create:
       return [action.payload.params, ...action.payload.existingLogs]
     case actionTypes.update:
+    case actionTypes.updateTagRelated:
       return action.payload.existingLogs.map((log: IncomeLog) => {
         if (log.id == action.payload.params.id) return action.payload.params;
         return log;
