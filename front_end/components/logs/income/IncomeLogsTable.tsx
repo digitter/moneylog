@@ -70,7 +70,7 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      maxHeight: 671
+      maxHeight: 671,
     },
     root: {
       width: '90%',
@@ -95,15 +95,16 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 1,
     },
     contentsTitle: {
-      color: '#26323',
+      background: '#263238',
+      color: 'white',
       textAlign: 'center',
-      letterSpacing: 3,
-      borderRadius: 5,
+      letterSpacing: 2,
+      borderRadius: 2,
       display: 'inline-block',
-      padding: 10,
+      padding: 5,
       fontWeight:  10,
-      borderBottom: '3px solid #263238',
-      borderRight: '3px solid #263238',
+      borderLeft: '5px solid #818ed3',
+      borderRight: '5px solid #818ed3',
     },
   }),
 );

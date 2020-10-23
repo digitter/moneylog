@@ -40,9 +40,14 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#f6f8fa',
     },
     header: {
-      borderBottom: '1px solid #e1e4e8',
       padding: '8px 10px',
       fontWeight: 600,
+      letterSpacing: 2,
+      background: '#263238',
+      color: 'white',
+      borderRadius: 2,
+      borderLeft: '5px solid #818ed3',
+      borderRight: '5px solid #818ed3',
     },
     inputBase: {
       padding: 10,

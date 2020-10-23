@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -40,11 +40,11 @@ export default function Header() {
           </Typography>
 
           <Typography variant="h6" className={classes.title}>
-            <Link to='/' style={{textDecoration: 'none', color: 'white', fontWeight: 500}}>
-              <Box letterSpacing={5}>
+            <Box letterSpacing={5}>
+              <Link to='/' style={{textDecoration: 'none', color: 'white', fontWeight: 500}}>
                 moneylog
-              </Box>
-            </Link>
+              </Link>
+            </Box>
           </Typography>
           <Typography variant="subtitle1" className={classes.menuButton}>
             <Link to={`/settings`} style={{textDecoration: 'none', color: 'white'}}>

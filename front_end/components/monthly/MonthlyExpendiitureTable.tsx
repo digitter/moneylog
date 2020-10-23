@@ -24,16 +24,17 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
-  subtitle: {
-    color: '#26323',
+  contentsTitle: {
     textAlign: 'center',
-    letterSpacing: 3,
-    borderRadius: 5,
+    letterSpacing: 2,
+    borderRadius: 2,
     display: 'inline-block',
-    padding: 10,
+    padding: 5,
     fontWeight:  10,
-    borderBottom: '3px solid #263238',
-    borderRight: '3px solid #263238',
+    background: '#263238',
+    color: 'white',
+    borderLeft: '5px solid #818ed3',
+    borderRight: '5px solid #818ed3',
   },
 });
 
@@ -69,7 +70,7 @@ const MonthlyExpenditureTable: React.FC<Props> = props => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <h3 className={classes.subtitle}>Monthly Expenditures</h3>
+        <h3 className={classes.contentsTitle}>Monthly Expenditures</h3>
 
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
