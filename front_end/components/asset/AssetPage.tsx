@@ -6,17 +6,16 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   contentsTitle: {
-    background: '#263238',
-    color: 'white',
-    textAlign: 'center',
-    letterSpacing: 2,
-    borderRadius: 2,
     display: 'inline-block',
+    textAlign: 'center',
+    borderRadius: 2,
     padding: 5,
     fontWeight:  10,
+    letterSpacing: 2,
+    background: '#263238',
+    color: 'white',
     borderLeft: '5px solid #818ed3',
     borderRight: '5px solid #818ed3',
-    marginBottom: 10,
   },
 }))
 
