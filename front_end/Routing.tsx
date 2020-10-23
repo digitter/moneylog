@@ -15,9 +15,10 @@ import IncomeLogsTable from './components/logs/income/IncomeLogsTable'
 import MonthlyExpenditureTable from './components/monthly/MonthlyExpendiitureTable'
 import AssetPage from './components/asset/AssetPage'
 import TagManagement from './components/tags/TagManagement'
+import { History } from 'history'
 
 interface Props {
-  history: any
+  history: History
 }
 interface State {
 }
