@@ -48,32 +48,31 @@ const CreateIncomeLogModal: React.FC<Props> = props => {
 
   return (
     <React.Fragment>
-      <h2>Create IncomeLog</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            name='title'
-            placeholder='Title'
-            defaultValue ={title}
-            onChange={handleIncomeLogChange}
-          />
+      <form onSubmit={handleSubmit}>
+        <input
+          name='title'
+          placeholder='Title'
+          defaultValue ={title}
+          onChange={handleIncomeLogChange}
+        />
 
-          <input
-            type='number'
-            name='amount'
-            placeholder='Amount'
-            defaultValue ={amount}
-            onChange={handleIncomeLogChange}
-          />
+        <input
+          type='number'
+          name='amount'
+          placeholder='Amount'
+          defaultValue ={amount}
+          onChange={handleIncomeLogChange}
+        />
 
-          <textarea
-            name='content'
-            placeholder='Content'
-            defaultValue ={content}
-            onChange={handleIncomeLogChange}
-          />
+        <textarea
+          name='content'
+          placeholder='Content'
+          defaultValue ={content}
+          onChange={handleIncomeLogChange}
+        />
 
-          <button type='submit'>Create!</button>
-        </form>
+        <button type='submit'>Create!</button>
+      </form>
     </React.Fragment>
   )
 }

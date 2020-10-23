@@ -92,6 +92,17 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 20,
       width: 1,
     },
+    contentsTitle: {
+      color: '#26323',
+      textAlign: 'center',
+      letterSpacing: 3,
+      borderRadius: 5,
+      display: 'inline-block',
+      padding: 10,
+      fontWeight:  10,
+      borderBottom: '3px solid #263238',
+      borderRight: '3px solid #263238',
+    },
   }),
 );
 
@@ -203,6 +214,7 @@ const ExpenditureLogsTable: React.FC = () => {
   return (
     <React.Fragment>
       <div className={classes.root}>
+        <h3 className={classes.contentsTitle}>expenditure logs</h3>
         <CreateExpenditureLogModal />
 
         <Paper className={classes.paper}>

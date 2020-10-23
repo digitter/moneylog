@@ -23,7 +23,18 @@ const useStyles = makeStyles({
   },
   table: {
     minWidth: 650,
-  }
+  },
+  subtitle: {
+    color: '#26323',
+    textAlign: 'center',
+    letterSpacing: 3,
+    borderRadius: 5,
+    display: 'inline-block',
+    padding: 10,
+    fontWeight:  10,
+    borderBottom: '3px solid #263238',
+    borderRight: '3px solid #263238',
+  },
 });
 
 interface Props {}
@@ -58,7 +69,7 @@ const MonthlyExpenditureTable: React.FC<Props> = props => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <h2>Monthly Expenditures</h2>
+        <h3 className={classes.subtitle}>Monthly Expenditures</h3>
 
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">

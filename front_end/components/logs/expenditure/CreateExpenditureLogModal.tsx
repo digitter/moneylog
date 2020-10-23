@@ -45,32 +45,31 @@ const CreateExpenditureLogModal: React.FC = () => {
 
   return (
     <React.Fragment>
-      <h2>Create ExpenditureLog</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            name='title'
-            placeholder='Title'
-            defaultValue ={title}
-            onChange={handleExpenditureLogChange}
-          />
+      <form onSubmit={handleSubmit}>
+        <input
+          name='title'
+          placeholder='Title'
+          defaultValue ={title}
+          onChange={handleExpenditureLogChange}
+        />
 
-          <input
-            type='number'
-            name='amount'
-            placeholder='Amount'
-            defaultValue ={amount}
-            onChange={handleExpenditureLogChange}
-          />
+        <input
+          type='number'
+          name='amount'
+          placeholder='Amount'
+          defaultValue ={amount}
+          onChange={handleExpenditureLogChange}
+        />
 
-          <textarea
-            name='content'
-            placeholder='Content'
-            defaultValue ={content}
-            onChange={handleExpenditureLogChange}
-          />
+        <textarea
+          name='content'
+          placeholder='Content'
+          defaultValue ={content}
+          onChange={handleExpenditureLogChange}
+        />
 
-          <button type='submit'>Create!</button>
-        </form>
+        <button type='submit'>Create!</button>
+      </form>
     </React.Fragment>
   )
 }

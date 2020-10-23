@@ -7,8 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
-import { userSignout } from '../services/UserService';
-import { editUser } from '../modules/UserModule';
 import ToggleSideBar from './ToggleSideBar';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Header() {
   const classes = useStyles();
   const user = useSelector(state => state.user)
-  const dispatch = useDispatch()
 
   return (
     <div className={classes.root} style={{marginBottom: "65px"}}>

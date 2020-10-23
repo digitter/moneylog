@@ -152,7 +152,7 @@ const TagList: React.FC = () => {
           : <TagEditingModal ref={myRef} tag={selectedTag} />}
 
         <div className={classes.popper}>
-          <div className={classes.header}>Search by tag name</div>
+          <div className={classes.header}>Tag list</div>
           <Autocomplete
             open
             multiple
@@ -189,7 +189,7 @@ const TagList: React.FC = () => {
               <InputBase
                 ref={params.InputProps.ref}
                 inputProps={params.inputProps}
-                autoFocus
+                placeholder="Search by tag name"
                 className={classes.inputBase}
               />
             )}
