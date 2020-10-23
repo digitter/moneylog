@@ -19,7 +19,7 @@ import { successMessage, errorMessage, succesmMessages, errorMessages } from '..
 const useStyles = makeStyles({
   root: {
     width: '90%',
-    margin: '0 auto'
+    margin: '30px auto'
   },
   table: {
     minWidth: 650,
@@ -29,6 +29,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     borderRadius: 2,
     padding: 5,
+    margin: '20px auto',
     fontWeight:  10,
     letterSpacing: 2,
     background: '#263238',

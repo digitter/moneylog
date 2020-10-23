@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     root: {
       width: '90%',
-      margin: '0 auto'
+      margin: '30px auto'
     },
     paper: {
       width: '100%',
@@ -102,6 +102,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 2,
       display: 'inline-block',
       padding: 5,
+      margin: '20px auto',
       fontWeight:  10,
       borderLeft: '5px solid #818ed3',
       borderRight: '5px solid #818ed3',
@@ -217,103 +218,103 @@ const IncomeLogsTable: React.FC = () => {
 
   return (
     <React.Fragment>
+      {incomeLogs ? (
+        <div className={classes.root}>
+          <CreateIncomeLogModal />
 
-        {incomeLogs ? (
-          <div className={classes.root}>
-            <h3 className={classes.contentsTitle}>Income logs</h3>
-            <CreateIncomeLogModal />
+          <h3 className={classes.contentsTitle}>Income logs</h3>
 
-            <Paper className={classes.paper}>
-              <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
-              <TableContainer className={classes.container}>
-                <Table
-                  stickyHeader
-                  className={classes.table}
-                  aria-labelledby="tableTitle"
-                  size={dense ? 'small' : 'medium'}
-                  aria-label="enhanced table"
-                >
-                  <IncomeTableHead
-                    classes={classes}
-                    numSelected={checkedLogs.length}
-                    order={order}
-                    orderBy={orderBy}
-                    onSelectAllClick={handleSelectAllClick}
-                    onRequestSort={handleRequestSort}
-                    rowCount={rows.length}
-                  />
-                  <TableBody>
-                    {stableSort(rows, getComparator(order, orderBy))
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((row: any, index: number) => {
+          <Paper className={classes.paper}>
+            <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
+            <TableContainer className={classes.container}>
+              <Table
+                stickyHeader
+                className={classes.table}
+                aria-labelledby="tableTitle"
+                size={dense ? 'small' : 'medium'}
+                aria-label="enhanced table"
+              >
+                <IncomeTableHead
+                  classes={classes}
+                  numSelected={checkedLogs.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows.length}
+                />
+                <TableBody>
+                  {stableSort(rows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row: any, index: number) => {
 
-                        const isItemSelected = isSelected(row);
-                        const labelId = `enhanced-table-checkbox-${index}`;
+                      const isItemSelected = isSelected(row);
+                      const labelId = `enhanced-table-checkbox-${index}`;
 
-                        return (
-                          <TableRow
-                            hover
-                            role="checkbox"
-                            aria-checked={isItemSelected}
-                            tabIndex={-1}
-                            key={row.id}
-                            selected={isItemSelected}
-                          >
-                            <TableCell padding="checkbox">
-                              <Checkbox
-                                checked={isItemSelected}
-                                inputProps={{ 'aria-labelledby': labelId }}
-                                onClick={(event) => handleCheckClick(event, row)}
-                              />
-                            </TableCell>
-                            <TableCell align="left">
-                              {row.title}
-                            </TableCell>
-                            <TableCell align="left">
-                              {row.amount}
-                            </TableCell>
-                            <TableCell align="left">
-                              {row.content}
-                            </TableCell>
-                            <TableCell align="left">
-                              {moment(row.earnedAt).format('YYYY-MM-DD')}
-                            </TableCell>
-                            <TableCell align="left">
-                              <TagAttachedToIncome row={row} />
-                            </TableCell>
-                            <TableCell align="left">
-                              <EdtingIncomeLog incomeLog={row} />
-                            </TableCell>
-                            <TableCell align="left">
-                              <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[1, 7, incomeLogs.length]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-              />
-            </Paper>
-            <FormControlLabel
-              control={<Switch checked={dense} onChange={handleChangeDense} />}
-              label="Dense padding"
+                      return (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.id}
+                          selected={isItemSelected}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={isItemSelected}
+                              inputProps={{ 'aria-labelledby': labelId }}
+                              onClick={(event) => handleCheckClick(event, row)}
+                            />
+                          </TableCell>
+                          <TableCell align="left">
+                            {row.title}
+                          </TableCell>
+                          <TableCell align="left">
+                            {row.amount}
+                          </TableCell>
+                          <TableCell align="left">
+                            {row.content}
+                          </TableCell>
+                          <TableCell align="left">
+                            {moment(row.earnedAt).format('YYYY-MM-DD')}
+                          </TableCell>
+                          <TableCell align="left">
+                            <TagAttachedToIncome row={row} />
+                          </TableCell>
+                          <TableCell align="left">
+                            <EdtingIncomeLog incomeLog={row} />
+                          </TableCell>
+                          <TableCell align="left">
+                            <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[1, 7, incomeLogs.length]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-          </div>)
-        : <LoadingIcon />}
+          </Paper>
+          <FormControlLabel
+            control={<Switch checked={dense} onChange={handleChangeDense} />}
+            label="Dense padding"
+          />
+        </div>)
+      : <LoadingIcon />}
     </React.Fragment>
   );
 }
