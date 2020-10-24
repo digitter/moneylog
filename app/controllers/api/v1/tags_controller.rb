@@ -24,6 +24,16 @@ module Api
         end
       end
 
+      def destroy
+        tag = @current_user.tags.find(params[:id])
+
+        if tag.destroy
+          response_success(:tag, :destroy)
+        else
+          response_internal_server_error
+        end
+      end
+
       # 1 or 2のどちらかが実行される。
       def relate_to_expenditure_log
         log = @current_user.expenditure_logs.find(log_id)
