@@ -11,6 +11,7 @@ interface tableData {
   amount: number;
   content: string;
   earnedAt: Date;
+  tag: string;
   edit?: string;
   delete?: string;
 }
@@ -84,6 +85,7 @@ const headCells: HeadCell[] = [
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount (yen)' },
   { id: 'content', numeric: false, disablePadding: false, label: 'Content' },
   { id: 'earnedAt', numeric: true, disablePadding: false, label: 'Income Date' },
+  { id: 'tag', numeric: false, disablePadding: false, label: 'Tag' },
   { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];

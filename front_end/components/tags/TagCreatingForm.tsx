@@ -48,7 +48,7 @@ const TagCreatingForm: React.FC = () => {
     <React.Fragment>
       <div style={{height: 150, margin: '10px 10px', border: '1px solid #E8E8E9'}}>
         <form onSubmit={handleSubmit}>
-          <div style={{background: '#547599', color: 'white', paddingLeft: '20px', borderRadius: '2px'}}>
+          <div style={{background: '#263238', color: 'white', paddingLeft: '20px', borderRadius: '2px'}}>
             Create tag
           </div>
           <Grid container spacing={2} alignItems="flex-end">

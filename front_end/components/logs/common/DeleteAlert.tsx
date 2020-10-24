@@ -9,6 +9,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import IconButton from '@material-ui/core/IconButton';
 import IncomeLog from '../../../models/IncomeLog';
 import ExpenditureLog from '../../../models/ExpenditureLog';
+import Tooltip from '@material-ui/core/Tooltip';
 
 interface Props {
   row: IncomeLog | ExpenditureLog
@@ -31,9 +32,11 @@ const DeleteAlert: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <IconButton aria-label="delete" onClick={handleClickOpen}>
-        <DeleteForeverIcon />
-      </IconButton>
+      <Tooltip title="Delete log">
+        <IconButton aria-label="delete" onClick={handleClickOpen}>
+          <DeleteForeverIcon />
+        </IconButton>
+      </Tooltip>
 
       <Dialog
         open={open}
