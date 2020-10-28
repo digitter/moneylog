@@ -125,21 +125,12 @@ const IncomeLogsTable: React.FC = () => {
   const incomeLogs = useSelector(state => state.incomeLogs)
   const dispatch = useDispatch()
 
+  const [totalAmount, setTotalAmount] = useState<number>(null)
+
   React.useEffect(() => {
     setRowsPerPage(incomeLogs.length)
-
-    const logs = incomeLogs.map((incomeLog: IncomeLog) => {
-      return new IncomeLog(
-        incomeLog.title,
-        incomeLog.amount,
-        incomeLog.content,
-        incomeLog.earnedAt,
-        incomeLog.tagIds,
-        incomeLog.id
-      )
-    })
-
-    setRows(logs)
+    setRows(incomeLogs)
+    setTotalAmount(IncomeLog.calculateAmount(incomeLogs))
   }, [incomeLogs])
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof tableData) => {
@@ -224,9 +215,9 @@ const IncomeLogsTable: React.FC = () => {
 
           <CreateIncomeLogModal />
 
-          <div>
-            <h4 style={{marginLeft: 20, color: '#535353'}}>58400¥</h4>
-          </div>
+          <h4 style={{marginLeft: 20, color: '#535353'}}>
+            {totalAmount}¥
+          </h4>
 
           <Paper className={classes.paper}>
             <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />

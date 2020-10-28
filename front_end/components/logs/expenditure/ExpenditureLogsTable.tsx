@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 2,
       display: 'inline-block',
       padding: 5,
-      margin: '20px 20px',
+      margin: 20,
       fontWeight:  10,
       borderLeft: '5px solid #818ed3',
       borderRight: '5px solid #818ed3',
@@ -123,21 +123,12 @@ const ExpenditureLogsTable: React.FC = () => {
   const expenditureLogs = useSelector(state => state.expenditureLogs)
   const dispatch = useDispatch()
 
+  const [totalAmount, setTotalAmount] = useState<number>(null)
+
   React.useEffect(() => {
     setRowsPerPage(expenditureLogs.length)
-
-    const logs = expenditureLogs.map((log: ExpenditureLog) => {
-      return new ExpenditureLog(
-        log.title,
-        log.amount,
-        log.content,
-        log.paidAt,
-        log.tagIds,
-        log.id
-      )
-    })
-
-    setRows(logs)
+    setRows(expenditureLogs)
+    setTotalAmount(ExpenditureLog.calculateAmount(expenditureLogs))
   }, [expenditureLogs])
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof tableData) => {
@@ -220,9 +211,9 @@ const ExpenditureLogsTable: React.FC = () => {
 
         <CreateExpenditureLogModal />
 
-        <div>
-          <h4 style={{marginLeft: 20, color: '#535353'}}>58400¥</h4>
-        </div>
+        <h4 style={{marginLeft: 20, color: '#535353'}}>
+          {totalAmount}¥
+        </h4>
 
         <Paper className={classes.paper}>
           <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />

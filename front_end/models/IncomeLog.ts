@@ -90,4 +90,15 @@ export default class IncomeLog {
 
     return incomeLog
   }
+
+  static extractAmount(logs: IncomeLog[]): number[] {
+    return logs.map(log => log.id)
+  }
+
+  static calculateAmount(logs: IncomeLog[]): number {
+    const allAmount = logs.map(log => log.amount)
+    return allAmount.reduce(this.reducer, 0)
+  }
+
+  static reducer = (sum: number, currentValue: number) => sum + currentValue
 }
