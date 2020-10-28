@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 2,
       display: 'inline-block',
       padding: 5,
-      margin: '20px auto',
+      margin: '20px 20px',
       fontWeight:  10,
       borderLeft: '5px solid #818ed3',
       borderRight: '5px solid #818ed3',
@@ -216,9 +216,13 @@ const ExpenditureLogsTable: React.FC = () => {
   return (
     <React.Fragment>
       <div className={classes.root}>
+        <h3 className={classes.contentsTitle}>expenditure logs</h3>
+
         <CreateExpenditureLogModal />
 
-        <h3 className={classes.contentsTitle}>expenditure logs</h3>
+        <div>
+          <h4 style={{marginLeft: 20, color: '#535353'}}>58400¥</h4>
+        </div>
 
         <Paper className={classes.paper}>
           <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />

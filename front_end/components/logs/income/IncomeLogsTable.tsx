@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 2,
       display: 'inline-block',
       padding: 5,
-      margin: '20px auto',
+      margin: 20,
       fontWeight:  10,
       borderLeft: '5px solid #818ed3',
       borderRight: '5px solid #818ed3',
@@ -220,9 +220,13 @@ const IncomeLogsTable: React.FC = () => {
     <React.Fragment>
       {incomeLogs ? (
         <div className={classes.root}>
+          <h3 className={classes.contentsTitle}>Income logs</h3>
+
           <CreateIncomeLogModal />
 
-          <h3 className={classes.contentsTitle}>Income logs</h3>
+          <div>
+            <h4 style={{marginLeft: 20, color: '#535353'}}>58400¥</h4>
+          </div>
 
           <Paper className={classes.paper}>
             <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
