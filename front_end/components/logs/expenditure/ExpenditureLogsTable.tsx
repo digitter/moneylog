@@ -110,8 +110,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ExpenditureLogsTable: React.FC = () => {
   const { useState } = React
-  const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof tableData>('amount')
+  const [order, setOrder] = useState<Order>('desc')
+  const [orderBy, setOrderBy] = useState<keyof tableData>('paidAt')
   const [page, setPage] = useState(0)
   const [dense, setDense] = useState(true)
   const [rowsPerPage, setRowsPerPage] = useState<number>(1)
@@ -211,9 +211,9 @@ const ExpenditureLogsTable: React.FC = () => {
 
         <CreateExpenditureLogModal />
 
-        <h4 style={{marginLeft: 20, color: '#535353'}}>
+        <strong style={{marginLeft: 20, color: '#535353'}}>
           {totalAmount}¥
-        </h4>
+        </strong>
 
         <Paper className={classes.paper}>
           <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
