@@ -45,7 +45,7 @@ export default function PaidAtPickers(props: Props) {
   return (
     <form className={classes.container} noValidate>
       <TextField
-        label="支払日"
+        label="paid at"
         type="date"
         defaultValue={moment(props.row.paidAt).format('YYYY-MM-DD')}
         className={classes.textField}

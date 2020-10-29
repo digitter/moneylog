@@ -18,6 +18,7 @@ import TagManagement from './components/tags/TagManagement'
 import { History } from 'history'
 import UserSettings from './components/user/UserSettings'
 import Cancellation from './components/auth/Cancellation'
+import NotificationLoading from './components/NotificationLoading'
 
 interface Props {
   history: History
@@ -30,6 +31,7 @@ class Routing extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <GlobalMessage />
+        <NotificationLoading />
 
         <Switch>
           <Route exact path='/signup' component={Registration} />

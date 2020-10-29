@@ -3,10 +3,10 @@ import * as moment from 'moment';
 import { useDispatch } from 'react-redux'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { succesmMessages, successMessage } from '../../GlobalMessage';
 import { updateIncomeLog } from '../../../services/IncomeLogService';
 import IncomeLog from '../../../models/IncomeLog';
 import { actionTypes, editIncomeLog } from '../../../modules/IncomeLogModule';
+import Notification, { success, error } from '../../../models/Notification';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,17 +36,18 @@ export default function EarnedAtPickers(props: Props) {
     updateIncomeLog(log)
       .then((incomeLog: IncomeLog) => {
         dispatch(editIncomeLog(actionTypes.update, incomeLog))
-        successMessage(succesmMessages.update)
+        Notification.successMessage(success.update)
       })
       .catch(response => {
         console.error(response)
+        Notification.errorMessage(error.update)
       })
   }
 
   return (
     <form className={classes.container} noValidate>
       <TextField
-        label="支払日"
+        label="earned at"
         type="date"
         defaultValue={moment(props.row.earnedAt).format('YYYY-MM-DD')}
         className={classes.textField}

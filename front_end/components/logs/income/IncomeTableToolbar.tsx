@@ -13,6 +13,8 @@ import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styl
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { setLoadingMessage } from '../../../modules/CommonModule';
+import Notification, { progress, success } from '../../../models/Notification';
 
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,13 +52,19 @@ const IncomeTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   const handleBulkDeleteClick = incomeLogs => {
     if (!window.confirm('Are you sure ?')) return
 
+    dispatch(setLoadingMessage(progress.bulkDestroy))
+
     bulkDeleteIncomeLogs(incomeLogs)
       .then((deleteIds: number[]) => {
         dispatch(editIncomeLogs(incomeLogActionTypes.bulkDestroy, deleteIds))
         props.setCheckedLogs([])
+        Notification.successMessage(success.bulkDestroy)
+        dispatch(setLoadingMessage(null))
       })
       .catch(response => {
         console.error(response)
+        Notification.errorMessage(success.bulkDestroy)
+        dispatch(setLoadingMessage(null))
       })
   }
 

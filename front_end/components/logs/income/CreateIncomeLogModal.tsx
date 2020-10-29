@@ -67,6 +67,7 @@ const CreateIncomeLogModal: React.FC<Props> = props => {
     createIncomeLog(log)
       .then((newIncomeLog: IncomeLog) => {
         dispatch(editIncomeLog(incomeActionTypes.create, newIncomeLog))
+        reset()
         successMessage(succesmMessages.create)
       })
       .catch(response => {
