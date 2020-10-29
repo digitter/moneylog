@@ -88,7 +88,7 @@ const CreateExpenditureLogModal: React.FC = () => {
           fullWidth
           variant="contained"
           color="inherit"
-          style={{width: 60, background: '#547599', color: 'white', fontSize: 10}}
+          style={{width: 60, background: '#547599', color: 'white', fontSize: 10, margin: 10}}
           onClick={handleOpen}
         >
           NEW

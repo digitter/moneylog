@@ -24,6 +24,7 @@ import CreateExpenditureLogModal from './CreateExpenditureLogModal';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToExpenditure from './TagAttachedToExpenditure';
+import { TextField } from '@material-ui/core';
 
 interface tableData {
   title: string;
@@ -98,9 +99,8 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       letterSpacing: 2,
       borderRadius: 2,
-      display: 'inline-block',
       padding: 5,
-      margin: 20,
+      margin: 10,
       fontWeight:  10,
       borderLeft: '5px solid #818ed3',
       borderRight: '5px solid #818ed3',
@@ -117,6 +117,7 @@ const ExpenditureLogsTable: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(1)
   const [checkedLogs, setCheckedLogs] = useState<ExpenditureLog[]>([])
   const [rows, setRows] = useState<ExpenditureLog[]>([])
+  const [currentYYMM, setCurrentYYMM] = useState<string>(moment(new Date()).format('YYYY-MM'))
 
   const classes = useStyles()
 
@@ -126,9 +127,11 @@ const ExpenditureLogsTable: React.FC = () => {
   const [totalAmount, setTotalAmount] = useState<number>(null)
 
   React.useEffect(() => {
-    setRowsPerPage(expenditureLogs.length)
-    setRows(expenditureLogs)
-    setTotalAmount(ExpenditureLog.calculateAmount(expenditureLogs))
+    const currentMonthLogs = ExpenditureLog.selectLogsByMonth(expenditureLogs, currentYYMM)
+
+    setRowsPerPage(currentMonthLogs.length)
+    setRows(currentMonthLogs)
+    setTotalAmount(ExpenditureLog.calculateAmount(currentMonthLogs))
   }, [expenditureLogs])
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof tableData) => {
@@ -204,14 +207,31 @@ const ExpenditureLogsTable: React.FC = () => {
       })
   }
 
+  const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const yymm: string = event.currentTarget.value
+    const selectedLogs = ExpenditureLog.selectLogsByMonth(expenditureLogs, yymm)
+
+    setRowsPerPage(selectedLogs.length)
+    setRows(selectedLogs)
+    setTotalAmount(ExpenditureLog.calculateAmount(selectedLogs))
+    setCurrentYYMM(yymm)
+  }
+
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <h3 className={classes.contentsTitle}>expenditure logs</h3>
+        <strong className={classes.contentsTitle}>expenditure logs</strong>
 
         <CreateExpenditureLogModal />
 
-        <strong style={{marginLeft: 20, color: '#535353'}}>
+       <TextField
+        type="month"
+        InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
+        defaultValue={currentYYMM}
+        onChange={handleMonthChange}
+       />
+
+        <strong style={{margin: 10, color: '#535353'}}>
           {totalAmount}¥
         </strong>
 

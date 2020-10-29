@@ -1,3 +1,5 @@
+import * as moment from 'moment'
+
 export default class ExpenditureLog {
   constructor(
     public title: string,
@@ -97,10 +99,16 @@ export default class ExpenditureLog {
     return logs.map(log => log.id)
   }
 
+  static selectLogsByMonth(logs: ExpenditureLog[], yymm: string) {
+    return logs.filter(log => {
+      if (moment(log.paidAt).format('YYYY-MM') === yymm) { return log }
+    })
+  }
+
+  static reducer = (sum: number, currentValue: number) => sum + currentValue
+
   static calculateAmount(logs: ExpenditureLog[]): number {
     const allAmount = logs.map(log => log.amount)
     return allAmount.reduce(this.reducer, 0)
   }
-
-  static reducer = (sum: number, currentValue: number) => sum + currentValue
 }
