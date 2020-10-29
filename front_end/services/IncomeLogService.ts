@@ -17,12 +17,12 @@ export const createIncomeLog = (incomeLog: IncomeLog) => {
   })
 }
 
-export const updateIncomeLog = (incomeLog: IncomeLog) => {
+export const updateIncomeLog = (log: IncomeLog) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/income_logs/${incomeLog.id}`
-    const updatedIncomeLog = IncomeLog.serialized(incomeLog)
+    const url = `http://localhost:3001/api/v1/income_logs/${log.id}`
+    const incomeLog = IncomeLog.serialized(log)
 
-    Axios.patch(url, updatedIncomeLog)
+    Axios.patch(url, incomeLog)
       .then(response => {
         const updatedLog = IncomeLog.fromJsonApi(response.data)
         resolve(updatedLog)

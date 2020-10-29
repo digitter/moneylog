@@ -11,22 +11,22 @@ export default class IncomeLog {
   ) {}
 
   // Request
-  static serialized(params: IncomeLog): IncomeLog {
+  static serialized(params: IncomeLog) {
     const {
       title,
       amount,
       content,
-      tagIds: tag_ids,
       earnedAt: earned_at,
     } = params
 
-   return new IncomeLog(
-     title,
-     amount,
-     content,
-     earned_at,
-    tag_ids
-   )
+    return {
+      income_log: {
+       title,
+       amount,
+       content,
+       earned_at,
+      }
+    }
   }
 
   // Response

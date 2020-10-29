@@ -17,10 +17,10 @@ export const createExpenditureLog = (expenditureLog: ExpenditureLog) => {
   })
 }
 
-export const updateExpenditureLog = (params: ExpenditureLog) => {
+export const updateExpenditureLog = (log: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/expenditure_logs/${params.id}`
-    const expenditureLog = ExpenditureLog.serialized(params)
+    const url = `http://localhost:3001/api/v1/expenditure_logs/${log.id}`
+    const expenditureLog = ExpenditureLog.serialized(log)
 
     Axios.patch(url, expenditureLog)
       .then(response => {

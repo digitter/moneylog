@@ -25,6 +25,7 @@ import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToExpenditure from './TagAttachedToExpenditure';
 import { TextField } from '@material-ui/core';
+import PaidAtPickers from './PaidAtpickers';
 
 interface tableData {
   title: string;
@@ -288,7 +289,7 @@ const ExpenditureLogsTable: React.FC = () => {
                           {row.content}
                         </TableCell>
                         <TableCell align='left'>
-                          {moment(row.paidAt).format('YYYY-MM-DD')}
+                          <PaidAtPickers row={row} />
                         </TableCell>
                         <TableCell align='left'>
                           <TagAttachedToExpenditure row={row} />

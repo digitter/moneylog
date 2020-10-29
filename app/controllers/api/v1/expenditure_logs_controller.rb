@@ -3,7 +3,7 @@ module Api
     class ExpenditureLogsController < ApplicationController
       include ResponseHelper
       before_action :authenticate_user!
-      before_action :check_association!, only: %i[update destroy]
+      before_action :set_own_log!, only: %i[update destroy]
 
       def create
         expenditure_log = @current_user.expenditure_logs.new(expenditure_log_params)
@@ -64,7 +64,7 @@ module Api
           params.permit(ids: []).require(:ids)
         end
 
-        def check_association!
+        def set_own_log!
           @expenditure_log = ExpenditureLog.find(params[:id])
           response_bad_request unless @current_user.id == @expenditure_log.user_id
         end

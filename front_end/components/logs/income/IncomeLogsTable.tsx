@@ -25,6 +25,7 @@ import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToIncome from './TagAttachedToIncome';
 import { TextField } from '@material-ui/core';
+import EarnedAtPickers from './EarnedAtPicker';
 
 interface tableData {
   title: string;
@@ -225,8 +226,6 @@ const IncomeLogsTable: React.FC = () => {
 
         <CreateIncomeLogModal />
 
-        <strong style={{margin: 10}}>selector</strong>
-
         <TextField
           type="month"
           InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
@@ -291,7 +290,7 @@ const IncomeLogsTable: React.FC = () => {
                           {row.content}
                         </TableCell>
                         <TableCell align="left">
-                          {moment(row.earnedAt).format('YYYY-MM-DD')}
+                          <EarnedAtPickers row={row} />
                         </TableCell>
                         <TableCell align="left">
                           <TagAttachedToIncome row={row} />

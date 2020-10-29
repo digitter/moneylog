@@ -12,22 +12,22 @@ export default class ExpenditureLog {
 
   // Request
   // snake ケースに変換
-  static serialized(params: ExpenditureLog): ExpenditureLog {
+  static serialized(params: ExpenditureLog) {
     const {
       title,
       amount,
       content,
-      tagIds: tag_ids,
       paidAt: paid_at
     } = params
 
-   return new ExpenditureLog(
-     title,
-     amount,
-     content,
-     paid_at,
-     tag_ids
-   )
+   return {
+     expenditure_log: {
+      title,
+      amount,
+      content,
+      paid_at,
+     }
+   }
   }
 
   // Response
