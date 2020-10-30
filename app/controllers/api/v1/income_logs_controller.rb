@@ -7,7 +7,6 @@ module Api
 
       def create
         income_log = @current_user.income_logs.new(income_log_params)
-        income_log.earned_at = Time.zone.now
 
         if income_log.save
           render json: to_json_api_format(income_log)

@@ -7,7 +7,6 @@ module Api
 
       def create
         expenditure_log = @current_user.expenditure_logs.new(expenditure_log_params)
-        expenditure_log.paid_at = Time.zone.now
 
         if expenditure_log.save
           render json: to_json_api_format(expenditure_log)
