@@ -3,10 +3,10 @@ import * as moment from 'moment';
 import { useDispatch } from 'react-redux'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { succesmMessages, successMessage } from '../../GlobalMessage';
-import { updateExpenditureLog } from '../../../services/ExpenditureLogService';
-import ExpenditureLog from '../../../models/ExpenditureLog';
-import { actionTypes, editExpenditureLog } from '../../../modules/ExpenditureLogModule';
+import { updateExpenditureLog } from '../../../../services/ExpenditureLogService';
+import ExpenditureLog from '../../../../models/ExpenditureLog';
+import { actionTypes, editExpenditureLog } from '../../../../modules/ExpenditureLogModule';
+import Notification, { error, success } from '../../../../models/Notification';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,37 +23,40 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  row: ExpenditureLog
+  expenditureLog: ExpenditureLog
 }
+
 export default function PaidAtPickers(props: Props) {
-  const classes = useStyles();
+  const classes = useStyles()
   const dispatch = useDispatch()
 
   const handleDateChange = event => {
-    const log = Object.assign(props.row, { paidAt: event.currentTarget.value })
+    const log = Object.assign(props.expenditureLog, { paidAt: event.currentTarget.value })
 
     updateExpenditureLog(log)
       .then((expenditureLog: ExpenditureLog) => {
         dispatch(editExpenditureLog(actionTypes.update, expenditureLog))
-        successMessage(succesmMessages.update)
+        Notification.successMessage(success.update)
       })
       .catch(response => {
         console.error(response)
+        Notification.errorMessage(error.update)
       })
   }
 
   return (
-    <form className={classes.container} noValidate>
+    <div className={classes.container}>
       <TextField
         label="paid at"
         type="date"
-        defaultValue={moment(props.row.paidAt).format('YYYY-MM-DD')}
+        defaultValue={moment(props.expenditureLog.paidAt).format('YYYY-MM-DD')}
+        value={moment(props.expenditureLog.paidAt).format('YYYY-MM-DD')}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}
         onChange={handleDateChange}
       />
-    </form>
+    </div>
   );
 }

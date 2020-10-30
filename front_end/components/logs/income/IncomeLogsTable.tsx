@@ -25,7 +25,7 @@ import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToIncome from './TagAttachedToIncome';
 import { TextField } from '@material-ui/core';
-import EarnedAtPickers from './EarnedAtPicker';
+import EarnedAtPickers from './common/EarnedAtPicker';
 
 interface tableData {
   title: string;
@@ -290,7 +290,7 @@ const IncomeLogsTable: React.FC = () => {
                           {row.content}
                         </TableCell>
                         <TableCell align="left">
-                          <EarnedAtPickers row={row} />
+                          <EarnedAtPickers incomeLog={row} />
                         </TableCell>
                         <TableCell align="left">
                           <TagAttachedToIncome row={row} />

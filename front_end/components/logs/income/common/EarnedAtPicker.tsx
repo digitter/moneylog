@@ -3,10 +3,10 @@ import * as moment from 'moment';
 import { useDispatch } from 'react-redux'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { updateIncomeLog } from '../../../services/IncomeLogService';
-import IncomeLog from '../../../models/IncomeLog';
-import { actionTypes, editIncomeLog } from '../../../modules/IncomeLogModule';
-import Notification, { success, error } from '../../../models/Notification';
+import { updateIncomeLog } from '../../../../services/IncomeLogService';
+import IncomeLog from '../../../../models/IncomeLog';
+import { actionTypes, editIncomeLog } from '../../../../modules/IncomeLogModule';
+import Notification, { success, error } from '../../../../models/Notification';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  row: IncomeLog
+  incomeLog: IncomeLog
 }
 
 export default function EarnedAtPickers(props: Props) {
@@ -31,7 +31,7 @@ export default function EarnedAtPickers(props: Props) {
   const dispatch = useDispatch()
 
   const handleDateChange = event => {
-    const log = Object.assign(props.row, { earnedAt: event.currentTarget.value })
+    const log = Object.assign(props.incomeLog, { earnedAt: event.currentTarget.value })
 
     updateIncomeLog(log)
       .then((incomeLog: IncomeLog) => {
@@ -45,17 +45,18 @@ export default function EarnedAtPickers(props: Props) {
   }
 
   return (
-    <form className={classes.container} noValidate>
+    <div className={classes.container}>
       <TextField
         label="earned at"
         type="date"
-        defaultValue={moment(props.row.earnedAt).format('YYYY-MM-DD')}
+        defaultValue={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}
+        value={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}
         onChange={handleDateChange}
       />
-    </form>
+    </div>
   );
 }

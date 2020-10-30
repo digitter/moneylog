@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as moment from 'moment';
 import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 
@@ -22,12 +23,29 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     background: '#263238',
     color: 'white',
   },
+  rootContainer: {
+    padding: '0px 10px',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  item: {
+    marginTop: '10px',
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
 }))
 
 const customStyles = {
   content : {
     width: 350,
-    height: 300,
+    height: 400,
     background: '#fff',
     backgroundColor: '#fff',
     padding: 0,
@@ -69,6 +87,7 @@ export default function EdtingIncomeLog(props){
   const [title, setTitle] = React.useState(props.incomeLog.title);
   const [amount, setAmount] = React.useState(props.incomeLog.amount);
   const [content, setContent] = React.useState(props.incomeLog.content);
+  const [earnedAt, setEarnedAt] = React.useState(props.incomeLog.earnedAt)
 
   const handleIncomeLogChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     switch (event.currentTarget.name) {
@@ -81,6 +100,9 @@ export default function EdtingIncomeLog(props){
       case 'content':
         setContent(event.currentTarget.value)
         break;
+      case 'earnedAt':
+        setEarnedAt(event.currentTarget.value)
+        break;
       default: return null
     }
   }
@@ -88,7 +110,7 @@ export default function EdtingIncomeLog(props){
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    updateIncomeLog({ id, title, amount, content })
+    updateIncomeLog({ id, title, amount, content, earnedAt })
       .then((incomeLog: IncomeLog) => {
         dispatch(editIncomeLog(incomeActionTypes.update, incomeLog))
         successMessage(succesmMessages.update)
@@ -123,66 +145,79 @@ export default function EdtingIncomeLog(props){
             Edit income log
           </div>
 
-          <div style={{padding: '0px 10px'}}>
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={2} direction="column">
-                <Grid item></Grid>
-                <Grid item>
-                  <TextField
-                    name='title'
-                    placeholder='Title'
-                    defaultValue ={title}
-                    onChange={handleIncomeLogChange}
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    type='number'
-                    name='amount'
-                    placeholder='Amount'
-                    defaultValue ={amount}
-                    onChange={handleIncomeLogChange}
-                  />
-                </Grid>
-                <Grid item>
-                  <TextareaAutosize
-                    name='content'
-                    rowsMax={4}
-                    aria-label="maximum height"
-                    placeholder='Content'
-                    defaultValue ={content}
-                    onChange={handleIncomeLogChange}
-                  />
-                </Grid>
+          <form onSubmit={handleSubmit} className={classes.rootContainer}>
+            <Grid container spacing={1} justify="flex-start">
+              <Grid item className={classes.item}>
+                <TextField
+                  name='title'
+                  placeholder='Title'
+                  defaultValue ={title}
+                  onChange={handleIncomeLogChange}
+                />
               </Grid>
+              <Grid item className={classes.item}>
+                <TextField
+                  type='number'
+                  name='amount'
+                  placeholder='Amount'
+                  defaultValue ={amount}
+                  onChange={handleIncomeLogChange}
+                />
+              </Grid>
+              <Grid item className={classes.item}>
+                <TextareaAutosize
+                  style={{height: 130, width: 300}}
+                  name='content'
+                  rowsMax={4}
+                  aria-label="maximum height"
+                  placeholder='Content'
+                  defaultValue={content}
+                  onChange={handleIncomeLogChange}
+                />
+              </Grid>
+              <Grid item className={classes.item}>
+                <div className={classes.container}>
+                  <TextField
+                    name="earnedAt"
+                    label="earned at"
+                    type="date"
+                    defaultValue={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={handleIncomeLogChange}
+                  />
+                </div>
+              </Grid>
+            </Grid>
 
-              <Grid container spacing={2} justify="flex-start">
-                <Grid item>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="inherit"
-                    style={{width: 60, background: '#0F7C3F', color: 'white', fontSize: 10}}
-                  >
-                    EDIT
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="inherit"
-                    onClick={closeModal}
-                    style={{width: 60, background: '#545458', color: 'white', fontSize: 10}}
-                  >
-                    CLOSE
-                  </Button>
-                </Grid>
+            <Grid container spacing={2} justify="flex-start">
+              <Grid item className={classes.item}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="inherit"
+                  style={{width: 60, background: '#0F7C3F', color: 'white', fontSize: 10}}
+                >
+                  EDIT
+                </Button>
               </Grid>
-            </form>
-          </div>
+              <Grid item className={classes.item}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="inherit"
+                  onClick={closeModal}
+                  style={{width: 60, background: '#545458', color: 'white', fontSize: 10}}
+                >
+                  CLOSE
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
         </Modal>
       </React.Fragment>
     )
