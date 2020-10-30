@@ -49,7 +49,6 @@ export default function EarnedAtPickers(props: Props) {
       <TextField
         label="earned at"
         type="date"
-        defaultValue={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}
         value={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}
         className={classes.textField}
         InputLabelProps={{

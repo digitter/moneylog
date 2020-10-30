@@ -5,7 +5,7 @@ export default class ExpenditureLog {
     public title: string,
     public amount: number,
     public content: string,
-    public paidAt?: Date,
+    public paidAt: Date,
     public tagIds?: number[],
     readonly id?: number,
   ) {}
@@ -85,7 +85,7 @@ export default class ExpenditureLog {
   }
 
   static extractIds(expenditureLogs: ExpenditureLog[]): number[] {
-    return expenditureLogs.map(log => log.id)
+    return expenditureLogs.map((log: ExpenditureLog) => log.id)
   }
 
   static updateUsingTagIds(log: ExpenditureLog, usingTagIds: number[]): ExpenditureLog {
@@ -96,11 +96,11 @@ export default class ExpenditureLog {
   }
 
   static extractAmount(logs: ExpenditureLog[]): number[] {
-    return logs.map(log => log.id)
+    return logs.map((log: ExpenditureLog) => log.id)
   }
 
   static selectLogsByMonth(logs: ExpenditureLog[], yymm: string) {
-    return logs.filter(log => {
+    return logs.filter((log: ExpenditureLog) => {
       if (moment(log.paidAt).format('YYYY-MM') === yymm) { return log }
     })
   }

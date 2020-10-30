@@ -5,7 +5,7 @@ export default class IncomeLog {
     public title: string,
     public amount: number,
     public content: string,
-    public earnedAt?: Date,
+    public earnedAt: Date,
     public tagIds?: number[],
     readonly id?: number
   ) {}
@@ -83,7 +83,7 @@ export default class IncomeLog {
   }
 
   static extractIds(incomeLogs: IncomeLog[]): number[] {
-    return incomeLogs.map(log => log.id)
+    return incomeLogs.map((log: IncomeLog) => log.id)
   }
 
   static updateUsingTagIds(log: IncomeLog, usingTagIds: number[]): IncomeLog {
@@ -94,11 +94,11 @@ export default class IncomeLog {
   }
 
   static extractAmount(logs: IncomeLog[]): number[] {
-    return logs.map(log => log.id)
+    return logs.map((log: IncomeLog) => log.id)
   }
 
   static selectLogsByMonth(logs: IncomeLog[], yymm: string) {
-    return logs.filter(log => {
+    return logs.filter((log: IncomeLog) => {
       if (moment(log.earnedAt).format('YYYY-MM') === yymm) { return log }
     })
   }
@@ -106,7 +106,7 @@ export default class IncomeLog {
   static reducer = (sum: number, currentValue: number) => sum + currentValue
 
   static calculateAmount(logs: IncomeLog[]): number {
-    const allAmount = logs.map(log => log.amount)
+    const allAmount = logs.map((log: IncomeLog) => log.amount)
     return allAmount.reduce(this.reducer, 0)
   }
 }

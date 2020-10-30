@@ -128,7 +128,7 @@ const ExpenditureLogsTable: React.FC = () => {
   const [totalAmount, setTotalAmount] = useState<number>(null)
 
   React.useEffect(() => {
-    const currentMonthLogs = ExpenditureLog.selectLogsByMonth(expenditureLogs, currentYYMM)
+    const currentMonthLogs: ExpenditureLog[] = ExpenditureLog.selectLogsByMonth(expenditureLogs, currentYYMM)
 
     setRowsPerPage(currentMonthLogs.length)
     setRows(currentMonthLogs)

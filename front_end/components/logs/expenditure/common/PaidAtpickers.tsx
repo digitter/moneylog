@@ -49,7 +49,6 @@ export default function PaidAtPickers(props: Props) {
       <TextField
         label="paid at"
         type="date"
-        defaultValue={moment(props.expenditureLog.paidAt).format('YYYY-MM-DD')}
         value={moment(props.expenditureLog.paidAt).format('YYYY-MM-DD')}
         className={classes.textField}
         InputLabelProps={{
