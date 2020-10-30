@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux'
 import ExpenditureLog from '../../../models/ExpenditureLog';
-import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../../../modules/ExpenditureLogModule';
-
 import clsx from 'clsx';
 import { bulkDeleteExpenditureLogs } from '../../../services/ExpenditureLogService';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +11,9 @@ import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styl
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { setLoadingMessage } from '../../../modules/CommonModule';
+import Notification, { progress, success, error } from '../../../models/Notification';
+import { editExpenditureLogs, actionTypes } from '../../../modules/ExpenditureLogModule';
 
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,16 +48,22 @@ const ExpenditureTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => 
   const classes = useToolbarStyles();
   const { numSelected } = props;
 
-  const handleBulkDeleteClick = expenditureLogs => {
+  const handleBulkDeleteClick = (logs: ExpenditureLog[]) => {
     if (!window.confirm('Are you sure ?')) return
 
-    bulkDeleteExpenditureLogs(expenditureLogs)
+    dispatch(setLoadingMessage(progress.bulkDestroy))
+
+    bulkDeleteExpenditureLogs(logs)
       .then((deleteIds: number[]) => {
-        dispatch(editExpenditureLogs(expenditureActionTypes.bulkDestroy, deleteIds))
+        dispatch(editExpenditureLogs(actionTypes.bulkDestroy, deleteIds))
         props.setCheckedLogs([])
+        Notification.successMessage(success.bulkDestroy)
+        dispatch(setLoadingMessage(null))
       })
       .catch(response => {
         console.error(response)
+        Notification.errorMessage(error.bulkDestroy)
+        dispatch(setLoadingMessage(null))
       })
   }
 

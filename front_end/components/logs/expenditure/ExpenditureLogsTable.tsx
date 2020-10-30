@@ -24,6 +24,8 @@ import CreateExpenditureLogModal from './CreateExpenditureLogModal';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToExpenditure from './TagAttachedToExpenditure';
+import { TextField } from '@material-ui/core';
+import PaidAtPickers from './common/PaidAtpickers';
 
 interface tableData {
   title: string;
@@ -72,7 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     root: {
       width: '90%',
-      margin: '0 auto'
+      margin: '30px auto',
     },
     paper: {
       width: '100%',
@@ -92,39 +94,45 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 20,
       width: 1,
     },
+    contentsTitle: {
+      background: '#263238',
+      color: 'white',
+      textAlign: 'center',
+      letterSpacing: 2,
+      borderRadius: 2,
+      padding: 5,
+      margin: 10,
+      fontWeight:  10,
+      borderLeft: '5px solid #818ed3',
+      borderRight: '5px solid #818ed3',
+    },
   }),
 );
 
 const ExpenditureLogsTable: React.FC = () => {
   const { useState } = React
-  const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof tableData>('amount')
+  const [order, setOrder] = useState<Order>('desc')
+  const [orderBy, setOrderBy] = useState<keyof tableData>('paidAt')
   const [page, setPage] = useState(0)
   const [dense, setDense] = useState(true)
   const [rowsPerPage, setRowsPerPage] = useState<number>(1)
   const [checkedLogs, setCheckedLogs] = useState<ExpenditureLog[]>([])
   const [rows, setRows] = useState<ExpenditureLog[]>([])
+  const [currentYYMM, setCurrentYYMM] = useState<string>(moment(new Date()).format('YYYY-MM'))
 
   const classes = useStyles()
 
   const expenditureLogs = useSelector(state => state.expenditureLogs)
   const dispatch = useDispatch()
 
+  const [totalAmount, setTotalAmount] = useState<number>(null)
+
   React.useEffect(() => {
-    setRowsPerPage(expenditureLogs.length)
+    const currentMonthLogs: ExpenditureLog[] = ExpenditureLog.selectLogsByMonth(expenditureLogs, currentYYMM)
 
-    const logs = expenditureLogs.map((log: ExpenditureLog) => {
-      return new ExpenditureLog(
-        log.title,
-        log.amount,
-        log.content,
-        log.paidAt,
-        log.tagIds,
-        log.id
-      )
-    })
-
-    setRows(logs)
+    setRowsPerPage(currentMonthLogs.length)
+    setRows(currentMonthLogs)
+    setTotalAmount(ExpenditureLog.calculateAmount(currentMonthLogs))
   }, [expenditureLogs])
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof tableData) => {
@@ -200,10 +208,33 @@ const ExpenditureLogsTable: React.FC = () => {
       })
   }
 
+  const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const yymm: string = event.currentTarget.value
+    const selectedLogs = ExpenditureLog.selectLogsByMonth(expenditureLogs, yymm)
+
+    setRowsPerPage(selectedLogs.length)
+    setRows(selectedLogs)
+    setTotalAmount(ExpenditureLog.calculateAmount(selectedLogs))
+    setCurrentYYMM(yymm)
+  }
+
   return (
     <React.Fragment>
       <div className={classes.root}>
+        <strong className={classes.contentsTitle}>expenditure logs</strong>
+
         <CreateExpenditureLogModal />
+
+       <TextField
+        type="month"
+        InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
+        defaultValue={currentYYMM}
+        onChange={handleMonthChange}
+       />
+
+        <strong style={{margin: 10, color: '#535353'}}>
+          {totalAmount}¥
+        </strong>
 
         <Paper className={classes.paper}>
           <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
@@ -258,7 +289,7 @@ const ExpenditureLogsTable: React.FC = () => {
                           {row.content}
                         </TableCell>
                         <TableCell align='left'>
-                          {moment(row.paidAt).format('YYYY-MM-DD')}
+                          <PaidAtPickers expenditureLog={row} />
                         </TableCell>
                         <TableCell align='left'>
                           <TagAttachedToExpenditure row={row} />

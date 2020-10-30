@@ -51,7 +51,7 @@ const EditingTagModal = React.forwardRef((props: Props, ref: any) => {
   return (
     <React.Fragment>
       <Paper elevation={2} ref={ref} style={{height: 150, margin: '10px 10px'}}>
-        <div style={{background: '#0F7C3F', color: 'white', paddingLeft: '20px', borderRadius: '3px'}}>
+        <div style={{background: '#263238', color: 'white', paddingLeft: '20px', borderRadius: '3px'}}>
           Edit tag
         </div>
 

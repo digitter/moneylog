@@ -4,13 +4,14 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
-import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 interface tableData {
   title: string;
   amount: number;
   content: string;
   earnedAt: Date;
+  tag: string;
   edit?: string;
   delete?: string;
 }
@@ -84,6 +85,7 @@ const headCells: HeadCell[] = [
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount (yen)' },
   { id: 'content', numeric: false, disablePadding: false, label: 'Content' },
   { id: 'earnedAt', numeric: true, disablePadding: false, label: 'Income Date' },
+  { id: 'tag', numeric: false, disablePadding: false, label: 'Tag' },
   { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];

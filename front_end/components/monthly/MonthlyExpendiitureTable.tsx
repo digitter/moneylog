@@ -19,11 +19,24 @@ import { successMessage, errorMessage, succesmMessages, errorMessages } from '..
 const useStyles = makeStyles({
   root: {
     width: '90%',
-    margin: '0 auto'
+    margin: '30px auto'
   },
   table: {
     minWidth: 650,
-  }
+  },
+  contentsTitle: {
+    display: 'inline-block',
+    textAlign: 'center',
+    borderRadius: 2,
+    padding: 5,
+    margin: '20px auto',
+    fontWeight:  10,
+    letterSpacing: 2,
+    background: '#263238',
+    color: 'white',
+    borderLeft: '5px solid #818ed3',
+    borderRight: '5px solid #818ed3',
+  },
 });
 
 interface Props {}
@@ -58,7 +71,7 @@ const MonthlyExpenditureTable: React.FC<Props> = props => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <h2>Monthly Expenditures</h2>
+        <h3 className={classes.contentsTitle}>Monthly Expenditures</h3>
 
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">

@@ -8,35 +8,27 @@ import { editTag, tagActionTypes } from '../../modules/TagModule';
 import Tag from '../../models/Tag';
 import { createTag } from '../../services/TagService';
 import { errorMessage, errorMessages, successMessage, succesmMessages } from '../GlobalMessage';
+import { useForm } from "react-hook-form";
 
 const { useState } = React
 
+type Inputs = {
+  name: string,
+  description: number,
+};
+
 const TagCreatingForm: React.FC = () => {
+  const { handleSubmit, register, reset } = useForm<Inputs>()
   const dispatch = useDispatch()
 
-  const [tagName, setTagName] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
   const [hex, setHex] = useState<string>('#4A90E2')
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    switch (event.currentTarget.name) {
-      case 'name':
-        setTagName(event.currentTarget.value)
-        break;
-      case 'description':
-        setDescription(event.currentTarget.value)
-        break;
-      default: return null;
-    }
-  }
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    createTag({name: tagName, color: hex, description: description})
+  const onSubmit = data => {
+    createTag(Object.assign({}, data, {color: hex}))
       .then((tag: Tag) => {
         dispatch(editTag(tagActionTypes.create, tag))
         successMessage(succesmMessages.create)
+        reset()
       })
       .catch(response => {
         console.error(response)
@@ -47,8 +39,8 @@ const TagCreatingForm: React.FC = () => {
   return (
     <React.Fragment>
       <div style={{height: 150, margin: '10px 10px', border: '1px solid #E8E8E9'}}>
-        <form onSubmit={handleSubmit}>
-          <div style={{background: '#547599', color: 'white', paddingLeft: '20px', borderRadius: '2px'}}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div style={{background: '#263238', color: 'white', paddingLeft: '20px', borderRadius: '2px'}}>
             Create tag
           </div>
           <Grid container spacing={2} alignItems="flex-end">
@@ -58,7 +50,7 @@ const TagCreatingForm: React.FC = () => {
                 id="input-with-icon-grid"
                 label="tag name"
                 name="name"
-                onChange={handleChange}
+                inputRef={register}
               />
             </Grid>
             <Grid item>
@@ -74,7 +66,7 @@ const TagCreatingForm: React.FC = () => {
                 id="input-with-icon-grid"
                 label="description"
                 name="description"
-                onChange={handleChange}
+                inputRef={register}
               />
             </Grid>
             <Grid item style={{flexGrow: 1.0}}>

@@ -1,14 +1,14 @@
-
 // Actions
 const actionTypes = {
   setInLoading: 'COMMON_SET_IN_LOADING',
+  setLoadingMessage: 'SET_LOADING_MESSAGE',
 }
 
 // Action Creators
-export function setInLoading(isLoading) {
+export function setLoadingMessage(msg: string) {
   return async dispatch => {
     return dispatch(
-      { type: actionTypes.setInLoading, payload: isLoading }
+      { type: actionTypes.setLoadingMessage, payload: msg }
     )
   }
 }
@@ -17,10 +17,10 @@ export function setInLoading(isLoading) {
 // TODO: Flux actionの型整理
 type fluxAction = { type: string, payload: any, meta: any }
 
-export default function commonReducer(state = {}, action: fluxAction) {
+export default function commonReducer(state = { loadingMsg: null }, action: fluxAction) {
   switch (action.type) {
-    case actionTypes.setInLoading:
-      return Object.assign({}, state, { inLoading: action.payload })
+    case actionTypes.setLoadingMessage:
+      return { loadingMsg: action.payload }
     default: return state;
   }
 }

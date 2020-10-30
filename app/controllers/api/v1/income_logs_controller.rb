@@ -3,12 +3,12 @@ module Api
     class IncomeLogsController < ApplicationController
       include ResponseHelper
       before_action :authenticate_user!
+      before_action :set_own_log!, only: %i[update destroy]
 
       def create
         income_log = @current_user.income_logs.new(income_log_params)
 
         if income_log.save
-          income_log.earned_at = income_log.created_at
           render json: to_json_api_format(income_log)
         else
           response_bad_request
@@ -16,19 +16,15 @@ module Api
       end
 
       def update
-        income_log = @current_user.income_logs.find(params[:id])
-
-        if income_log.update(income_log_params)
-          render json: to_json_api_format(income_log)
+        if @income_log.update(income_log_params)
+          render json: to_json_api_format(@income_log)
         else
-          response_not_found(:income_log)
+          response_internal_server_error
         end
       end
 
       def destroy
-        income_log = @current_user.income_logs.find(params[:id])
-
-        if income_log.destroy
+        if @income_log.destroy
           response_success(:income_log, :destroy)
         else
           response_internal_server_error
@@ -65,6 +61,11 @@ module Api
 
         def income_log_ids
           params.permit(ids: []).require(:ids)
+        end
+
+        def set_own_log!
+          @income_log = IncomeLog.find(params[:id])
+          response_bad_request unless @current_user.id == @income_log.user_id
         end
 
         def to_json_api_format(income_log)

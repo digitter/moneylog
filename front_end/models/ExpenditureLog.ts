@@ -1,31 +1,33 @@
+import * as moment from 'moment'
+
 export default class ExpenditureLog {
   constructor(
     public title: string,
     public amount: number,
     public content: string,
-    public paidAt?: Date,
+    public paidAt: Date,
     public tagIds?: number[],
     readonly id?: number,
   ) {}
 
   // Request
   // snake ケースに変換
-  static serialized(params: ExpenditureLog): ExpenditureLog {
+  static serialized(params: ExpenditureLog) {
     const {
       title,
       amount,
       content,
-      tagIds: tag_ids,
       paidAt: paid_at
     } = params
 
-   return new ExpenditureLog(
-     title,
-     amount,
-     content,
-     paid_at,
-     tag_ids
-   )
+   return {
+     expenditure_log: {
+      title,
+      amount,
+      content,
+      paid_at,
+     }
+   }
   }
 
   // Response
@@ -83,7 +85,7 @@ export default class ExpenditureLog {
   }
 
   static extractIds(expenditureLogs: ExpenditureLog[]): number[] {
-    return expenditureLogs.map(log => log.id)
+    return expenditureLogs.map((log: ExpenditureLog) => log.id)
   }
 
   static updateUsingTagIds(log: ExpenditureLog, usingTagIds: number[]): ExpenditureLog {
@@ -91,5 +93,22 @@ export default class ExpenditureLog {
     expenditureLog.tagIds = usingTagIds
 
     return expenditureLog
+  }
+
+  static extractAmount(logs: ExpenditureLog[]): number[] {
+    return logs.map((log: ExpenditureLog) => log.id)
+  }
+
+  static selectLogsByMonth(logs: ExpenditureLog[], yymm: string) {
+    return logs.filter((log: ExpenditureLog) => {
+      if (moment(log.paidAt).format('YYYY-MM') === yymm) { return log }
+    })
+  }
+
+  static reducer = (sum: number, currentValue: number) => sum + currentValue
+
+  static calculateAmount(logs: ExpenditureLog[]): number {
+    const allAmount = logs.map(log => log.amount)
+    return allAmount.reduce(this.reducer, 0)
   }
 }

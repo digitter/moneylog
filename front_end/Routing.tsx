@@ -16,6 +16,9 @@ import MonthlyExpenditureTable from './components/monthly/MonthlyExpendiitureTab
 import AssetPage from './components/asset/AssetPage'
 import TagManagement from './components/tags/TagManagement'
 import { History } from 'history'
+import UserSettings from './components/user/UserSettings'
+import Cancellation from './components/auth/Cancellation'
+import NotificationLoading from './components/NotificationLoading'
 
 interface Props {
   history: History
@@ -28,6 +31,7 @@ class Routing extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <GlobalMessage />
+        <NotificationLoading />
 
         <Switch>
           <Route exact path='/signup' component={Registration} />
@@ -37,6 +41,9 @@ class Routing extends React.Component<Props, State> {
             <Header />
             <Switch>
               <Route exact path="/" component={Hello} />
+
+              <Route exact path={`/settings`} component={UserSettings} />
+              <Route exact path={`/settings/cancellation`} component={Cancellation} />
 
               <Route path='/asset' component={AssetPage} />
               <Redirect from='asset/:any' to='/asset' />

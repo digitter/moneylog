@@ -78,6 +78,7 @@ export default function ToggleSideBar() {
             { text: 'Income Logs', path: '/income_logs'},
             { text: 'Monthly Expenditures', path: '/monthly_expenditures'},
             { text: 'Tag Management', path: '/tags'},
+            { text: 'Settings', path: '/settings'},
           ].map((obj, index) => (
             <div key={index}>
               <Link to={obj.path} style={{textDecoration: 'none', color: '#151b26'}}>

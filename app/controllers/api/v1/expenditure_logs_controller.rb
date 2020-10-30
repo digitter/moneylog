@@ -3,12 +3,12 @@ module Api
     class ExpenditureLogsController < ApplicationController
       include ResponseHelper
       before_action :authenticate_user!
+      before_action :set_own_log!, only: %i[update destroy]
 
       def create
         expenditure_log = @current_user.expenditure_logs.new(expenditure_log_params)
 
         if expenditure_log.save
-          expenditure_log.paid_at = expenditure_log.created_at
           render json: to_json_api_format(expenditure_log)
         else
           response_bad_request
@@ -16,19 +16,15 @@ module Api
       end
 
       def update
-        expenditure_log = @current_user.expenditure_logs.find(params[:id])
-
-        if expenditure_log.update(expenditure_log_params)
-          render json: to_json_api_format(expenditure_log)
+        if @expenditure_log.update(expenditure_log_params)
+          render json: to_json_api_format(@expenditure_log)
         else
-          response_not_found(:expenditure_log)
+          response_internal_server_error
         end
       end
 
       def destroy
-        expenditure_log = @current_user.expenditure_logs.find(params[:id])
-
-        if expenditure_log.destroy
+        if @expenditure_log.destroy
           response_success(:expenditure_log, :destroy)
         else
           response_internal_server_error
@@ -65,6 +61,11 @@ module Api
 
         def expenditure_log_ids
           params.permit(ids: []).require(:ids)
+        end
+
+        def set_own_log!
+          @expenditure_log = ExpenditureLog.find(params[:id])
+          response_bad_request unless @current_user.id == @expenditure_log.user_id
         end
 
         def to_json_api_format(expenditure_log)

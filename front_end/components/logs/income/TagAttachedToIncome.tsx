@@ -126,7 +126,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  row: IncomeLog | IncomeLog
+  row: IncomeLog
 }
 
 const TagAttachedToIncome: React.FC<Props> = (props) => {
