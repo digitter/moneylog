@@ -9,8 +9,8 @@ class IncomeLog < ApplicationRecord
   validates :content, length: { maximum: 100 }
 
   # associations
-  has_many :tag_relations, dependent: :destroy
-  has_many :tags, through: :tag_relations
+  has_one :tag_relation, dependent: :destroy
+  has_one :tag, through: :tag_relation
   belongs_to :user
 
   # method

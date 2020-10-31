@@ -4,10 +4,10 @@ class IncomeLogSerializer
 
   # custom attributes
   # フロント側で、収入ログに紐づくタグのidを全て保持させておく
-  attributes :tag_ids do |object|
-    object.tags.ids
+  attributes :tag_id do |object|
+    object.tag.id
   end
 
-  has_many :tag_relations
+  has_one :tag_relation
   belongs_to :user
 end
