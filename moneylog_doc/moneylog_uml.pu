@@ -12,8 +12,8 @@
   MonthlyExpenditure ---o{ ExpenditureLog
   MonthlyIncome ---o{ IncomeLog
 
-  IncomeLog --- TagRelation: owns >
-  ExpenditureLog --- TagRelation: owns >
+  IncomeLog ---o{ TagRelation
+  ExpenditureLog ---o{ TagRelation
 
   Tag --o{ TagRelation
 
