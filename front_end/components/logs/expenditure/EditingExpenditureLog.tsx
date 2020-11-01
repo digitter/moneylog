@@ -99,6 +99,7 @@ export default function EdtingExpenditureLog(props){
         break;
       case 'content':
         setContent(event.currentTarget.value)
+        break;
       case 'paidAt':
         setPaidAt(event.currentTarget.value)
         break;
