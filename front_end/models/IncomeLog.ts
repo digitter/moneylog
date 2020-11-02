@@ -103,11 +103,10 @@ export default class IncomeLog {
     })
   }
 
-  // TODO: 命名が微妙 合計値を足すことがわかるように
-  static calculateAmount(logs: IncomeLog[]): number {
-    const allAmount = logs.map((log: IncomeLog) => log.amount)
-    return allAmount.reduce(IncomeLog.reducer, 0)
+  static calculateTotalAmount(logs: IncomeLog[]): number {
+    const totalAmount = logs.map((log: IncomeLog) => log.amount)
+    return totalAmount.reduce(IncomeLog.additionReducer, 0)
   }
 
-  private static reducer = (sum: number, currentValue: number) => sum + currentValue
+  private static additionReducer = (accumulator: number, currentValue: number) => accumulator + currentValue
 }

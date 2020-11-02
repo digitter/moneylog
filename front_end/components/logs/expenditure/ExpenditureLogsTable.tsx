@@ -132,7 +132,7 @@ const ExpenditureLogsTable: React.FC = () => {
 
     setRowsPerPage(currentMonthLogs.length)
     setRows(currentMonthLogs)
-    setTotalAmount(ExpenditureLog.calculateAmount(currentMonthLogs))
+    setTotalAmount(ExpenditureLog.calculateTotalAmount(currentMonthLogs))
   }, [expenditureLogs])
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof tableData) => {
@@ -214,7 +214,7 @@ const ExpenditureLogsTable: React.FC = () => {
 
     setRowsPerPage(selectedLogs.length)
     setRows(selectedLogs)
-    setTotalAmount(ExpenditureLog.calculateAmount(selectedLogs))
+    setTotalAmount(ExpenditureLog.calculateTotalAmount(selectedLogs))
     setCurrentYYMM(yymm)
   }
 
