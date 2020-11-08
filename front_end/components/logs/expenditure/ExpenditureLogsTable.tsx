@@ -246,6 +246,7 @@ const ExpenditureLogsTable: React.FC = () => {
               size={dense ? 'small' : 'medium'}
               aria-label="enhanced table"
             >
+              <caption>Expenditure Logs</caption>
               <ExpenditureTableHead
                 classes={classes}
                 numSelected={checkedLogs.length}

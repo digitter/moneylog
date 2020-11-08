@@ -47,6 +47,7 @@ export default function PaidAtPickers(props: Props) {
   return (
     <div className={classes.container}>
       <TextField
+        name="ex-log-paid-at"
         label="paid at"
         type="date"
         value={moment(props.expenditureLog.paidAt).format('YYYY-MM-DD')}
