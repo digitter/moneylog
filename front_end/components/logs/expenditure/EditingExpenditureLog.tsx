@@ -175,7 +175,7 @@ export default function EdtingExpenditureLog(props){
                 />
               </Grid>
               <Grid item className={classes.item}>
-                <div className={classes.container}>
+                {/* <div className={classes.container}> */}
                   <TextField
                     name="paidAt"
                     label="paid at"
@@ -187,7 +187,7 @@ export default function EdtingExpenditureLog(props){
                     }}
                     onChange={handleExpenditureLogChange}
                   />
-                </div>
+                {/* </div> */}
               </Grid>
             </Grid>
 

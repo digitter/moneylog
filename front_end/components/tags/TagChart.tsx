@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Grid from '@material-ui/core/Grid';
+import Chart from '../logs/chart/chart';
 
 const circle = {
   width: '250px',
@@ -16,16 +17,12 @@ const TagChart: React.FC = () => {
 
       <Grid container spacing={4} alignItems="flex-start">
         <Grid item>
-          <div style={circle}>1</div>
+          <Chart/>
           <h3 style={{fontWeight: 100, display: 'inline-block'}}>Expenditure Rate</h3>
-          <div style={circle}>2</div>
-          <h3 style={{fontWeight: 100, display: 'inline-block'}}>Income Rate</h3>
         </Grid>
         <Grid item>
-          <div style={circle}>3</div>
-          <h3 style={{fontWeight: 100, display: 'inline-block'}}>Fixed Expenditure Rate</h3>
-          <div style={circle}>4</div>
-          <h3 style={{fontWeight: 100, display: 'inline-block'}}>Total Rate</h3>
+          <Chart/>
+          <h3 style={{fontWeight: 100, display: 'inline-block'}}>Income Rate</h3>
         </Grid>
       </Grid>
     </React.Fragment>
