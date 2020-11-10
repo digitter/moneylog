@@ -107,8 +107,8 @@ export default class ExpenditureLog {
 
   static calculateTotalAmount(logs: ExpenditureLog[]): number {
     const totalAmount = logs.map(log => log.amount)
-    return totalAmount.reduce(ExpenditureLog.additionReducer, 0)
+    return totalAmount.reduce(this.additionReducer, 0)
   }
 
-  private static additionReducer = (accumulator: number, currentValue: number) => accumulator + currentValue
+  private static additionReducer = (accumulator: number, currentValue: number): number => accumulator + currentValue
 }

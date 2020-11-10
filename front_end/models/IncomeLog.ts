@@ -108,5 +108,5 @@ export default class IncomeLog {
     return totalAmount.reduce(IncomeLog.additionReducer, 0)
   }
 
-  private static additionReducer = (accumulator: number, currentValue: number) => accumulator + currentValue
+  private static additionReducer = (accumulator: number, currentValue: number): number => accumulator + currentValue
 }

@@ -19,8 +19,6 @@ export default class Tag {
     readonly id: number,
   ) {}
 
-  // toRequest()
-  // snake ケースに変換
   static serialized(params: any) {
     const {
       id,
@@ -40,23 +38,10 @@ export default class Tag {
   }
 
   // fromResponse()
-  // camel ケースに変換
   static fromJsonApi(jsonApiFormat: any): Tag {
     if (jsonApiFormat.data.type !== 'tag') { return null }
 
-    const {
-      name,
-      color,
-      description,
-      id,
-    } = jsonApiFormat.data.attributes
-
-    return new Tag(
-      name,
-      color,
-      description,
-      id,
-    )
+    return jsonApiFormat.data.attributes
   }
 
   static fromIncluded(jsonApiFormat: any):Tag[] {
@@ -66,21 +51,7 @@ export default class Tag {
       return obj.type === 'tag'
     })
 
-    const tagsAttributes = tags.map(tag => {
-      const {
-        id,
-        name,
-        color,
-        description
-      } = tag.attributes
-
-      return {
-        id,
-        name,
-        color,
-        description
-      }
-    })
+    const tagsAttributes = tags.map(tag => tag.attributes)
 
     return tagsAttributes
   }
