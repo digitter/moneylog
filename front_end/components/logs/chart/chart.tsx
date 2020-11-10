@@ -3,6 +3,8 @@ import { Chart } from "react-google-charts";
 
 import { useTypedSelector } from '../../../modules/Reducers'
 import Tag, { pendingChartData } from '../../../models/Tag'
+import ExpenditureLog from '../../../models/ExpenditureLog';
+import IncomeLog from '../../../models/IncomeLog';
 
 const calculateTotalAmount = (chartData: pendingChartData[]): number => {
   const totalAmount = chartData.map(d => d.totalAmount)
@@ -13,7 +15,16 @@ const additionReducer = (accumulator: number, currentValue: number): number => a
 
 const { useState } = React
 
-const PieChart: React.FC = (logs) => {
+interface Props {
+  logs?: ExpenditureLog[] | IncomeLog[]
+  width?: string | number
+  height?: string | number
+  title?: string
+  pieSliceText?: 'none'
+  tooltip?: 'none'
+}
+
+const PieChart: React.FC<Props> = (props) => {
   const tags = useTypedSelector(state => state.tags)
   const expenditureLogs = useTypedSelector(state => state.expenditureLogs)
 
@@ -24,17 +35,17 @@ const PieChart: React.FC = (logs) => {
   React.useEffect(() => {
     Tag.createChartData(tags, expenditureLogs)
       .then(pendingChartData => {
-        setData(Tag.confirmChartData(pendingChartData))
-        setTagColor(Tag.extractTagColorObj(pendingChartData))
         setTotalAmount(calculateTotalAmount(pendingChartData))
+        setTagColor(Tag.extractTagColorObj(pendingChartData))
+        setData(Tag.confirmChartData(pendingChartData))
       })
   }, [tags, expenditureLogs])
 
   return (
     <React.Fragment>
       <Chart
-        width={'400px'}
-        height={'360px'}
+        width={props.width || 360}
+        height={props.height || 360}
         chartType="PieChart"
         loader={<div>Loading Chart</div>}
         data={[
@@ -43,13 +54,15 @@ const PieChart: React.FC = (logs) => {
         ]}
         options={{
           legend: 'none',
-          pieSliceText: 'label',
-          title: 'Swiss Language Use (100 degree rotation)',
+          pieSliceText: props.pieSliceText || 'label',
+          title: props.title,
+          tooltip: { trigger: props.tooltip || null },
           pieHole: 0.4,
           pieStartAngle: 100,
           slices: {
             ...tagColor
           },
+          backgroundColor: '#edf3ff'
         }}
         rootProps={{ 'data-testid': '4' }}
       />

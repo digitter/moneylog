@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Grid from '@material-ui/core/Grid';
-import Chart from '../logs/chart/chart';
+import PieChart from '../logs/chart/chart';
 
 const circle = {
   width: '250px',
@@ -17,12 +17,10 @@ const TagChart: React.FC = () => {
 
       <Grid container spacing={4} alignItems="flex-start">
         <Grid item>
-          <Chart/>
-          <h3 style={{fontWeight: 100, display: 'inline-block'}}>Expenditure Rate</h3>
+          <PieChart title="Log Rate (100 degree rotation)" />
         </Grid>
         <Grid item>
-          <Chart/>
-          <h3 style={{fontWeight: 100, display: 'inline-block'}}>Income Rate</h3>
+          <PieChart title="Log Rate (100 degree rotation)" />
         </Grid>
       </Grid>
     </React.Fragment>
