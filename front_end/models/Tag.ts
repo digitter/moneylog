@@ -1,8 +1,15 @@
 import ExpenditureLog from "./ExpenditureLog"
 import IncomeLog from "./IncomeLog"
 
- type chartObj = { id: number | string, name: string, description: string, color: string, value: number }
- type Log = ExpenditureLog | IncomeLog
+export type pendingChartData = {
+  id: number,
+  name: string,
+  description: string,
+  color: string,
+  totalAmount: number
+}
+
+type Log = ExpenditureLog | IncomeLog
 
 export default class Tag {
   constructor(
@@ -82,26 +89,24 @@ export default class Tag {
     return tags.map(tag => tag.id)
   }
 
-  static async createChartData(tags: [], logs: []): Promise<chartObj[]> {
+  static async createChartData(tags: [], logs: []): Promise<pendingChartData[]> {
     // データの雛形を作成
-    const chartData = tags.map((t: Tag) => Object.assign({}, t, { label: t.name}, { value: 0 }))
-    // const chartData = tags.map((t: Tag) => Object.assign({}, t, { value: 0 }))
-    console.log('chartData 1 >>>', chartData)
+    const data = tags.map((t: Tag) => Object.assign({}, t, { totalAmount: 0 }))
 
     // 各ログの金額をタグごとに分別別集計
     await Promise.all(
-      logs.filter(async(l: Log) => await this.injectAmountMutably(l, chartData))
+      logs.filter(async(l: Log) => await this.injectAmountMutably(l, data))
     )
 
-    return this.confirmChartData(chartData)
+    return data
   }
 
-  private static injectAmountMutably(log: Log, chartData: any[]): Promise<chartObj[]> {
+  private static injectAmountMutably(log: Log, chartData: any[]): Promise<pendingChartData[]> {
     return new Promise((resolve, reject) => {
       const calculatedData = chartData.map(d => {
         if (!log.tagIds.length) return;
 
-        if (d.id === log.tagIds[0]) { d.value += log.amount }
+        if (d.id === log.tagIds[0]) { d.totalAmount += log.amount }
 
         return d
       })
@@ -110,7 +115,11 @@ export default class Tag {
     })
   }
 
-  private static confirmChartData(data): chartObj[] {
-    return data.map(d => Object.assign({}, d, { id: d.name }))
+  static confirmChartData(data: pendingChartData[]): Array<[string, number]> {
+    return data.map((d: pendingChartData) => [d.name, d.totalAmount])
+  }
+
+  static extractTagColorObj(data: pendingChartData[]): Array<{color: string}> {
+    return data.map(d => ({ color: d.color }))
   }
 }
