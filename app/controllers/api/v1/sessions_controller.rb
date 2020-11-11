@@ -3,7 +3,7 @@ module Api
   module V1
     class SessionsController < ApplicationController
       include ResponseHelper
-      before_action :authenticate_user!, only: %i[logout]
+      before_action :authorize_user!, only: %i[logout]
 
       def signin
         # session固定攻撃を防ぐためにログイン時には必ず、ユーザーをemail, passwordで参照してセッションに値を代入する

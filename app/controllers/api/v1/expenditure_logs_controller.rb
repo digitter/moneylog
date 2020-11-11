@@ -2,7 +2,7 @@ module Api
   module V1
     class ExpenditureLogsController < ApplicationController
       include ResponseHelper
-      before_action :authenticate_user!
+      before_action :authorize_user!
       before_action :set_own_log!, only: %i[update destroy]
 
       def create
