@@ -33,41 +33,44 @@ const PieChart: React.FC<Props> = (props) => {
   const [totalAmount, setTotalAmount] = useState<number>(0)
 
   React.useEffect(() => {
-    Tag.createChartData(tags, expenditureLogs)
+    Tag.createChartData(tags, props.logs || expenditureLogs)
       .then(pendingChartData => {
         setTotalAmount(calculateTotalAmount(pendingChartData))
         setTagColor(Tag.extractTagColorObj(pendingChartData))
         setData(Tag.confirmChartData(pendingChartData))
       })
-  }, [tags, expenditureLogs])
+  }, [tags, expenditureLogs ,props.logs])
 
   return (
     <React.Fragment>
-      <Chart
-        width={props.width || 360}
-        height={props.height || 360}
-        chartType="PieChart"
-        loader={<div>Loading Chart</div>}
-        data={[
-          ['Total amount', 'classified by tag'],
-          ...data
-        ]}
-        options={{
-          legend: 'none',
-          pieSliceText: props.pieSliceText || 'label',
-          title: props.title,
-          tooltip: { trigger: props.tooltip || null },
-          pieHole: 0.4,
-          pieStartAngle: 100,
-          slices: {
-            ...tagColor
-          },
-          backgroundColor: '#edf3ff'
-        }}
-        rootProps={{ 'data-testid': '4' }}
-      />
+      {/* <div style={{backgroundColor: '#f7f7f7'}}> */}
+        <strong style={{margin: 10, color: '#535353'}}>total: {totalAmount}¥</strong>
 
-      total : <strong>{totalAmount}</strong>
+        <Chart
+          width={props.width || 360}
+          height={props.height || 360}
+          chartType="PieChart"
+          loader={<div>Loading Chart</div>}
+          data={[
+            ['Total amount', 'classified by tag'],
+            ...data
+          ]}
+          options={{
+            legend: 'none',
+            pieSliceText: props.pieSliceText || 'label',
+            title: `\n total: ${totalAmount}`,
+            tooltip: { trigger: props.tooltip || null },
+            pieHole: 0.4,
+            pieStartAngle: 100,
+            slices: {
+              ...tagColor
+            },
+            backgroundColor: '#edf3ff'
+            // backgroundColor: '#f7f7f7'
+          }}
+          rootProps={{ 'data-testid': '4' }}
+        />
+      {/* </div> */}
     </React.Fragment>
   )
 }

@@ -24,8 +24,9 @@ import CreateIncomeLogModal from './CreateIncomeLogModal';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToIncome from './TagAttachedToIncome';
-import { TextField } from '@material-ui/core';
+import { TextField, Grid } from '@material-ui/core';
 import EarnedAtPickers from './common/EarnedAtPicker';
+import PieChart from '../chart/chart';
 
 interface tableData {
   title: string;
@@ -222,20 +223,28 @@ const IncomeLogsTable: React.FC = () => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <strong className={classes.contentsTitle}>income logs</strong>
+        <Grid container alignItems='flex-end'>
+          <Grid item>
+            <h3 className={classes.contentsTitle}>expenditure logs</h3>
+            <PieChart width={200} height={200} pieSliceText='none' tooltip='none' />
+          </Grid>
+        </Grid>
 
-        <CreateIncomeLogModal />
+        <Grid container justify='space-between'>
+          <Grid item>
+            <TextField
+              type="month"
+              InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
+              defaultValue={currentYYMM}
+              onChange={handleDateChange}
+            />
+          </Grid>
 
-        <TextField
-          type="month"
-          InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
-          defaultValue={currentYYMM}
-          onChange={handleDateChange}
-        />
-
-        <strong style={{marginLeft: 10, color: '#535353'}}>
-          {totalAmount}¥
-        </strong>
+          <Grid item>
+            <strong style={{margin: 10, color: '#535353'}}>{totalAmount}¥</strong>
+            <CreateIncomeLogModal />
+          </Grid>
+        </Grid>
 
         <Paper className={classes.paper}>
           <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />

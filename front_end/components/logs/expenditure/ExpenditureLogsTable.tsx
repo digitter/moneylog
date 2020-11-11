@@ -24,8 +24,9 @@ import CreateExpenditureLogModal from './CreateExpenditureLogModal';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToExpenditure from './TagAttachedToExpenditure';
-import { TextField } from '@material-ui/core';
+import { TextField, Grid } from '@material-ui/core';
 import PaidAtPickers from './common/PaidAtpickers';
+import PieChart from '../chart/chart';
 
 interface tableData {
   title: string;
@@ -95,6 +96,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 1,
     },
     contentsTitle: {
+      width: 300,
       background: '#263238',
       color: 'white',
       textAlign: 'center',
@@ -221,20 +223,42 @@ const ExpenditureLogsTable: React.FC = () => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <strong className={classes.contentsTitle}>expenditure logs</strong>
+        <Grid container justify='space-between' alignContent='center'>
+        {/* <Grid container justify='flex-start' alignContent='center'> */}
+          <Grid item>
+            <h3 className={classes.contentsTitle}>expenditure logs</h3>
+            <CreateExpenditureLogModal />
+            <CreateExpenditureLogModal />
+            <CreateExpenditureLogModal />
+          </Grid>
 
-        <CreateExpenditureLogModal />
+          <Grid item>
+            <PieChart logs={rows} width={330} height={200} pieSliceText='none' tooltip='none' />
+          </Grid>
+        </Grid>
 
-       <TextField
-        type="month"
-        InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
-        defaultValue={currentYYMM}
-        onChange={handleMonthChange}
-       />
+        <Grid container justify='space-between'>
+          <Grid item>
+            <CreateExpenditureLogModal />
+            <CreateExpenditureLogModal />
+            <CreateExpenditureLogModal />
+            <TextField
+              type="month"
+              InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
+              defaultValue={currentYYMM}
+              onChange={handleMonthChange}
+            />
+          </Grid>
 
-        <strong style={{margin: 10, color: '#535353'}}>
-          {totalAmount}¥
-        </strong>
+          {/* <Grid item>
+            <TextField
+              type="month"
+              InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
+              defaultValue={currentYYMM}
+              onChange={handleMonthChange}
+            />
+          </Grid> */}
+        </Grid>
 
         <Paper className={classes.paper}>
           <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
