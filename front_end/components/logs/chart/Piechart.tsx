@@ -43,34 +43,31 @@ const PieChart: React.FC<Props> = (props) => {
 
   return (
     <React.Fragment>
-      {/* <div style={{backgroundColor: '#f7f7f7'}}> */}
-        <strong style={{margin: 10, color: '#535353'}}>total: {totalAmount}¥</strong>
+      <strong style={{margin: 10, color: '#535353'}}>total: {totalAmount}¥</strong>
 
-        <Chart
-          width={props.width || 360}
-          height={props.height || 360}
-          chartType="PieChart"
-          loader={<div>Loading Chart</div>}
-          data={[
-            ['Total amount', 'classified by tag'],
-            ...data
-          ]}
-          options={{
-            legend: 'none',
-            pieSliceText: props.pieSliceText || 'label',
-            title: `\n total: ${totalAmount}`,
-            tooltip: { trigger: props.tooltip || null },
-            pieHole: 0.4,
-            pieStartAngle: 100,
-            slices: {
-              ...tagColor
-            },
-            backgroundColor: '#edf3ff'
-            // backgroundColor: '#f7f7f7'
-          }}
-          rootProps={{ 'data-testid': '4' }}
-        />
-      {/* </div> */}
+      <Chart
+        width={props.width || 360}
+        height={props.height || 360}
+        chartType="PieChart"
+        loader={<div>Loading Chart</div>}
+        data={[
+          ['Total amount', 'classified by tag'],
+          ...data
+        ]}
+        options={{
+          legend: 'none',
+          pieSliceText: props.pieSliceText || 'label',
+          title: `\n total: ${totalAmount}`,
+          tooltip: { trigger: props.tooltip || null },
+          pieHole: 0.4,
+          pieStartAngle: 100,
+          slices: {
+            ...tagColor
+          },
+          backgroundColor: '#edf3ff'
+        }}
+        rootProps={{ 'data-testid': '4' }}
+      />
     </React.Fragment>
   )
 }

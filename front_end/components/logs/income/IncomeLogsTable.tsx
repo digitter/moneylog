@@ -26,7 +26,7 @@ import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToIncome from './TagAttachedToIncome';
 import { TextField, Grid } from '@material-ui/core';
 import EarnedAtPickers from './common/EarnedAtPicker';
-import PieChart from '../chart/chart';
+import PieChart from '../chart/Piechart';
 
 interface tableData {
   title: string;

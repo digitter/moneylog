@@ -1,14 +1,6 @@
 import * as React from 'react'
 import Grid from '@material-ui/core/Grid';
-import PieChart from '../logs/chart/chart';
-
-const circle = {
-  width: '250px',
-  height: '250px',
-  borderRadius: '50%',
-  background: '#547599',
-  margin: 15
-}
+import PieChart from '../logs/chart/Piechart';
 
 const TagChart: React.FC = () => {
   return (
