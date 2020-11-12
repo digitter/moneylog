@@ -2,7 +2,7 @@ module Api
   module V1
     class MonthlyExpendituresController < ApplicationController
       include ResponseHelper
-      before_action :authenticate_user!
+      before_action :authorize_user!
 
       def update
         monthly_expenditure = @current_user.monthly_expenditures.find(params[:id])

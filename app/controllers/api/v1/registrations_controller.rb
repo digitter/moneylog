@@ -2,7 +2,7 @@ module Api
   module V1
     class RegistrationsController < ApplicationController
       include ResponseHelper
-      before_action :authenticate_user!, only: %i[cancel]
+      before_action :authorize_user!, only: %i[cancel]
 
       def signup
         begin
