@@ -6,11 +6,11 @@ class ApplicationController < ActionController::API
   def verify_csrf_token
     # 認証トークンが不一致ならばセッションをリセット
     # セッションがリセットされた後
-    # 認可チェックが必要な場合は authenticate_user! で制御する。
+    # 認可チェックが必要な場合は authorize_user! で制御する。
     reset_session unless session[:auth_token] == request.headers['X-CSRF-Token']
   end
 
-  def authenticate_user!
+  def authorize_user!
     # ユーザーがログインしていないならばリダイレクト
     redirect_to api_v1_logged_in_path unless @current_user
   end

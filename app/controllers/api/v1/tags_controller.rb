@@ -2,7 +2,7 @@ module Api
   module V1
     class TagsController < ApplicationController
       include ResponseHelper
-      before_action :authenticate_user!
+      before_action :authorize_user!
 
       def create
         tag = @current_user.tags.new(tag_params)

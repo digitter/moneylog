@@ -2,7 +2,7 @@ module Api
   module V1
     class AssetsController < ApplicationController
       include ResponseHelper
-      before_action :authenticate_user!
+      before_action :authorize_user!
 
       def update
         asset = @current_user.asset
