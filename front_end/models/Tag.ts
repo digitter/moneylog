@@ -72,17 +72,14 @@ export default class Tag {
     return data
   }
 
-  private static injectAmountMutably(log: Log, chartData: any[]): Promise<pendingChartData[]> {
+  private static injectAmountMutably(log: Log, chartData: pendingChartData[]): Promise<void> {
     return new Promise((resolve, reject) => {
-      const calculatedData = chartData.map(d => {
-        if (!log.tagIds.length) return;
-
+      chartData.forEach(d => {
+        if (!log.tagIds.length) { return }
         if (d.id === log.tagIds[0]) { d.totalAmount += log.amount }
-
-        return d
       })
 
-      resolve(calculatedData)
+      resolve()
     })
   }
 
