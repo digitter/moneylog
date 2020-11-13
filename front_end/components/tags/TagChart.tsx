@@ -1,7 +1,8 @@
 import * as React from 'react'
 import Grid from '@material-ui/core/Grid';
-import PieChart from '../logs/chart/Piechart';
 import { useTypedSelector } from '../../modules/Reducers';
+import ExpenditurePieChart from '../logs/expenditure/common/ExpenditurePieChart';
+import IncomePieChart from '../logs/income/common/IncomePieChart';
 
 const TagChart: React.FC = () => {
   const expenditureLogs = useTypedSelector(state => state.expenditureLogs)
@@ -13,10 +14,10 @@ const TagChart: React.FC = () => {
 
       <Grid container spacing={4} alignItems="flex-start">
         <Grid item>
-          <PieChart logs={expenditureLogs} title="Log Rate (100 degree rotation)" />
+          <ExpenditurePieChart graphID='yearlyExpenditure' logs={expenditureLogs} title="Log Rate (100 degree rotation)" />
         </Grid>
         <Grid item>
-          <PieChart logs={incomeLogs} title="Log Rate (100 degree rotation)" />
+          <IncomePieChart graphID='yearlyIncome' logs={incomeLogs} title="Log Rate (100 degree rotation)" />
         </Grid>
       </Grid>
     </React.Fragment>

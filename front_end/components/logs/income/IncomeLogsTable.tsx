@@ -26,7 +26,7 @@ import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToIncome from './TagAttachedToIncome';
 import { TextField, Grid } from '@material-ui/core';
 import EarnedAtPickers from './common/EarnedAtPicker';
-import PieChart from '../chart/Piechart';
+import IncomePieChart from './common/IncomePieChart';
 
 interface tableData {
   title: string;
@@ -338,7 +338,8 @@ const IncomeLogsTable: React.FC = () => {
           </Grid>
 
           <Grid item>
-            <PieChart
+            <IncomePieChart
+              graphID='monthlyIncome'
               width={300}
               height={300}
               logs={rows}

@@ -60,13 +60,13 @@ export default class Tag {
     return tags.map(tag => tag.id)
   }
 
-  static async createChartData(tags: [], logs: []): Promise<pendingChartData[]> {
+  static async createChartData(tags: Tag[], logs: Log[]): Promise<pendingChartData[]> {
     // データの雛形を作成
     const data = tags.map((t: Tag) => Object.assign({}, t, { totalAmount: 0 }))
 
     // 各ログの金額をタグごとに分別別集計
     await Promise.all(
-      logs.filter(async(l: Log) => await this.injectAmountMutably(l, data))
+      logs.map(async(l: Log) => await this.injectAmountMutably(l, data))
     )
 
     return data

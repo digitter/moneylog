@@ -26,7 +26,7 @@ import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToExpenditure from './TagAttachedToExpenditure';
 import { TextField, Grid } from '@material-ui/core';
 import PaidAtPickers from './common/PaidAtpickers';
-import PieChart from '../chart/Piechart';
+import ExpenditurePieChart from './common/ExpenditurePieChart';
 
 interface tableData {
   title: string;
@@ -338,7 +338,8 @@ const ExpenditureLogsTable: React.FC = () => {
           </Grid>
 
           <Grid item>
-            <PieChart
+            <ExpenditurePieChart
+              graphID='monthlyExpenditure'
               width={300}
               height={300}
               logs={rows}
