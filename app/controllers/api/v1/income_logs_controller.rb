@@ -32,18 +32,20 @@ module Api
       end
 
       def bulk_delete
-        # OPTIMIZE: 可能ならSQL delete処理にしたい。
         begin
-          ActiveRecord::Base.transaction do
-            income_logs = @current_user.income_logs
+          existing_log_ids = @current_user.income_logs.ids
 
-            income_log_ids.each do |id|
-              income_logs.find(id)
-                              .try(:destroy!)
-            end
+          if income_log_ids.all? { |id| existing_log_ids.include?(id) }
+            query = "DELETE FROM `income_logs` WHERE `income_logs`.`id` IN (#{income_log_ids})"
+            query.delete!('[]')
+            ActiveRecord::Base.connection.execute(query)
 
-            response_success(:income_logs, :delete)
+            query = "DELETE FROM `tag_relations` WHERE `tag_relations`.`income_log_id` IN (#{income_log_ids})"
+            query.delete!('[]')
+            ActiveRecord::Base.connection.execute(query)
           end
+
+          response_success(:income_logs, :delete)
         rescue => exception
           response_internal_server_error
         end
