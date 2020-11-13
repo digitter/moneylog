@@ -20,7 +20,6 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import CreateExpenditureLogModal from './CreateExpenditureLogModal';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToExpenditure from './TagAttachedToExpenditure';
@@ -224,25 +223,16 @@ const ExpenditureLogsTable: React.FC = () => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <h3 className={classes.contentsTitle}>expenditure logs</h3>
-        <Grid container justify='flex-start'>
-          <Grid item>
-            <strong>{totalAmount} ¥</strong>
-            <br />
+        <strong className={classes.contentsTitle}>expenditure logs</strong>
 
-            <TextField
-              type="month"
-              InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
-              defaultValue={currentYYMM}
-              onChange={handleMonthChange}
-            />
-          </Grid>
-          <Grid item>
-            <CreateExpenditureLogModal />
-            <CreateExpenditureLogModal />
-            <CreateExpenditureLogModal />
-          </Grid>
-        </Grid>
+        <TextField
+          type="month"
+          InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
+          defaultValue={currentYYMM}
+          onChange={handleMonthChange}
+        />
+
+        <strong style={{paddingLeft: 20}}>{totalAmount} ¥</strong>
 
         <Grid container wrap='wrap'>
           <Grid item xs={9}>

@@ -6,7 +6,6 @@ import { bulkDeleteExpenditureLogs } from '../../../services/ExpenditureLogServi
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,6 +13,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { setLoadingMessage } from '../../../modules/CommonModule';
 import Notification, { progress, success, error } from '../../../models/Notification';
 import { editExpenditureLogs, actionTypes } from '../../../modules/ExpenditureLogModule';
+import CreateExpenditureLogModal from './CreateExpenditureLogModal';
 
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -102,11 +102,11 @@ const ExpenditureTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => 
           </Tooltip>
         </>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          <CreateExpenditureLogModal />
+          <CreateExpenditureLogModal />
+          <CreateExpenditureLogModal />
+        </>
       )}
     </Toolbar>
   );

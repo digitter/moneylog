@@ -224,25 +224,16 @@ const IncomeLogsTable: React.FC = () => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <h3 className={classes.contentsTitle}>income logs</h3>
-        <Grid container justify='flex-start'>
-          <Grid item>
-            <strong>{totalAmount} ¥</strong>
-            <br />
+        <strong className={classes.contentsTitle}>income logs</strong>
 
-            <TextField
-              type="month"
-              InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
-              defaultValue={currentYYMM}
-              onChange={handleMonthChange}
-            />
-          </Grid>
-          <Grid item>
-            <CreateIncomeLogModal />
-            <CreateIncomeLogModal />
-            <CreateIncomeLogModal />
-          </Grid>
-        </Grid>
+        <TextField
+          type="month"
+          InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
+          defaultValue={currentYYMM}
+          onChange={handleMonthChange}
+        />
+
+        <strong style={{paddingLeft: 20}}>{totalAmount} ¥</strong>
 
         <Grid container wrap='wrap'>
           <Grid item xs={9}>
