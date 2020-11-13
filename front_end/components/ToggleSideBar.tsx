@@ -106,6 +106,7 @@ export default function ToggleSideBar() {
         <React.Fragment key={anchor}>
 
           <Button
+            id="toggle-menu-button"
             aria-controls="customized-menu"
             aria-haspopup="true"
             variant="contained"

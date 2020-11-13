@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import IncomeLog from '../../../models/IncomeLog';
 import EdtingIncomeLog from './EditingIncomeLog';
+import { deleteIncomeLog } from '../../../services/IncomeLogService';
 import { editIncomeLog } from '../../../modules/IncomeLogModule';
 import IncomeTableHead from './IncomeTableHead'
 import IncomeTableToolbar from './IncomeTableToolbar'
-import { deleteIncomeLog } from '../../../services/IncomeLogService';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -24,13 +24,13 @@ import CreateIncomeLogModal from './CreateIncomeLogModal';
 import DeleteAlert from '../common/DeleteAlert';
 import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToIncome from './TagAttachedToIncome';
-import { TextField } from '@material-ui/core';
+import { TextField, Grid } from '@material-ui/core';
 import EarnedAtPickers from './common/EarnedAtPicker';
+import IncomePieChart from './common/IncomePieChart';
 
 interface tableData {
   title: string;
   amount: number;
-  content: string;
   earnedAt: Date;
   edit: string;
   delete: string;
@@ -67,21 +67,24 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+const { useState } = React
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    container: {
-      maxHeight: 671,
-    },
     root: {
-      width: '90%',
-      margin: '30px auto'
+      width: '96%',
+      margin: '30px auto',
     },
     paper: {
-      width: '100%',
+      minWidth: 1000,
       marginBottom: theme.spacing(2),
     },
+    tableContainer: {
+      maxHeight: 350,
+      minWidth: 1000,
+    },
     table: {
-      minWidth: 750,
+      minWidth: 1000,
     },
     visuallyHidden: {
       border: 0,
@@ -95,6 +98,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 1,
     },
     contentsTitle: {
+      width: 300,
       background: '#263238',
       color: 'white',
       textAlign: 'center',
@@ -110,7 +114,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const IncomeLogsTable: React.FC = () => {
-  const { useState } = React
+  const classes = useStyles()
+
+  const incomeLogs = useSelector(state => state.incomeLogs)
+  const dispatch = useDispatch()
+
   const [order, setOrder] = useState<Order>('desc')
   const [orderBy, setOrderBy] = useState<keyof tableData>('earnedAt')
   const [page, setPage] = useState(0)
@@ -120,19 +128,14 @@ const IncomeLogsTable: React.FC = () => {
   const [rows, setRows] = useState<IncomeLog[]>([])
   const [currentYYMM, setCurrentYYMM] = useState<string>(moment(new Date()).format('YYYY-MM'))
 
-  const classes = useStyles()
-
-  const incomeLogs = useSelector(state => state.incomeLogs)
-  const dispatch = useDispatch()
-
   const [totalAmount, setTotalAmount] = useState<number>(null)
 
   React.useEffect(() => {
-    const currentMonthLogs = IncomeLog.selectLogsByMonth(incomeLogs, currentYYMM)
+    const currentMonthLogs: IncomeLog[] = IncomeLog.selectLogsByMonth(incomeLogs, currentYYMM)
 
     setRowsPerPage(currentMonthLogs.length)
     setRows(currentMonthLogs)
-    setTotalAmount(IncomeLog.calculateAmount(currentMonthLogs))
+    setTotalAmount(IncomeLog.calculateTotalAmount(currentMonthLogs))
   }, [incomeLogs])
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof tableData) => {
@@ -163,7 +166,6 @@ const IncomeLogsTable: React.FC = () => {
 
     if (selectedIndex === -1) { // Adding: 存在しない場合
       newSelected = newSelected.concat(logIds, incomeLog.id)
-
       setCheckedLogs(checkedLogs.concat(incomeLog))
     } else if (selectedIndex === 0) { // Removing: 最初に存在する場合
       newSelected = newSelected.concat(logIds.slice(1))
@@ -209,13 +211,13 @@ const IncomeLogsTable: React.FC = () => {
       })
   }
 
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const yymm: string = event.currentTarget.value
-    const selectedLogs = IncomeLog.selectLogsByMonth(incomeLogs, yymm)
+    const selectedLogs: IncomeLog[] = IncomeLog.selectLogsByMonth(incomeLogs, yymm)
 
     setRowsPerPage(selectedLogs.length)
     setRows(selectedLogs)
-    setTotalAmount(IncomeLog.calculateAmount(selectedLogs))
+    setTotalAmount(IncomeLog.calculateTotalAmount(selectedLogs))
     setCurrentYYMM(yymm)
   }
 
@@ -224,108 +226,118 @@ const IncomeLogsTable: React.FC = () => {
       <div className={classes.root}>
         <strong className={classes.contentsTitle}>income logs</strong>
 
-        <CreateIncomeLogModal />
-
         <TextField
           type="month"
           InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
           defaultValue={currentYYMM}
-          onChange={handleDateChange}
+          onChange={handleMonthChange}
         />
 
-        <strong style={{marginLeft: 10, color: '#535353'}}>
-          {totalAmount}¥
-        </strong>
+        <strong style={{paddingLeft: 20}}>{totalAmount} ¥</strong>
 
-        <Paper className={classes.paper}>
-          <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
-          <TableContainer className={classes.container}>
-            <Table
-              stickyHeader
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              size={dense ? 'small' : 'medium'}
-              aria-label="enhanced table"
-            >
-              <IncomeTableHead
-                classes={classes}
-                numSelected={checkedLogs.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: any, index: number) => {
+        <Grid container wrap='wrap'>
+          <Grid item xs={9}>
+            <Paper className={classes.paper}>
+              <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
+              <TableContainer className={classes.tableContainer}>
+                <Table
+                  stickyHeader
+                  className={classes.table}
+                  aria-labelledby="tableTitle"
+                  size={dense ? 'small' : 'medium'}
+                  aria-label="enhanced table"
+                >
+                  <caption>Income Logs</caption>
+                  <IncomeTableHead
+                    classes={classes}
+                    numSelected={checkedLogs.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onSelectAllClick={handleSelectAllClick}
+                    onRequestSort={handleRequestSort}
+                    rowCount={rows.length}
+                  />
+                  <TableBody>
+                    {stableSort(rows, getComparator(order, orderBy))
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row: any, index: number) => {
 
-                    const isItemSelected = isSelected(row);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+                        const isItemSelected = isSelected(row);
+                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                            onClick={(event) => handleCheckClick(event, row)}
-                          />
-                        </TableCell>
-                        <TableCell align="left">
-                          {row.title}
-                        </TableCell>
-                        <TableCell align="left">
-                          {row.amount}
-                        </TableCell>
-                        <TableCell align="left">
-                          {row.content}
-                        </TableCell>
-                        <TableCell align="left">
-                          <EarnedAtPickers incomeLog={row} />
-                        </TableCell>
-                        <TableCell align="left">
-                          <TagAttachedToIncome row={row} />
-                        </TableCell>
-                        <TableCell align="left">
-                          <EdtingIncomeLog incomeLog={row} />
-                        </TableCell>
-                        <TableCell align="left">
-                          <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
-                        </TableCell>
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            aria-checked={isItemSelected}
+                            tabIndex={-1}
+                            key={row.id}
+                            selected={isItemSelected}
+                          >
+                            <TableCell padding="checkbox" size='small'>
+                              <Checkbox
+                                checked={isItemSelected}
+                                inputProps={{ 'aria-labelledby': labelId }}
+                                onClick={(event) => handleCheckClick(event, row)}
+                              />
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              {row.title}
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              {row.amount}
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              <EarnedAtPickers incomeLog={row} />
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              <TagAttachedToIncome row={row} />
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              <EdtingIncomeLog incomeLog={row} />
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                        <TableCell colSpan={6} />
                       </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[1, 7, incomeLogs.length]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </Paper>
-        <FormControlLabel
-          control={<Switch checked={dense} onChange={handleChangeDense} />}
-          label="Dense padding"
-        />
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+              <TablePagination
+                rowsPerPageOptions={[1, 7, incomeLogs.length]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
+            </Paper>
+
+            <FormControlLabel
+              control={<Switch checked={dense} onChange={handleChangeDense} />}
+              label="Dense padding"
+            />
+          </Grid>
+
+          <Grid item>
+            <IncomePieChart
+              graphID='monthlyIncome'
+              width={300}
+              height={300}
+              logs={rows}
+              title={`${currentYYMM}: income classification`}
+            />
+          </Grid>
+        </Grid>
       </div>
     </React.Fragment>
   );

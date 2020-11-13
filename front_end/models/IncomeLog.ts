@@ -97,17 +97,16 @@ export default class IncomeLog {
     return logs.map((log: IncomeLog) => log.id)
   }
 
-  static selectLogsByMonth(logs: IncomeLog[], yymm: string) {
+  static selectLogsByMonth(logs: IncomeLog[], yymm: string): IncomeLog[] {
     return logs.filter((log: IncomeLog) => {
       if (moment(log.earnedAt).format('YYYY-MM') === yymm) { return log }
     })
   }
 
-  // TODO: 命名が微妙 合計値を足すことがわかるように
-  static calculateAmount(logs: IncomeLog[]): number {
-    const allAmount = logs.map((log: IncomeLog) => log.amount)
-    return allAmount.reduce(IncomeLog.reducer, 0)
+  static calculateTotalAmount(logs: IncomeLog[]): number {
+    const totalAmount = logs.map((log: IncomeLog) => log.amount)
+    return totalAmount.reduce(IncomeLog.additionReducer, 0)
   }
 
-  private static reducer = (sum: number, currentValue: number) => sum + currentValue
+  private static additionReducer = (accumulator: number, currentValue: number): number => accumulator + currentValue
 }

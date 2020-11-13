@@ -31,10 +31,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   item: {
     marginTop: '10px',
   },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -175,19 +171,17 @@ export default function EdtingExpenditureLog(props){
                 />
               </Grid>
               <Grid item className={classes.item}>
-                <div className={classes.container}>
-                  <TextField
-                    name="paidAt"
-                    label="paid at"
-                    type="date"
-                    defaultValue={moment(props.expenditureLog.paidAt).format('YYYY-MM-DD')}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={handleExpenditureLogChange}
-                  />
-                </div>
+                <TextField
+                  name="paidAt"
+                  label="paid at"
+                  type="date"
+                  defaultValue={moment(props.expenditureLog.paidAt).format('YYYY-MM-DD')}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleExpenditureLogChange}
+                />
               </Grid>
             </Grid>
 

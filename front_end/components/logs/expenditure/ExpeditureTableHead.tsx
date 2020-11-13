@@ -4,12 +4,11 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
-import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 interface tableData {
   title: string;
   amount: number;
-  content: string;
   paidAt: Date;
   tag: string;
   edit: string;
@@ -18,16 +17,6 @@ interface tableData {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: '100%',
-    },
-    paper: {
-      width: '100%',
-      marginBottom: theme.spacing(2),
-    },
-    table: {
-      minWidth: 750,
-    },
     visuallyHidden: {
       border: 0,
       clip: 'rect(0 0 0 0)',
@@ -83,7 +72,6 @@ interface HeadCell {
 const headCells: HeadCell[] = [
   { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount (yen)' },
-  { id: 'content', numeric: false, disablePadding: false, label: 'Content' },
   { id: 'paidAt', numeric: true, disablePadding: false, label: 'Payment Date' },
   { id: 'tag', numeric: false, disablePadding: false, label: 'Tag' },
   { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },

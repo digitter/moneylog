@@ -15,9 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: 'wrap',
     },
     textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
+      width: 135,
     },
   }),
 );
@@ -47,6 +45,7 @@ export default function EarnedAtPickers(props: Props) {
   return (
     <div className={classes.container}>
       <TextField
+        name="in-log-earned-at"
         label="earned at"
         type="date"
         value={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}

@@ -111,10 +111,10 @@ const CreateExpenditureLogModal: React.FC = () => {
               <h3 id="transition-modal-title" className={classes.contentsTitle}>Create Expenditure Log</h3>
               <p id="transition-modal-description">fill in blank</p>
 
-              <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} >
-                <TextField type="text" id="filled-basic" label="title" variant="filled" name="title" inputRef={register} />
-                <TextField type="number" id="outlined-basic" label="amount" variant="outlined" name="amount" inputRef={register} />
-                <TextField type="text" id="outlined-basic" label="content" variant="outlined" name="content" inputRef={register} />
+              <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+                <TextField type="text" id="filled-basic" label="Title" variant="filled" name="title" inputRef={register} />
+                <TextField type="number" id="outlined-basic" label="Amount" variant="outlined" name="amount" inputRef={register} />
+                <TextField type="text" id="outlined-basic" label="Content" variant="outlined" name="content" inputRef={register} />
 
                 <Button
                   type="submit"
