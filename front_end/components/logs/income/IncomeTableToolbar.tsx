@@ -19,6 +19,7 @@ import Notification, { progress, success } from '../../../models/Notification';
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      minWidth: 1000,
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(1),
     },

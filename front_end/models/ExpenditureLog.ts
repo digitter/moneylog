@@ -99,7 +99,7 @@ export default class ExpenditureLog {
     return logs.map((log: ExpenditureLog) => log.id)
   }
 
-  static selectLogsByMonth(logs: ExpenditureLog[], yymm: string) {
+  static selectLogsByMonth(logs: ExpenditureLog[], yymm: string): ExpenditureLog[] {
     return logs.filter((log: ExpenditureLog) => {
       if (moment(log.paidAt).format('YYYY-MM') === yymm) { return log }
     })

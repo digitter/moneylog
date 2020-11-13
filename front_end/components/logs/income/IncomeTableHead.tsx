@@ -9,7 +9,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 interface tableData {
   title: string;
   amount: number;
-  content: string;
   earnedAt: Date;
   tag: string;
   edit?: string;
@@ -83,7 +82,6 @@ interface HeadCell {
 const headCells: HeadCell[] = [
   { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount (yen)' },
-  { id: 'content', numeric: false, disablePadding: false, label: 'Content' },
   { id: 'earnedAt', numeric: true, disablePadding: false, label: 'Income Date' },
   { id: 'tag', numeric: false, disablePadding: false, label: 'Tag' },
   { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },

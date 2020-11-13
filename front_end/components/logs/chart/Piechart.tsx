@@ -5,6 +5,7 @@ import { useTypedSelector } from '../../../modules/Reducers'
 import Tag, { pendingChartData } from '../../../models/Tag'
 import ExpenditureLog from '../../../models/ExpenditureLog';
 import IncomeLog from '../../../models/IncomeLog';
+import { Grid, makeStyles, createStyles } from '@material-ui/core';
 
 const calculateTotalAmount = (chartData: pendingChartData[]): number => {
   const totalAmount = chartData.map(d => d.totalAmount)
@@ -15,8 +16,33 @@ const additionReducer = (accumulator: number, currentValue: number): number => a
 
 const { useState } = React
 
+const useStyles = makeStyles(() => createStyles({
+  chartTitle: {
+    padding: 10,
+    background: '#e2e2e2',
+    borderRadius: 5,
+    textAlign: 'center'
+  },
+  chartAmount: {
+    margin: 10,
+    color: '#535353',
+    borderBottom: '1px solid black'
+  },
+  contentsTitle: {
+    background: '#263238',
+    color: 'white',
+    textAlign: 'center',
+    borderRadius: 2,
+    padding: 5,
+    margin: 10,
+    fontWeight:  10,
+    borderLeft: '5px solid #818ed3',
+    borderRight: '5px solid #818ed3',
+  },
+}))
+
 interface Props {
-  logs?: ExpenditureLog[] | IncomeLog[]
+  logs: ExpenditureLog[] | IncomeLog[]
   width?: string | number
   height?: string | number
   title?: string
@@ -25,6 +51,8 @@ interface Props {
 }
 
 const PieChart: React.FC<Props> = (props) => {
+  const classes = useStyles()
+
   const tags = useTypedSelector(state => state.tags)
   const expenditureLogs = useTypedSelector(state => state.expenditureLogs)
 
@@ -43,31 +71,53 @@ const PieChart: React.FC<Props> = (props) => {
 
   return (
     <React.Fragment>
-      <strong style={{margin: 10, color: '#535353'}}>total: {totalAmount}¥</strong>
+      <div style={{padding: 10}}>
+        <Grid container direction='column'>
+          <Grid item>
+            {props.title ?
+              <strong className={classes.contentsTitle}>
+                {props.title}
+              </strong>
+            : null}
+          </Grid>
 
-      <Chart
-        width={props.width || 360}
-        height={props.height || 360}
-        chartType="PieChart"
-        loader={<div>Loading Chart</div>}
-        data={[
-          ['Total amount', 'classified by tag'],
-          ...data
-        ]}
-        options={{
-          legend: 'none',
-          pieSliceText: props.pieSliceText || 'label',
-          title: `\n total: ${totalAmount}`,
-          tooltip: { trigger: props.tooltip || null },
-          pieHole: 0.4,
-          pieStartAngle: 100,
-          slices: {
-            ...tagColor
-          },
-          backgroundColor: '#edf3ff'
-        }}
-        rootProps={{ 'data-testid': '4' }}
-      />
+          {props.logs && props.logs.length ?
+            <Grid item>
+              <Chart
+                width={props.width || 360}
+                height={props.height || 360}
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={[
+                  ['Total amount', 'classified by tag'],
+                  ...data
+                ]}
+                options={{
+                  legend: 'none',
+                  pieSliceText: props.pieSliceText || 'label',
+                  title: props.title ? `${props.title}` : '',
+                  tooltip: { trigger: props.tooltip || 'OK' },
+                  pieHole: 0.4,
+                  pieStartAngle: 100,
+                  slices: {
+                    ...tagColor
+                  },
+                  backgroundColor: '#edf3ff'
+                }}
+                rootProps={{ 'data-testid': '4' }}
+              />
+            </Grid>
+          : null}
+
+          <Grid item>
+            total:<strong className={classes.chartAmount}>{totalAmount}¥</strong>
+            <br />
+            <p>lorem ipsum lorem ipsum</p>
+            <strong>lorem ipsum lorem ipsum</strong>
+            <div>lorem ipsum lorem ipsum lorem ipsum</div>
+          </Grid>
+        </Grid>
+      </div>
     </React.Fragment>
   )
 }

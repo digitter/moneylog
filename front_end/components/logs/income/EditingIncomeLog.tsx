@@ -31,10 +31,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   item: {
     marginTop: '10px',
   },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -176,19 +172,17 @@ export default function EdtingIncomeLog(props){
                 />
               </Grid>
               <Grid item className={classes.item}>
-                <div className={classes.container}>
-                  <TextField
-                    name="earnedAt"
-                    label="earned at"
-                    type="date"
-                    defaultValue={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={handleIncomeLogChange}
-                  />
-                </div>
+                <TextField
+                  name="earnedAt"
+                  label="earned at"
+                  type="date"
+                  defaultValue={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleIncomeLogChange}
+                />
               </Grid>
             </Grid>
 

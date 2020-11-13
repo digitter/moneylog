@@ -31,7 +31,6 @@ import PieChart from '../chart/Piechart';
 interface tableData {
   title: string;
   amount: number;
-  content: string;
   paidAt: Date;
   edit: string;
   delete: string;
@@ -68,21 +67,24 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+const { useState } = React
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    container: {
-      maxHeight: 671
-    },
     root: {
-      width: '90%',
+      width: '96%',
       margin: '30px auto',
     },
     paper: {
-      width: '100%',
+      minWidth: 1000,
       marginBottom: theme.spacing(2),
     },
+    tableContainer: {
+      maxHeight: 350,
+      minWidth: 1000,
+    },
     table: {
-      minWidth: 750,
+      minWidth: 1000,
     },
     visuallyHidden: {
       border: 0,
@@ -112,7 +114,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const ExpenditureLogsTable: React.FC = () => {
-  const { useState } = React
+  const classes = useStyles()
+
+  const expenditureLogs = useSelector(state => state.expenditureLogs)
+  const dispatch = useDispatch()
+
   const [order, setOrder] = useState<Order>('desc')
   const [orderBy, setOrderBy] = useState<keyof tableData>('paidAt')
   const [page, setPage] = useState(0)
@@ -121,11 +127,6 @@ const ExpenditureLogsTable: React.FC = () => {
   const [checkedLogs, setCheckedLogs] = useState<ExpenditureLog[]>([])
   const [rows, setRows] = useState<ExpenditureLog[]>([])
   const [currentYYMM, setCurrentYYMM] = useState<string>(moment(new Date()).format('YYYY-MM'))
-
-  const classes = useStyles()
-
-  const expenditureLogs = useSelector(state => state.expenditureLogs)
-  const dispatch = useDispatch()
 
   const [totalAmount, setTotalAmount] = useState<number>(null)
 
@@ -212,7 +213,7 @@ const ExpenditureLogsTable: React.FC = () => {
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const yymm: string = event.currentTarget.value
-    const selectedLogs = ExpenditureLog.selectLogsByMonth(expenditureLogs, yymm)
+    const selectedLogs: ExpenditureLog[] = ExpenditureLog.selectLogsByMonth(expenditureLogs, yymm)
 
     setRowsPerPage(selectedLogs.length)
     setRows(selectedLogs)
@@ -223,25 +224,12 @@ const ExpenditureLogsTable: React.FC = () => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <Grid container justify='space-between' alignContent='center'>
-        {/* <Grid container justify='flex-start' alignContent='center'> */}
+        <h3 className={classes.contentsTitle}>expenditure logs</h3>
+        <Grid container justify='flex-start'>
           <Grid item>
-            <h3 className={classes.contentsTitle}>expenditure logs</h3>
-            <CreateExpenditureLogModal />
-            <CreateExpenditureLogModal />
-            <CreateExpenditureLogModal />
-          </Grid>
+            <strong>{totalAmount} ¥</strong>
+            <br />
 
-          <Grid item>
-            <PieChart logs={rows} width={330} height={200} pieSliceText='none' tooltip='none' />
-          </Grid>
-        </Grid>
-
-        <Grid container justify='space-between'>
-          <Grid item>
-            <CreateExpenditureLogModal />
-            <CreateExpenditureLogModal />
-            <CreateExpenditureLogModal />
             <TextField
               type="month"
               InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
@@ -249,107 +237,115 @@ const ExpenditureLogsTable: React.FC = () => {
               onChange={handleMonthChange}
             />
           </Grid>
-
-          {/* <Grid item>
-            <TextField
-              type="month"
-              InputProps={{inputProps: { min: "2000-01", max: `${moment().year()}-12` } }}
-              defaultValue={currentYYMM}
-              onChange={handleMonthChange}
-            />
-          </Grid> */}
+          <Grid item>
+            <CreateExpenditureLogModal />
+            <CreateExpenditureLogModal />
+            <CreateExpenditureLogModal />
+          </Grid>
         </Grid>
 
-        <Paper className={classes.paper}>
-          <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
-          <TableContainer className={classes.container}>
-            <Table
-              stickyHeader
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              size={dense ? 'small' : 'medium'}
-              aria-label="enhanced table"
-            >
-              <caption>Expenditure Logs</caption>
-              <ExpenditureTableHead
-                classes={classes}
-                numSelected={checkedLogs.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: any, index: number) => {
+        <Grid container wrap='wrap'>
+          <Grid item xs={9}>
+            <Paper className={classes.paper}>
+              <ExpenditureTableToolbar expenditureLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
+              <TableContainer className={classes.tableContainer}>
+                <Table
+                  stickyHeader
+                  className={classes.table}
+                  aria-labelledby="tableTitle"
+                  size={dense ? 'small' : 'medium'}
+                  aria-label="enhanced table"
+                >
+                  <caption>Expenditure Logs</caption>
+                  <ExpenditureTableHead
+                    classes={classes}
+                    numSelected={checkedLogs.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onSelectAllClick={handleSelectAllClick}
+                    onRequestSort={handleRequestSort}
+                    rowCount={rows.length}
+                  />
+                  <TableBody>
+                    {stableSort(rows, getComparator(order, orderBy))
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row: any, index: number) => {
 
-                    const isItemSelected = isSelected(row);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+                        const isItemSelected = isSelected(row);
+                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                            onClick={(event) => handleCheckClick(event, row)}
-                          />
-                        </TableCell>
-                        <TableCell align='left'>
-                          {row.title}
-                        </TableCell>
-                        <TableCell align='left'>
-                          {row.amount}
-                        </TableCell>
-                        <TableCell align='left'>
-                          {row.content}
-                        </TableCell>
-                        <TableCell align='left'>
-                          <PaidAtPickers expenditureLog={row} />
-                        </TableCell>
-                        <TableCell align='left'>
-                          <TagAttachedToExpenditure row={row} />
-                        </TableCell>
-                        <TableCell align='left'>
-                          <EdtingExpenditureLog expenditureLog={row} />
-                        </TableCell>
-                        <TableCell align='left'>
-                          <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
-                        </TableCell>
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            aria-checked={isItemSelected}
+                            tabIndex={-1}
+                            key={row.id}
+                            selected={isItemSelected}
+                          >
+                            <TableCell padding="checkbox" size='small'>
+                              <Checkbox
+                                checked={isItemSelected}
+                                inputProps={{ 'aria-labelledby': labelId }}
+                                onClick={(event) => handleCheckClick(event, row)}
+                              />
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              {row.title}
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              {row.amount}
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              <PaidAtPickers expenditureLog={row} />
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              <TagAttachedToExpenditure row={row} />
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              <EdtingExpenditureLog expenditureLog={row} />
+                            </TableCell>
+                            <TableCell align='left' size='small'>
+                              <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                        <TableCell colSpan={6} />
                       </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[1, 7, expenditureLogs.length]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </Paper>
-        <FormControlLabel
-          control={<Switch checked={dense} onChange={handleChangeDense} />}
-          label="Dense padding"
-        />
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+              <TablePagination
+                rowsPerPageOptions={[1, 7, expenditureLogs.length]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
+            </Paper>
+
+            <FormControlLabel
+              control={<Switch checked={dense} onChange={handleChangeDense} />}
+              label="Dense padding"
+            />
+          </Grid>
+
+          <Grid item>
+            <PieChart
+              width={300}
+              height={300}
+              logs={rows}
+              title={`${currentYYMM}: expenditure classification`}
+            />
+          </Grid>
+        </Grid>
       </div>
     </React.Fragment>
   );

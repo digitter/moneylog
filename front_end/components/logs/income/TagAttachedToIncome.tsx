@@ -18,8 +18,10 @@ import { errorMessage, errorMessages } from '../../GlobalMessage';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 221,
+      width: 120,
       fontSize: 13,
+      margin: 0,
+      padding: 0,
     },
     button: {
       fontSize: 13,
@@ -40,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     tag: {
-      width: '50%',
+      width: '100%',
       marginTop: 3,
       height: 20,
       padding: '.15em 4px',

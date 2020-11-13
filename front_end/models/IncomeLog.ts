@@ -97,7 +97,7 @@ export default class IncomeLog {
     return logs.map((log: IncomeLog) => log.id)
   }
 
-  static selectLogsByMonth(logs: IncomeLog[], yymm: string) {
+  static selectLogsByMonth(logs: IncomeLog[], yymm: string): IncomeLog[] {
     return logs.filter((log: IncomeLog) => {
       if (moment(log.earnedAt).format('YYYY-MM') === yymm) { return log }
     })
