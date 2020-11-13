@@ -5,7 +5,7 @@ module CurrentUserConcern
 
   included do
     before_action :set_current_user, except: %i[signup signin logged_in]
-    before_action :initialize_data, only: %i[signup signin logged_in]
+    before_action :initialize_data, only: %i[logged_in]
   end
 
   def set_current_user
