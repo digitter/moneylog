@@ -10,7 +10,7 @@ ts = Time.zone.now
 p = 'aaaaaa'
 
 ActiveRecord::Base.transaction do
-  u = User.create!(name: "#{ts}さん", email: "a@a.a", password: p, password_confirmation: p)
+  u = User.create!(name: "Aさん", email: "a@a.a", password: p, password_confirmation: p)
 
   # 3.times do |i|
   #   MonthlyExpenditure.create!()
