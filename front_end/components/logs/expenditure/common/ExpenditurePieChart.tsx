@@ -5,13 +5,6 @@ import Tag, { pendingChartData } from '../../../../models/Tag';
 import ExpenditureLog from '../../../../models/ExpenditureLog';
 import { Grid, makeStyles, createStyles } from '@material-ui/core';
 
-const calculateTotalAmount = (chartData: pendingChartData[]): number => {
-  const totalAmount = chartData.map(d => d.totalAmount)
-  return totalAmount.reduce(additionReducer, 0)
-}
-
-const additionReducer = (accumulator: number, currentValue: number): number => accumulator + currentValue
-
 const { useState } = React
 
 const useStyles = makeStyles(() => createStyles({
@@ -62,11 +55,11 @@ const ExpenditurePieChart: React.FC<Props> = (props) => {
   React.useEffect(() => {
     Tag.createChartData(tags, props.logs)
       .then(pendingChartData => {
-        setTotalAmount(calculateTotalAmount(pendingChartData))
+        setTotalAmount(Tag.calculateTotalAmount(pendingChartData))
         setTagColor(Tag.extractTagColorObj(pendingChartData))
         setData(Tag.confirmChartData(pendingChartData))
       })
-  }, [tags, expenditureLogs ,props.logs])
+  }, [tags, expenditureLogs, props.logs])
 
   return (
     <React.Fragment>
@@ -80,7 +73,7 @@ const ExpenditurePieChart: React.FC<Props> = (props) => {
             : null}
           </Grid>
 
-          {props.logs && props.logs.length ?
+          {expenditureLogs && props.logs.length ?
             <Grid item>
               <Chart
                 graph_id={props.graphID}
@@ -110,7 +103,7 @@ const ExpenditurePieChart: React.FC<Props> = (props) => {
           : null}
 
           <Grid item>
-            total:<strong className={classes.chartAmount}>{totalAmount}¥</strong>
+            total:<strong className={classes.chartAmount}>{expenditureLogs.length ? totalAmount : 0}¥</strong>
             <br />
             <p>lorem ipsum lorem ipsum</p>
             <strong>lorem ipsum lorem ipsum</strong>
