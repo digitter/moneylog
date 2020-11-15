@@ -90,4 +90,13 @@ export default class Tag {
   static extractTagColorObj(data: pendingChartData[]): Array<{color: string}> {
     return data.map(d => ({ color: d.color }))
   }
+
+  static calculateTotalAmount(chartData: pendingChartData[]): number {
+    const totalAmount = chartData.map(d => d.totalAmount)
+    return totalAmount.reduce(this.additionReducer, 0)
+  }
+
+  private static additionReducer(accumulator: number, currentValue: number): number {
+    return accumulator + currentValue
+  }
 }

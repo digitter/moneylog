@@ -21,11 +21,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteAlert from '../common/DeleteAlert';
-import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToExpenditure from './TagAttachedToExpenditure';
 import { TextField, Grid } from '@material-ui/core';
 import PaidAtPickers from './common/PaidAtpickers';
 import ExpenditurePieChart from './common/ExpenditurePieChart';
+import { setLoadingMessage } from '../../../modules/CommonModule';
+import Notification, { progress, error, success } from '../../../models/Notification';
 
 interface tableData {
   title: string;
@@ -199,14 +200,20 @@ const ExpenditureLogsTable: React.FC = () => {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
   const handleDeleteClick = (expenditureLog: ExpenditureLog) => {
+    dispatch(setLoadingMessage(progress.destroy))
+
     deleteExpenditureLog(expenditureLog)
       .then((expenditureLog: ExpenditureLog) => {
         dispatch(editExpenditureLog('DESTROY_EXPENDITURE_LOG', expenditureLog))
         removeCheck(expenditureLog)
-        successMessage(succesmMessages.destroy)
+
+        Notification.successMessage(success.destroy)
+        dispatch(setLoadingMessage(null))
       })
       .catch(response => {
         console.error(response)
+        Notification.errorMessage(error.destroy)
+        dispatch(setLoadingMessage(null))
       })
   }
 

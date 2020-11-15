@@ -58,7 +58,6 @@ module Api
         end
       end
 
-      # TODO: フロントRedux Storeへ反映
       def relate_to_income_log
         log = @current_user.income_logs.find(log_id)
         using_tag_relations = log.tag_relations

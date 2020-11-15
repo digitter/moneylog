@@ -20,13 +20,13 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import CreateIncomeLogModal from './CreateIncomeLogModal';
 import DeleteAlert from '../common/DeleteAlert';
-import { successMessage, succesmMessages } from '../../GlobalMessage';
 import TagAttachedToIncome from './TagAttachedToIncome';
 import { TextField, Grid } from '@material-ui/core';
 import EarnedAtPickers from './common/EarnedAtPicker';
 import IncomePieChart from './common/IncomePieChart';
+import { setLoadingMessage } from '../../../modules/CommonModule';
+import Notification, { progress, success, error } from '../../../models/Notification';
 
 interface tableData {
   title: string;
@@ -200,14 +200,20 @@ const IncomeLogsTable: React.FC = () => {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
   const handleDeleteClick = (incomeLog: IncomeLog) => {
+    dispatch(setLoadingMessage(progress.destroy))
+
     deleteIncomeLog(incomeLog)
       .then((incomeLog: IncomeLog) => {
         dispatch(editIncomeLog('DESTROY_INCOME_LOG', incomeLog))
         removeCheck(incomeLog)
-        successMessage(succesmMessages.destroy)
+
+        Notification.successMessage(success.destroy)
+        dispatch(setLoadingMessage(null))
       })
       .catch(response => {
         console.error(response)
+        Notification.errorMessage(error.destroy)
+        dispatch(setLoadingMessage(null))
       })
   }
 
