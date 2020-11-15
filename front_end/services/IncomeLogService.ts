@@ -52,7 +52,7 @@ export const bulkDeleteIncomeLogs = (incomeLogs: IncomeLog[]) => {
     const url = 'http://localhost:3001/api/v1/bulk_delete/income_logs'
     const destroyIds: number[] = IncomeLog.extractIds(incomeLogs)
 
-    Axios.delete(url, { data: { ids: destroyIds } })
+    Axios.delete(url, { data: { destroyIds } })
       .then(() => {
         resolve(destroyIds)
       })

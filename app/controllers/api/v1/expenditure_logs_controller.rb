@@ -32,11 +32,11 @@ module Api
       end
 
       def bulk_delete
+        return response_bad_request unless expenditure_log_ids.all? { |id| id.is_a?(Integer) }
+
         begin
           existing_log_ids = @current_user.expenditure_logs.ids
-
-          # パラメータの中身が全て
-          # existing_log_idsに一致しないならば処理中止
+          # パラメータの中身が全てexisting_log_idsに一致しないならば処理中止
           return response_bad_request unless expenditure_log_ids.all? { |id| existing_log_ids.include?(id) }
 
           query = "DELETE FROM `expenditure_logs` WHERE `expenditure_logs`.`id` IN (#{expenditure_log_ids})"
@@ -65,7 +65,7 @@ module Api
         end
 
         def expenditure_log_ids
-          params.permit(ids: []).require(:ids)
+          params.require(:destroyIds)
         end
 
         def set_own_log!
