@@ -35,12 +35,15 @@ module Api
         begin
           existing_log_ids = @current_user.expenditure_logs.ids
 
+          # パラメータの中身が全て
+          # existing_log_idsに一致しないならば処理中止
           return response_bad_request unless expenditure_log_ids.all? { |id| existing_log_ids.include?(id) }
 
           query = "DELETE FROM `expenditure_logs` WHERE `expenditure_logs`.`id` IN (#{expenditure_log_ids})"
           query.delete!('[]')
           ActiveRecord::Base.connection.execute(query)
 
+          # ログに関連するtag relationを一括削除
           query = "DELETE FROM `tag_relations` WHERE `tag_relations`.`expenditure_log_id` IN (#{expenditure_log_ids})"
           query.delete!('[]')
           ActiveRecord::Base.connection.execute(query)
