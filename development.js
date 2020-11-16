@@ -6,6 +6,7 @@ const dist = path.resolve(__dirname, 'dist')
 
 export default {
   mode: 'development',
+  devtool: 'eval-source-map',
   entry: ['@babel/polyfill' ,`${front_end}/index.js`],
 
   output: {
