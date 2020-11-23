@@ -1,9 +1,10 @@
 import Axios from './Axios'
 import { errorMessage, errorMessages } from '../components/GlobalMessage'
+import apiEndPoint from 'apiEndPoint'
 
 export const fetchUser = () => {
   return new Promise((resolve, reject) => {
-    const url = 'http://localhost:3001/api/v1/logged_in'
+    const url = `${apiEndPoint.apiUri}/api/v1/logged_in`
 
     Axios.get(url)
       .then(response => {
@@ -24,7 +25,7 @@ type signupData = {
 
 export const userSignup = (user: signupData) => {
   return new Promise((resolve, reject) => {
-    const url = 'http://localhost:3001/api/v1/registrations'
+    const url = `${apiEndPoint.apiUri}/api/v1/registrations`
 
     Axios.post(url, { user })
       .then(response => {
@@ -39,7 +40,7 @@ export const userSignup = (user: signupData) => {
 
 export const userSignin = (user: { email: string, password: string }) => {
   return new Promise((resolve, reject) => {
-    const url = 'http://localhost:3001/api/v1/sessions'
+    const url = `${apiEndPoint.apiUri}/api/v1/sessions`
 
     Axios.post(url, { user })
       .then(response => {
@@ -54,7 +55,7 @@ export const userSignin = (user: { email: string, password: string }) => {
 
 export const userSignout = () => {
   return new Promise((resolve, reject) => {
-    const url = 'http://localhost:3001/api/v1/logout'
+    const url = `${apiEndPoint.apiUri}/api/v1/logout`
 
     Axios.delete(url)
       .then(response => {

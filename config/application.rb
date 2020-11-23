@@ -35,5 +35,7 @@ module MoneyLog
     config.api_only = true
 
     config.time_zone = 'Tokyo'
+
+    config.hosts << 'api.digitter.info'
   end
 end

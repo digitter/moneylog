@@ -1,9 +1,10 @@
 import Axios from './Axios'
 import ExpenditureLog from '../models/ExpenditureLog'
+import apiEndPoint from 'apiEndPoint'
 
 export const createExpenditureLog = (expenditureLog: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
-    const url = 'http://localhost:3001/api/v1/expenditure_logs'
+    const url = `${apiEndPoint.apiUri}/api/v1/expenditure_logs`
     const newExpenditureLog = ExpenditureLog.serialized(expenditureLog)
 
     Axios.post(url, newExpenditureLog)
@@ -19,7 +20,7 @@ export const createExpenditureLog = (expenditureLog: ExpenditureLog) => {
 
 export const updateExpenditureLog = (log: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/expenditure_logs/${log.id}`
+    const url = `${apiEndPoint.apiUri}/api/v1/expenditure_logs/${log.id}`
     const expenditureLog = ExpenditureLog.serialized(log)
 
     Axios.patch(url, expenditureLog)
@@ -35,7 +36,7 @@ export const updateExpenditureLog = (log: ExpenditureLog) => {
 
 export const deleteExpenditureLog = (expenditureLog: ExpenditureLog) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/expenditure_logs/${expenditureLog.id}`
+    const url = `${apiEndPoint.apiUri}/api/v1/expenditure_logs/${expenditureLog.id}`
 
     Axios.delete(url)
       .then(() => {
@@ -49,7 +50,7 @@ export const deleteExpenditureLog = (expenditureLog: ExpenditureLog) => {
 
 export const bulkDeleteExpenditureLogs = (expenditureLogs: ExpenditureLog[]) => {
   return new Promise((resolve, reject) => {
-    const url = 'http://localhost:3001/api/v1/bulk_delete/expenditure_logs'
+    const url = `${apiEndPoint.apiUri}/api/v1/bulk_delete/expenditure_logs`
     const destroyIds: number[] = ExpenditureLog.extractIds(expenditureLogs)
 
     Axios.delete(url, { data: { destroyIds } })

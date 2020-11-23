@@ -1,9 +1,10 @@
 import Axios from './Axios'
 import IncomeLog from '../models/IncomeLog'
+import apiEndPoint from 'apiEndPoint'
 
 export const createIncomeLog = (incomeLog: IncomeLog) => {
   return new Promise((resolve, reject) => {
-    const url = 'http://localhost:3001/api/v1/income_logs'
+    const url = `${apiEndPoint.apiUri}/api/v1/income_logs`
     const newIncomeLog = IncomeLog.serialized(incomeLog)
 
     Axios.post(url, newIncomeLog)
@@ -19,7 +20,7 @@ export const createIncomeLog = (incomeLog: IncomeLog) => {
 
 export const updateIncomeLog = (log: IncomeLog) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/income_logs/${log.id}`
+    const url = `${apiEndPoint.apiUri}/api/v1/income_logs/${log.id}`
     const incomeLog = IncomeLog.serialized(log)
 
     Axios.patch(url, incomeLog)
@@ -35,7 +36,7 @@ export const updateIncomeLog = (log: IncomeLog) => {
 
 export const deleteIncomeLog = (incomeLog: IncomeLog) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/income_logs/${incomeLog.id}`
+    const url = `${apiEndPoint.apiUri}/api/v1/income_logs/${incomeLog.id}`
 
     Axios.delete(url)
       .then(() => {
@@ -49,7 +50,7 @@ export const deleteIncomeLog = (incomeLog: IncomeLog) => {
 
 export const bulkDeleteIncomeLogs = (incomeLogs: IncomeLog[]) => {
   return new Promise((resolve, reject) => {
-    const url = 'http://localhost:3001/api/v1/bulk_delete/income_logs'
+    const url = `${apiEndPoint.apiUri}/api/v1/bulk_delete/income_logs`
     const destroyIds: number[] = IncomeLog.extractIds(incomeLogs)
 
     Axios.delete(url, { data: { destroyIds } })

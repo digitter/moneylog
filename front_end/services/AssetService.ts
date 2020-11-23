@@ -1,9 +1,10 @@
 import Axios from './Axios'
 import Asset from '../models/Asset'
+import apiEndPoint from 'apiEndPoint'
 
 export const updateAsset = (params: Asset) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/assets`
+    const url = `${apiEndPoint.apiUri}/api/v1/assets`
     const newAsset = Asset.serialized(params)
 
     Axios.patch(url, newAsset)

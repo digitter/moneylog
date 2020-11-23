@@ -1,3 +1,6 @@
+# Netlifiデプロイ時、bundle installを回避
+return true if ENV['NETLIFY']
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 

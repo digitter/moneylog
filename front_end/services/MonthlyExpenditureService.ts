@@ -1,9 +1,10 @@
 import Axios from './Axios'
 import MonthlyExpenditure from '../models/MonthlyExpenditure'
+import apiEndPoint from 'apiEndPoint'
 
 export const updateMonthlyExpenditure = (setting: MonthlyExpenditure) => {
   return new Promise((resolve, reject) => {
-    const url = `http://localhost:3001/api/v1/monthly_expenditures/${setting.id}`
+    const url = `${apiEndPoint.apiUri}/api/v1/monthly_expenditures/${setting.id}`
     const monthlyExpenditure = MonthlyExpenditure.serialized(setting)
 
     Axios.patch(url, monthlyExpenditure)

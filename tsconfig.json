@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "apiEndPoint": ["front_end/.env/apiEndPoint.ts"]
+    },
     "sourceMap": true,
     // TSはECMAScript 5に変換
     "target": "es5",

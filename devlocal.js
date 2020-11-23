@@ -4,8 +4,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 const front_end  = path.resolve(__dirname, 'front_end')
 const dist = path.resolve(__dirname, 'dist')
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-
 export default {
   mode: 'development',
   devtool: 'eval-source-map',
@@ -14,7 +12,7 @@ export default {
   output: {
     path: dist,
     filename: 'bundle.js',
-    publicPath: './'
+    // publicPath: '/'
   },
 
   module: {
@@ -65,7 +63,6 @@ export default {
       template: front_end + '/index.html',
       filename: 'index.html'
     }),
-    new BundleAnalyzerPlugin()
   ],
 
   devServer: {

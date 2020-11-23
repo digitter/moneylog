@@ -1,7 +1,9 @@
-if Rails.env == "production"
-  Rails.application.config.session_store :cookie_store, key: '_app_session', domain: "production-domain"
-else
-  Rails.application.config.session_store :cookie_store, key: '_app_session'
-end
+Rails.application.config.session_store(
+  :cookie_store,
+  key: 'staging_app_session',
+  domain: 'digitter.info',
+  # domain: :all,
+  # same_site: :none
+)
 
 Rails.application.config.api_only = false
