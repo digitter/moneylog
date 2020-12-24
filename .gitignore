@@ -31,6 +31,7 @@ yarn-error.log
 
 /.vscode
 
-/config/credentials/*
-
+/config/credentials/development.key
+/config/credentials/test.key
+/config/credentials/staging.key
 
