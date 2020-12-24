@@ -34,7 +34,7 @@ module MoneyLog
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    config.time_zone = 'Tokyo'
+    config.time_zone = 'Asia/Tokyo'
 
     config.hosts << 'api.digitter.info'
   end

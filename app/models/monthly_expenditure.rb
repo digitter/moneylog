@@ -1,4 +1,6 @@
 class MonthlyExpenditure < ApplicationRecord
+  include UuidGenerator
+
   # validations
   validates :amount, presence: true
   validates :title, presence: true, length: { minimum: 1, maximum: 100 }

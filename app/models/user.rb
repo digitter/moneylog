@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include UuidGenerator
   before_save { self.email = email.downcase }
 
   # validation

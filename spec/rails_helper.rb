@@ -68,7 +68,7 @@ RSpec.configure do |config|
   # RspecにCapybaraのDSLを設定
   config.include Capybara::DSL
   # helperをinclude
-  config.include FeatureHelper
+  config.include SystemHelper
 
   config.include FactoryBot::Syntax::Methods
 end

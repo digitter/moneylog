@@ -16,49 +16,56 @@ ActiveRecord::Base.transaction do
   #   MonthlyExpenditure.create!()
   # end
 
+  tag_ids = []
+
   10.times do
     ramdom_color = "#" + SecureRandom.hex(3)
 
-    Tag.create!(
+    tag = Tag.create!(
       user_id: u.id,
       name: "タグネーム",
       color: ramdom_color,
       description: '説明'
     )
+
+    tag_ids << tag.id
   end
 
   100.times do |i|
     i += 1
 
-    tag_id = (i % 10 == 0) ? 10 : i % 10 
+    tag_id = (i % 10 == 0) ? tag_ids[9] : tag_ids[i % 10] 
 
-    e = ExpenditureLog.new(
+    elog = ExpenditureLog.new(
       user_id: u.id,
       title: 'タイトル',
       amount: i,
       content: '内容'
     )
 
-    e.save!
+    elog.save!
 
     tr = TagRelation.new(
-      expenditure_log_id: e.id,
+      expenditure_log_id: elog.id,
       tag_id: tag_id
     )
+
     tr.save!
 
-    i = IncomeLog.new(
+    ilog = IncomeLog.new(
       user_id: u.id,
       title: 'タイトル',
       amount: i,
       content: '内容'
     )
-    i.save!
+
+    ilog.save!
 
     tr = TagRelation.new(
-      income_log_id: i.id,
+      income_log_id: ilog.id,
       tag_id: tag_id
     )
+
     tr.save!
   end
 end

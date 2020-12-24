@@ -1,7 +1,9 @@
 class IncomeLog < ApplicationRecord
+  include UuidGenerator
+
   # レコード保存時、カラムはデフォルトでCURRENT_TIMESTAMPになるが、
   # ActiveRecordオブジェクトには反映されないためシリアライズしてレスポンスを返す前にcallbackしている。
- after_create { self.earned_at = created_at }
+  after_create { self.earned_at = created_at }
 
   # validations
   validates :amount, presence: true

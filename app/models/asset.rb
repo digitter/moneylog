@@ -1,4 +1,6 @@
 class Asset < ApplicationRecord
+  include UuidGenerator
+
   # validation
   validates :title, length: { maximum: 50 }
   validates :content, length: { maximum: 100 }
