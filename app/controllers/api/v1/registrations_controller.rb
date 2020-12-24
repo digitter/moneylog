@@ -5,34 +5,35 @@ module Api
       before_action :authorize_user!, only: %i[cancel]
 
       def signup
+        # 登録済みemmailは拒否
+        return response_conflict(:email) if User.find_by(email: user_signup_params[:email])
+
+        user = User.new(user_signup_params)
+
+        ActiveRecord::Base.transaction do
         begin
-          # 登録済みemmailは拒否
-          return response_conflict(:email) if User.find_by(email: user_signup_params[:email])
+          user.save!
 
-          user = User.new(user_signup_params)
+          Asset.create!(user_id: user.id)
 
-          ActiveRecord::Base.transaction do
-            user.save!
-
-            Asset.create!(user_id: user.id)
-
-            3.times do |i|
-              i += 1
-              MonthlyExpenditure.create!(
-                user_id: user.id,
-                title: "固定費タイトル #{i}",
-                is_active: false
-              )
-            end
+          3.times do |i|
+            i += 1
+            MonthlyExpenditure.create!(
+              user_id: user.id,
+              title: "固定費タイトル #{i}",
+              is_active: false
+            )
           end
 
-          # transaction成功後、セッション管理
-          session[:user_id] = user.id
-
-          render json: to_json_api_format(user)
-        rescue => exception
-          response_internal_server_error
+          rescue => exception
+            return response_internal_server_error
+          end
         end
+
+        # transaction成功後、セッション管理
+        session[:user_id] = user.id
+
+        render json: to_json_api_format(user)
       end
 
       def cancel

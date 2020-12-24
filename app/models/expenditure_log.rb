@@ -1,4 +1,6 @@
 class ExpenditureLog < ApplicationRecord
+  include UuidGenerator
+
   # レコード保存時、カラムはデフォルトでCURRENT_TIMESTAMPになるが、
   # ActiveRecordオブジェクトには反映されないためシリアライズしてレスポンスを返す前にcallbackしている。
   after_create { self.paid_at = created_at }

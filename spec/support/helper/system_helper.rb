@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-module FeatureHelper
+module SystemHelper
   def signin
     visit(Rails.application.credentials.end_point[:front])
 
@@ -28,7 +28,7 @@ module FeatureHelper
 
     expect(page).to have_current_path('/signup')
 
-    timestamp = Time.zone.now.to_i
+    timestamp = Time.zone.now.to_f
 
     name = "#{timestamp}さん"
     email = "#{timestamp}@a.a"
@@ -41,6 +41,7 @@ module FeatureHelper
     fill_in 'Confirmation', with: password_confirmation
 
     page.find_button('Sign Up').click
+
     expect(page).to have_content "#{timestamp}さん"
     expect(page).to have_current_path('/')
   end

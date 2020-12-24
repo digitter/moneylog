@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_185307) do
+ActiveRecord::Schema.define(version: 2020_12_23_121926) do
 
-  create_table "assets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "assets", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "user_id", null: false
     t.integer "amount", default: 0, null: false
     t.string "title"
@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 2020_10_13_185307) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "expenditure_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id", null: false
+  create_table "expenditure_logs", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "user_id", null: false
     t.string "title"
     t.integer "amount", default: 0, null: false
     t.text "content"
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 2020_10_13_185307) do
     t.integer "monthly_expenditure_id"
   end
 
-  create_table "income_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id", null: false
+  create_table "income_logs", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "user_id", null: false
     t.integer "amount", null: false
     t.string "title"
     t.text "content"
@@ -42,35 +42,35 @@ ActiveRecord::Schema.define(version: 2020_10_13_185307) do
     t.datetime "earned_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
-  create_table "monthly_expenditures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "monthly_expenditures", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.integer "amount", default: 0, null: false
     t.text "content"
-    t.integer "user_id"
+    t.string "user_id"
     t.boolean "is_active"
     t.datetime "will_create_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "tag_relations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "tag_id", null: false
-    t.integer "expenditure_log_id"
-    t.integer "income_log_id"
+  create_table "tag_relations", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "tag_id", null: false
+    t.string "expenditure_log_id"
+    t.string "income_log_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "tags", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "color"
     t.string "description"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
     t.string "name", null: false

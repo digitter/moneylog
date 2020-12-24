@@ -1,4 +1,6 @@
 class Tag < ApplicationRecord
+  include UuidGenerator
+
   # create update時
   # before_save { self.color = '#' + color } // TODO: 正規表現 ?
 
@@ -10,5 +12,4 @@ class Tag < ApplicationRecord
   validates :name, presence: true, length: { minimum: 1, maximum: 20 }
   validates :color, presence: true
   validates :description, length: { maximum: 20 }
-
 end
