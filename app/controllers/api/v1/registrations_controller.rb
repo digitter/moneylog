@@ -11,21 +11,25 @@ module Api
         user = User.new(user_signup_params)
 
         ActiveRecord::Base.transaction do
-        begin
-          user.save!
+          retry_count = 0
+          begin
 
-          Asset.create!(user_id: user.id)
+            user.save!
+            
+            Asset.create!(user_id: user.id)
 
-          3.times do |i|
-            i += 1
-            MonthlyExpenditure.create!(
-              user_id: user.id,
-              title: "固定費タイトル #{i}",
-              is_active: false
-            )
-          end
-
+            3.times do |i|
+              i += 1
+              MonthlyExpenditure.create!(
+                user_id: user.id,
+                title: "固定費タイトル #{i}",
+                is_active: false
+              )
+            end
           rescue => exception
+            retry_count += 1
+            retry if retry_count < 3
+
             return response_internal_server_error
           end
         end
