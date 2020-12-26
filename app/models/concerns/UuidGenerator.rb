@@ -6,9 +6,6 @@ module UuidGenerator
   end
 
   def generate_token
-    self.id = loop do
-      random_token = SecureRandom.uuid
-      break random_token unless self.class.exists?(id: random_token)
-    end
+    self.id = SecureRandom.uuid
   end
 end
