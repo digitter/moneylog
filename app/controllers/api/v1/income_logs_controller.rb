@@ -32,19 +32,17 @@ module Api
       end
 
       def bulk_delete
-        return response_bad_request unless income_log_ids.all? { |id| id.is_a?(Integer) }
-
         begin
           existing_log_ids = @current_user.income_logs.ids
           # パラメータの中身が全て# existing_log_idsに一致しないならば処理中止
-          return response_bad_request unless income_log_ids.all? { |id| existing_log_ids.include?(id) }
+          return response_bad_request unless destroy_ids.all? { |id| existing_log_ids.include?(id) }
 
-          query = "DELETE FROM `income_logs` WHERE `income_logs`.`id` IN (#{income_log_ids})"
+          query = "DELETE FROM `income_logs` WHERE `income_logs`.`id` IN (#{destroy_ids})"
           query.delete!('[]')
           ActiveRecord::Base.connection.execute(query)
 
           # ログに関連するtag relationを一括削除
-          query = "DELETE FROM `tag_relations` WHERE `tag_relations`.`income_log_id` IN (#{income_log_ids})"
+          query = "DELETE FROM `tag_relations` WHERE `tag_relations`.`income_log_id` IN (#{destroy_ids})"
           query.delete!('[]')
           ActiveRecord::Base.connection.execute(query)
 
@@ -64,7 +62,7 @@ module Api
           )
         end
 
-        def income_log_ids
+        def destroy_ids
           params.require(:destroyIds)
         end
 
