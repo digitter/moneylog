@@ -4,7 +4,7 @@ require 'rails_helper'
 
 module SystemHelper
   def signin
-    visit('http://localhost:8080/')
+    visit(Rails.application.credentials.end_point[:front])
 
     page.find_link('Sign In').click
 
@@ -22,7 +22,7 @@ module SystemHelper
   end
 
   def signup
-    visit('http://localhost:8080/')
+    visit(Rails.application.credentials.end_point[:front])
 
     page.find_link('Sign Up').click
 

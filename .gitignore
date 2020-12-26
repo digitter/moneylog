@@ -30,3 +30,8 @@ node_modules/
 yarn-error.log
 
 /.vscode
+
+/config/credentials/development.key
+/config/credentials/test.key
+/config/credentials/staging.key
+
