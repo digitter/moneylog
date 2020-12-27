@@ -43,12 +43,14 @@ jobs:
 
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               ######### production デプロイ時のビルド内容 #########
-              echo "E2E test !"
+              echo "E2E master !"
               # RAILS_ENV=production bundle exec rspec spec/system/
             elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
               ######### statign デプロイ時のビルド内容 #########
+              echo "E2E staging !"
               # 1. Heroku: Railsをアップロード
-                git push https://heroku:10446c36-d352-4541-97e8-303e447f0262@git.heroku.com/moneylog-staging.git staging
+                echo "E2E staging !"
+                git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
               # 2. Netlify: Reactをアップロード
                 # push時にプロダクションビルド
               # 3. RSpec: RAILS_ENV=staging bundle exec rspec spec/system/
