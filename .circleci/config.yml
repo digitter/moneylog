@@ -9,12 +9,14 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_USERNAME: 'root'
           DB_PASSWORD: 'mysqlRootPassword'
+          TZ: "Asia/Tokyo"
 
       - image: circleci/mysql:8.0.21
         command: [--default-authentication-plugin=mysql_native_password]
         environment:
           MYSQL_DATABASE: money_log_development
           MYSQL_ROOT_PASSWORD: 'mysqlRootPassword'
+          TZ: "Asia/Tokyo"
 
     working_directory: ~/moneylog
 
