@@ -53,7 +53,7 @@ jobs:
               # 2. Netlify: Reactをアップロード
                 # push時にプロダクションビルド
               # 3. RSpec:
-                RAILS_ENV=production bundle exec rspec spec/system/
+                RAILS_ENV=staging bundle exec rspec spec/system/
             fi
 
 workflows:
