@@ -48,8 +48,22 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
+
+staging: 
   <<: *default
-  database: money_log_production
-  username: money_log
-  password: <%= ENV['MONEY_LOG_DATABASE_PASSWORD'] %>
+  host: r1bsyfx4gbowdsis.cbetxkdyhwsb.us-east-1.rds.amazonaws.com	
+  database: ic41zsghargh4hy8
+  adapter:  mysql2
+  encoding: utf8
+  username: 'h3cubtxsh1zq4h9o'
+  password: 'ridopf1cy3g6lqqx'
+
+production:
+   <<: *default
+   host: r1bsyfx4gbowdsis.cbetxkdyhwsb.us-east-1.rds.amazonaws.com	
+   database: ic41zsghargh4hy8
+   adapter:  mysql2
+   encoding: utf8
+   username: 'h3cubtxsh1zq4h9o'
+   password: 'ridopf1cy3g6lqqx'
+
