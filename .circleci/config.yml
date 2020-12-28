@@ -34,27 +34,31 @@ jobs:
       - run:
           name: Setup database
           command: |
-            # RAILS_ENV=test ./bin/rails db:create
-            # RAILS_ENV=test ./bin/rails db:schema:load
-            # RAILS_ENV=test ./bin/rails db:migrate
+            RAILS_ENV=test ./bin/rails db:migrate:reset
       - run:
           name: Run RSpec
           command: |
-            # RAILS_ENV=test bundle exec rspec spec/api/
-            # RAILS_ENV=test bundle exec rspec spec/models/
+            RAILS_ENV=test bundle exec rspec spec/api/
+            RAILS_ENV=test bundle exec rspec spec/models/
 
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ######### production デプロイ時のビルド内容 #########
+              ######### production デプロイ時の内容 #########
               echo "E2E master !"
+              # export RAILS_MASTER_KEY=${RAILS_PRODUCTION_KEY}
+              # EC2デプロイ
+              # S3デプロイ
+              # RSpec実行
               # RAILS_ENV=production bundle exec rspec spec/system/
             elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-              ######### statign デプロイ時のビルド内容 #########
+              ######### statign デプロイ時の内容 #########
               echo "E2E staging !"
-              # 1. Netlify: Reactをデプロイ & プロダクションビルド
-              # 2. Heroku: Railsをデプロイ
-                git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git staging
+              # RAILS_MASTER_KEH のデフォルトの値がtest.keyのため、staging.keyに変更
+              export RAILS_MASTER_KEY=${RAILS_STAGING_KEY}
+              # 1. Netlify: push時、Webpack自動プロダクションビルド
+              # 2. Heroku: Railsデプロイ stagingブランチ --push--> masterブランチ
+              git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
               # 3. RSpec: Largeテストを実行
-                RAILS_ENV=staging bundle exec rspec spec/system/
+              RAILS_ENV=staging bundle exec rspec spec/system/
             fi
 
 workflows:
