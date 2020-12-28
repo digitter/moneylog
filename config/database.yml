@@ -51,12 +51,12 @@ test:
 
 staging: 
   <<: *default
-  host: r1bsyfx4gbowdsis.cbetxkdyhwsb.us-east-1.rds.amazonaws.com	
-  database: ic41zsghargh4hy8
+  host: <%= Rails.application.credentials.dig(:db, :host) %>
+  database: <%= Rails.application.credentials.dig(:db, :database) %>
+  username: <%= Rails.application.credentials.dig(:db, :username) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
   adapter:  mysql2
   encoding: utf8
-  username: 'h3cubtxsh1zq4h9o'
-  password: 'ridopf1cy3g6lqqx'
 
 production:
    <<: *default
