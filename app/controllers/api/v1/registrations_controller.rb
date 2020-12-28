@@ -15,7 +15,7 @@ module Api
           begin
 
             user.save!
-            
+
             Asset.create!(user_id: user.id)
 
             3.times do |i|
