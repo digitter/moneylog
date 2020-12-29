@@ -2,7 +2,6 @@ require 'selenium-webdriver'
 require 'capybara/rspec'
 
 Capybara.configure do |config|
-
   config.default_driver = :chrome
   config.javascript_driver = :chrome
   config.run_server = true
@@ -11,6 +10,12 @@ Capybara.configure do |config|
   config.ignore_hidden_elements = true
   config.save_path = Dir.pwd 
   config.automatic_label_click = false
+  
+  if Rails.env.staging?
+    config.javascript_driver = :selenium
+    config.app_host = 'https://digitter.info'
+    config.run_server = false
+  end
 end
 
 Capybara.register_driver :chrome do |app|
@@ -30,3 +35,4 @@ Capybara.register_driver :chrome do |app|
     browser: :chrome,
     options: options)
 end
+

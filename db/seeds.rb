@@ -23,7 +23,7 @@ ActiveRecord::Base.transaction do
 
     tag = Tag.create!(
       user_id: u.id,
-      name: "タグネーム",
+      name: "タグネーム#{i}",
       color: ramdom_color,
       description: '説明'
     )

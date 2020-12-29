@@ -48,8 +48,19 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
+
+staging: 
   <<: *default
-  database: money_log_production
-  username: money_log
-  password: <%= ENV['MONEY_LOG_DATABASE_PASSWORD'] %>
+  host: <%= Rails.application.credentials.dig(:db, :host) %>
+  database: <%= Rails.application.credentials.dig(:db, :database) %>
+  username: <%= Rails.application.credentials.dig(:db, :username) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
+  adapter:  mysql2
+  encoding: utf8
+
+production:
+   <<: *default
+   database: money_log_production
+   username: money_log
+   password: <%= ENV['MONEY_LOG_DATABASE_PASSWORD'] %>	
+

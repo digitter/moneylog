@@ -34,4 +34,4 @@ yarn-error.log
 /config/credentials/development.key
 /config/credentials/test.key
 /config/credentials/staging.key
-
+/config/credentials/production.key
