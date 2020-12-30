@@ -55,7 +55,7 @@ jobs:
               # RAILS_MASTER_KEH のデフォルトの値がtest.keyのため、staging.keyに変更
               export RAILS_MASTER_KEY=${RAILS_STAGING_KEY}
               # 1. Netlify: push時、Webpack自動プロダクションビルド
-              # 2. Heroku: Railsデプロイ stagingブランチ --push--> masterブランチ
+              # 2. Heroku: Railsデプロイ stagingブランチ ---push---> masterブランチ
               git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
               # 3. RSpec: Largeテストを実行
               RAILS_ENV=staging bundle exec rspec spec/system/
