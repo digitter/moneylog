@@ -36,6 +36,6 @@ module MoneyLog
 
     config.time_zone = 'Asia/Tokyo'
 
-    config.hosts << 'api.digitter.info'
+    config.hosts << Rails.application.credentials.host
   end
 end
