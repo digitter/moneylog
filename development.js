@@ -71,7 +71,7 @@ export default {
   devServer: {
     // contentBase: 'dist',
     // open: true
-    host: '0.0.0.0',
+    host: 'moneylog.com',
     port: 8080,
     historyApiFallback: true,
     inline: true,

@@ -22,3 +22,33 @@ masterブランチ(production)
 `開発ブランチ`のPull Requestがレビューされ、`stagingブランチ`にmergeした時に
 CircleCIで自動E2Eテストが実行される。
 
+## credentialsで管理しているもの
+development, test, staging, production
+
+### 4つの環境に共通する項目
+
+```
+# credentialsの暗号鍵を生成するのに必要
+# rails secret で生成した値を貼り付けている
+secret_key_base
+
+# application.rbのhostに記載するもの
+host
+
+# エンドポイント
+end_point
+  front
+	api
+```
+
+### staging, productionのみあるもの
+
+```
+# MySQL用の情報
+db
+ host
+ database
+ username
+ password
+```
+

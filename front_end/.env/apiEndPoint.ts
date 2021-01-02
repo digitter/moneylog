@@ -6,7 +6,7 @@ const fetchApiUrl = () => {
   switch (process.env.NODE_ENV) {
     case 'devlocal':
     case 'development':
-      return 'http://localhost:3001'
+      return 'http://api.moneylog.com:3001'
     case 'staging':
       return 'https://api.digitter.info'
     default:
