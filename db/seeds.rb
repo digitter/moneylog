@@ -18,7 +18,7 @@ ActiveRecord::Base.transaction do
 
   tag_ids = []
 
-  10.times do
+  10.times do |i|
     ramdom_color = "#" + SecureRandom.hex(3)
 
     tag = Tag.create!(
@@ -34,7 +34,7 @@ ActiveRecord::Base.transaction do
   100.times do |i|
     i += 1
 
-    tag_id = (i % 10 == 0) ? tag_ids[9] : tag_ids[i % 10] 
+    tag_id = (i % 10 == 0) ? tag_ids[9] : tag_ids[i % 10]
 
     elog = ExpenditureLog.new(
       user_id: u.id,
