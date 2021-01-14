@@ -9,63 +9,131 @@
 ts = Time.zone.now
 p = 'aaaaaa'
 
-ActiveRecord::Base.transaction do
-  u = User.create!(name: "Aさん", email: "a@a.a", password: p, password_confirmation: p)
+# ---------------------------------------------------------------------
+# development用 seedデータ
 
-  # 3.times do |i|
-  #   MonthlyExpenditure.create!()
-  # end
+if Rails.env.development?
+  ActiveRecord::Base.transaction do
+    u = User.create!(name: "Aさん", email: "a@a.a", password: p, password_confirmation: p)
 
-  tag_ids = []
+    # 3.times do |i|
+    #   MonthlyExpenditure.create!()
+    # end
 
-  10.times do |i|
-    ramdom_color = "#" + SecureRandom.hex(3)
+    tag_ids = []
 
-    tag = Tag.create!(
-      user_id: u.id,
-      name: "タグネーム#{i}",
-      color: ramdom_color,
-      description: '説明'
-    )
+    10.times do |i|
+      ramdom_color = "#" + SecureRandom.hex(3)
 
-    tag_ids << tag.id
+      tag = Tag.create!(
+        user_id: u.id,
+        name: "タグネーム#{i}",
+        color: ramdom_color,
+        description: '説明'
+      )
+
+      tag_ids << tag.id
+    end
+
+    100.times do |i|
+      i += 1
+
+      tag_id = (i % 10 == 0) ? tag_ids[9] : tag_ids[i % 10]
+
+      elog = ExpenditureLog.new(
+        user_id: u.id,
+        title: 'タイトル',
+        amount: i,
+        content: '内容'
+      )
+
+      elog.save!
+
+      tr = TagRelation.new(
+        expenditure_log_id: elog.id,
+        tag_id: tag_id
+      )
+
+      tr.save!
+
+      ilog = IncomeLog.new(
+        user_id: u.id,
+        title: 'タイトル',
+        amount: i,
+        content: '内容'
+      )
+
+      ilog.save!
+
+      tr = TagRelation.new(
+        income_log_id: ilog.id,
+        tag_id: tag_id
+      )
+
+      tr.save!
+    end
   end
+end
 
-  100.times do |i|
-    i += 1
 
-    tag_id = (i % 10 == 0) ? tag_ids[9] : tag_ids[i % 10]
+# ---------------------------------------------------------------------
+# test, staging 用 seedデータ
 
-    elog = ExpenditureLog.new(
-      user_id: u.id,
-      title: 'タイトル',
-      amount: i,
-      content: '内容'
-    )
+if Rails.env.staging? || Rails.env.test?
+  ActiveRecord::Base.transaction do
+    u = User.create!(name: "Aさん", email: "a@a.a", password: p, password_confirmation: p)
 
-    elog.save!
+    # 3.times do |i|
+    #   MonthlyExpenditure.create!()
+    # end
 
-    tr = TagRelation.new(
-      expenditure_log_id: elog.id,
-      tag_id: tag_id
-    )
+    tag_ids = []
 
-    tr.save!
+    5.times do |i|
+      ramdom_color = "#" + SecureRandom.hex(3)
 
-    ilog = IncomeLog.new(
-      user_id: u.id,
-      title: 'タイトル',
-      amount: i,
-      content: '内容'
-    )
+      tag = Tag.create!(
+        user_id: u.id,
+        name: "タグネーム#{i}",
+        color: ramdom_color,
+        description: '説明'
+      )
+      
+      tag_ids << tag.id
+    end
 
-    ilog.save!
+    5.times do |i|
+      elog = ExpenditureLog.new(
+        user_id: u.id,
+        title: 'タイトル',
+        amount: 1250,
+        content: '内容'
+      )
 
-    tr = TagRelation.new(
-      income_log_id: ilog.id,
-      tag_id: tag_id
-    )
+      elog.save!
 
-    tr.save!
+      tr = TagRelation.new(
+        expenditure_log_id: elog.id,
+        tag_id: tag_ids[i]
+      )
+
+      tr.save!
+
+      ilog = IncomeLog.new(
+        user_id: u.id,
+        title: 'タイトル',
+        amount: 2000,
+        content: '内容'
+      )
+
+      ilog.save!
+
+      tr = TagRelation.new(
+        income_log_id: ilog.id,
+        tag_id: tag_ids[i]
+      )
+
+      tr.save!
+    end
   end
 end
