@@ -2,6 +2,7 @@ version: 2
 jobs:
   build:
     working_directory: ~/moneylog
+
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
         environment:
@@ -28,10 +29,14 @@ jobs:
           name: check node
           command: node -v
       - run:
-          - restore_cache:
+          name: install yarn
+          command: |
+            source ~/.bashrc
+            curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.5
+      - restore_cache:
           keys:
-          - bundle-cache-{{ checksum "Gemfile.lock" }}
-          - bundle-cache-
+            - bundle-cache-{{ checksum "Gemfile.lock" }}
+            - bundle-cache-
       - run:
           name: Run bundle install
           command: |
@@ -57,6 +62,10 @@ jobs:
             bundle exec rspec spec/api/
             bundle exec rspec spec/models/
             # bundle exec rspec spec/requests/
+      # - run:
+          # name: SMALL TEST Run Jest
+          # command: |
+            # Jestを実行
       - run:
           name: Medium or Large test Run Rspec 
           command: |
@@ -78,6 +87,12 @@ jobs:
               git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git staging:master
               # 3. RSpec: Largeテストを実行
               RAILS_ENV=staging bundle exec rspec spec/system/
+            else
+              # 1 デーモンでプロセスを起動
+              nohup yarn run start &
+              ./bin/rails s -p 3001 -d
+              # 2. RSpec: Mediumテストを実行
+              bundle exec rspec spec/system/
             fi
 
 workflows:
