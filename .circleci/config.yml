@@ -1,10 +1,12 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/moneylog
+
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
         environment:
-          RAILS_ENV: test
+          RAILS_ENV: development
           BUNDLER_VERSION: 2.1.4
           DB_HOST: 127.0.0.1
           DB_USERNAME: 'root'
@@ -14,33 +16,61 @@ jobs:
       - image: circleci/mysql:8.0.21
         command: [--default-authentication-plugin=mysql_native_password]
         environment:
-          MYSQL_DATABASE: money_log_test
+          MYSQL_DATABASE: money_log_development
           MYSQL_ROOT_PASSWORD: 'mysqlRootPassword'
           TZ: "Asia/Tokyo"
-
-    working_directory: ~/moneylog
 
     steps:
       - checkout
       - run:
-          name: Wait for database
-          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+          name: check shell
+          command: echo $SHELL
+      - run:
+          name: check node
+          command: node -v
+      - run:
+          name: install yarn
+          command: |
+            source ~/.bashrc
+            curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.5
+      - restore_cache:
+          keys:
+            - bundle-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - bundle-cache-{{ .Branch }}-
+            - bundle-cache-
       - run:
           name: Run bundle install
           command: |
             gem install bundler
+            bundle -v
             bundle config set path 'vendor/bundle'
-            bundle install --jobs=4 --retry=3
+            bundle install --clean --jobs=4 --retry=3
+      - save_cache:
+          key: bundle-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - run:
           name: Setup database
           command: |
-            RAILS_ENV=test ./bin/rails db:migrate:reset
+            ./bin/rails db:migrate:reset
+            ./bin/rails db:seed
       - run:
-          name: Run RSpec
+          name: Wait for database
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+      - run:
+          name: Small test Run RSpec
           command: |
-            RAILS_ENV=test bundle exec rspec spec/api/
-            RAILS_ENV=test bundle exec rspec spec/models/
-
+            bundle exec rspec spec/api/
+            bundle exec rspec spec/models/
+            # bundle exec rspec spec/requests/
+      - restore_cache:
+          keys:
+            - node_cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - node_cache-{{ .Branch }}-
+            - node_cache-
+      - run:
+          name: Medium or Large test Run Rspec 
+          command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               ######### production デプロイ時の内容 #########
               echo "E2E master !"
@@ -52,17 +82,33 @@ jobs:
             elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
               ######### statign デプロイ時の内容 #########
               echo "E2E staging !"
-              # RAILS_MASTER_KEH のデフォルトの値がtest.keyのため、staging.keyに変更
+              # RAILS_MASTER_KEH のデフォルトの値がdevelopment.keyのため、staging.keyに変更
               export RAILS_MASTER_KEY=${RAILS_STAGING_KEY}
               # 1. Netlify: push時、Webpack自動プロダクションビルド
               # 2. Heroku: Railsデプロイ stagingブランチ ---push---> Herokuのmasterブランチへ反映
               git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git staging:master
               # 3. RSpec: Largeテストを実行
               RAILS_ENV=staging bundle exec rspec spec/system/
+            else
+              # RSpec: Mediumテストを実行
+              # 名前解決
+              echo "127.0.0.1 moneylog.com" | sudo tee -a /etc/hosts
+              echo "127.0.0.1 api.moneylog.com" | sudo tee -a /etc/hosts
+
+              yarn
+              # 1 バックグラウンド、デーモンでプロセスを起動
+              nohup yarn run start &
+              ./bin/rails s -p 3001 -d
+              # 2. RSpec: Mediumテストを実行
+              bundle exec rspec spec/system/
             fi
+      - save_cache:
+          key: node-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
 
 workflows:
   version: 2
-  workflows:
+  build_and_test:
     jobs:
       - build
