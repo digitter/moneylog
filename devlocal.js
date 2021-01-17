@@ -66,7 +66,7 @@ export default {
   ],
 
   devServer: {
-    // contentBase: 'dist',
+    contentBase: path.join(__dirname, 'dist'),
     host: 'moneylog.com',
     port: 8080,
     historyApiFallback: true,
