@@ -57,7 +57,7 @@ jobs:
           name: Wait for database
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
       - run:
-        name: Small test Run RSpec
+          name: Small test Run RSpec
           command: |
             bundle exec rspec spec/api/
             bundle exec rspec spec/models/
