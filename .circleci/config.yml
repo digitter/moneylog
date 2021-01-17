@@ -35,7 +35,8 @@ jobs:
             curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.5
       - restore_cache:
           keys:
-            - bundle-cache-{{ checksum "Gemfile.lock" }}
+            - bundle-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - bundle-cache-{{ .Branch }}-
             - bundle-cache-
       - run:
           name: Run bundle install
@@ -45,7 +46,7 @@ jobs:
             bundle config set path 'vendor/bundle'
             bundle install --clean --jobs=4 --retry=3
       - save_cache:
-          key: bundle-cache-{{ checksum "Gemfile.lock" }}
+          key: bundle-cache-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
       - run:
@@ -62,10 +63,11 @@ jobs:
             bundle exec rspec spec/api/
             bundle exec rspec spec/models/
             # bundle exec rspec spec/requests/
-      # - run:
-          # name: SMALL TEST Run Jest
-          # command: |
-            # Jestを実行
+      - restore_cache:
+          keys:
+            - node_cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - node_cache-{{ .Branch }}-
+            - node_cache-
       - run:
           name: Medium or Large test Run Rspec 
           command: |
@@ -100,6 +102,10 @@ jobs:
               # 2. RSpec: Mediumテストを実行
               bundle exec rspec spec/system/
             fi
+      - save_cache:
+          key: node-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
 
 workflows:
   version: 2
