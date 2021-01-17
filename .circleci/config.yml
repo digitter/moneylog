@@ -88,7 +88,13 @@ jobs:
               # 3. RSpec: Largeテストを実行
               RAILS_ENV=staging bundle exec rspec spec/system/
             else
-              # 1 デーモンでプロセスを起動
+              # RSpec: Mediumテストを実行
+              # 名前解決
+              echo "127.0.0.1 moneylog.com" | sudo tee -a /etc/hosts
+              echo "127.0.0.1 api.moneylog.com" | sudo tee -a /etc/hosts
+
+              yarn
+              # 1 バックグラウンド、デーモンでプロセスを起動
               nohup yarn run start &
               ./bin/rails s -p 3001 -d
               # 2. RSpec: Mediumテストを実行
