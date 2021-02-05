@@ -12,7 +12,7 @@ export default {
   output: {
     path: dist,
     filename: 'bundle.js',
-    // publicPath: '/'
+    publicPath: '/'
   },
 
   module: {
@@ -66,8 +66,7 @@ export default {
   ],
 
   devServer: {
-    // contentBase: 'dist',
-    // open: true
+    contentBase: './',
     host: '0.0.0.0',
     port: 8080,
     historyApiFallback: true,
