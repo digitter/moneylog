@@ -12,7 +12,7 @@ export default {
   output: {
     path: dist,
     filename: 'bundle.js',
-    // publicPath: '/'
+    publicPath: '/'
   },
 
   module: {
@@ -66,7 +66,7 @@ export default {
   ],
 
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: './',
     host: 'moneylog.com',
     port: 8080,
     historyApiFallback: true,
