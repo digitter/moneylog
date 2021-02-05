@@ -12,7 +12,7 @@ export default {
   output: {
     path: dist,
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: 'https://digitter.info/'
   },
 
   module: {
