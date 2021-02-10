@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     // backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundImage: 'url(public/moneylog.jpg)',
+    backgroundImage: 'url(public/images/moneylog.jpg)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],

@@ -1,18 +1,19 @@
 import path from 'path'
+import glob from 'glob'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
-const front_end  = path.resolve(__dirname, 'front_end')
-const dist = path.resolve(__dirname, 'dist')
+const front_end = path.resolve(__dirname, 'front_end')
+const outputPath = path.resolve(__dirname, 'dist')
+const images = path.resolve(__dirname, 'public/images')
+const imagePaths = glob.sync(`${images}/**.**`)
 
 export default {
-  mode: 'none',
-  devtool: 'eval-source-map',
-  entry: ['@babel/polyfill' ,`${front_end}/index.js`],
-
+  mode: 'production',
+  entry: ['@babel/polyfill' ,`${front_end}/index.js`].concat(imagePaths),
   output: {
-    path: dist,
     filename: 'bundle.js',
-    publicPath: 'https://digitter.info/'
+    path: outputPath,
+    // publicPath: 'https://digitter.info/'
   },
 
   module: {
@@ -43,6 +44,13 @@ export default {
           { loader: 'css-loader' },
           { loader: 'sass-loader' }
         ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg|ico)$/i,
+        loader: 'file-loader',
+        options: {
+          name: 'public/images/[name].[ext]'
+        }
       }
     ]
   },
@@ -50,7 +58,8 @@ export default {
   resolve: {
     modules: [
       "node_modules",
-      path.resolve(__dirname, 'front_end')
+      front_end,
+      images
     ],
     alias: {
       'apiEndPoint': path.resolve(__dirname, `${front_end}/.env/apiEndPoint.ts`),
@@ -62,21 +71,6 @@ export default {
     new HtmlWebpackPlugin({
       template: front_end + '/index.html',
       filename: 'index.html'
-    }),
-  ],
-
-  devServer: {
-    contentBase: './',
-    host: '0.0.0.0',
-    port: 8080,
-    historyApiFallback: true,
-    inline: true,
-    // before(app) {
-      // デフォルトだと、url末尾にスラッシュがないときに追加しリダイレクトするため、それを防ぐ
-      // app.set('strict routing', true);
-
-      // /public/ 以下の画像等の配信
-      // app.use(express.static(path.resolve('public')))
-    // }
-  }
+    })
+  ]
 }

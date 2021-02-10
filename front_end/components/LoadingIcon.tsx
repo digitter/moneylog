@@ -8,7 +8,7 @@ const LoadingIcon: React.FC = () => {
         <p>NOW LOADING ! Getting logs...</p>
       </Box>
       <Box>
-        <img src ="/public/loadingp.gif" style={{width: "300px"}} />
+        <img src ="public/images/loadingp.gif" style={{width: "300px"}} />
       </Box>
     </Box>
   )
