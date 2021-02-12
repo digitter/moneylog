@@ -13,7 +13,7 @@
     "staging": "NODE_ENV=staging webpack-dev-server --mode production --progress --env=devlocal",
     "build:dev": "webpack --env=development",
     "build:production": "webpack --env=production",
-    "build:netlify": "TARGET_ENV=staging webpack --env=staging"
+    "build:netlify": "webpack --env=staging"
   },
   "repository": {
     "type": "git",

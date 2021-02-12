@@ -1,7 +1,6 @@
 
 const fetchApiUrl = () => {
   console.log('node env', process.env.NODE_ENV)
-  console.log('target', process.env.TARGET_ENV)
 
   switch (process.env.NODE_ENV) {
     case 'devlocal':
