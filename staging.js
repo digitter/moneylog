@@ -12,8 +12,7 @@ export default {
   entry: ['@babel/polyfill' ,`${front_end}/index.js`].concat(imagePaths),
   output: {
     filename: 'bundle.js',
-    path: outputPath,
-    // publicPath: 'https://digitter.info/'
+    path: outputPath
   },
 
   module: {
