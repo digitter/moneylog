@@ -48,7 +48,7 @@ const NotificationLoading: React.FC = () => {
               <div className={classes.paper}>
                 <Grid className={classes.paper} container direction="column">
                   <Grid item>
-                    <img src ="/public/loadingp.gif" />
+                    <img src ="public/images/loadingp.gif"/>
                   </Grid>
                   <Grid item>
                     <div className={classes.msg}>

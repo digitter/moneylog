@@ -53,7 +53,7 @@ export default function Header() {
           </Typography>
           <Typography variant="subtitle1" className={classes.menuButton}>
             <Link to={`/settings`}>
-              <Avatar alt="Remy Sharp" src="/public/hello.png" className={classes.avatar} />
+              <Avatar alt="Remy Sharp" src="public/images/hello.png" className={classes.avatar} />
             </Link>
           </Typography>
         </Toolbar>
