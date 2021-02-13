@@ -48,8 +48,10 @@ export default {
       },
       {
         test: /\.(jpe?g|png|gif|svg|ico)$/i,
-        loader: 'file-loader',
+        loader: 'url-loader',
         options: {
+          // 2KBを超えるファイルならばfile-loaderでフィイルとしてコピーする
+          limit: 2048,
           name: 'public/images/[name].[ext]'
         }
       }
