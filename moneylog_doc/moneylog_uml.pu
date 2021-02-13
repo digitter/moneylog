@@ -2,20 +2,20 @@
   title moneylog_ER_Diagram
 
   ' Relationship
-  User --- Asset: owns >
-  User ---o{ ExpenditureLog
-  User ---o{ IncomeLog
-  User ---o{ MonthlyExpenditure
-  User ---o{ MonthlyIncome
-  User ---o{ Tag
+  User ||---|| Asset: owns >
+  User ||---o{ ExpenditureLog
+  User ||---o{ IncomeLog
+  User ||---o{ MonthlyExpenditure
+  User ||---o{ MonthlyIncome
+  User ||---o{ Tag
 
-  MonthlyExpenditure ---o{ ExpenditureLog
-  MonthlyIncome ---o{ IncomeLog
+  MonthlyExpenditure ||---o{ ExpenditureLog
+  MonthlyIncome ||---o{ IncomeLog
 
-  IncomeLog ---o{ TagRelation
-  ExpenditureLog ---o{ TagRelation
+  IncomeLog ||---o{ TagRelation
+  ExpenditureLog ||---o{ TagRelation
 
-  Tag --o{ TagRelation
+  Tag ||--o{ TagRelation
 
   class User {
     id
@@ -25,13 +25,15 @@
     created_at
     updated_at
   }
-  class Asset {
+
+  class "Asset" {
     id
     user_id (foreign_key)
     amount
     created_at
     updated_at
   }
+
   class MonthlyExpenditure {
     id
     user_id (foreign_key)
@@ -43,6 +45,7 @@
     created_at
     updated_at
   }
+
   class MonthlyIncome {
     id
     user_id (foreign_key)
@@ -54,6 +57,7 @@
     created_at
     updated_at
   }
+
   class IncomeLog {
     id
     user_id (foreign_key)
@@ -65,6 +69,7 @@
     created_at
     updated_at
   }
+
   class ExpenditureLog {
     id
     user_id (foreign_key)
@@ -76,12 +81,14 @@
     created_at
     updated_at
   }
+
   class TagRelation {
     id
     tag_id(foreign_key)
     expenditure_log_id(optional_foreign_key)
     income_log_id(optional_foreign_key)
   }
+
   class Tag {
     id
     user_id (foreign_key)
@@ -91,4 +98,5 @@
     created_at
     updated_at
   }
+
 @enduml
