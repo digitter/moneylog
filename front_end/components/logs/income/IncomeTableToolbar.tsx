@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux'
 import IncomeLog from '../../../models/IncomeLog';
-import { editIncomeLogs, actionTypes as incomeLogActionTypes } from '../../../modules/IncomeLogModule';
-
 import clsx from 'clsx';
 import { bulkDeleteIncomeLogs } from '../../../services/IncomeLogService';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,15 +11,15 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { setLoadingMessage } from '../../../modules/CommonModule';
-import Notification, { progress, success } from '../../../models/Notification';
+import Notification, { progress, success, error } from '../../../models/Notification';
+import { editIncomeLogs, actionTypes } from '../../../modules/IncomeLogModule';
 import CreateIncomeLogModal from './CreateIncomeLogModal';
+import BulkDeleteAlert from '../common/BulkDeleteAlert';
 
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      minWidth: 1000,
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(1),
+      minWidth: 360,
     },
     highlight:
       theme.palette.type === 'light'
@@ -50,21 +48,21 @@ const IncomeTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
 
-  const handleBulkDeleteClick = incomeLogs => {
+  const handleBulkDeleteClick = (logs: IncomeLog[]) => {
     if (!window.confirm('Are you sure ?')) return
 
     dispatch(setLoadingMessage(progress.bulkDestroy))
 
-    bulkDeleteIncomeLogs(incomeLogs)
+    bulkDeleteIncomeLogs(logs)
       .then((deleteIds: number[]) => {
-        dispatch(editIncomeLogs(incomeLogActionTypes.bulkDestroy, deleteIds))
+        dispatch(editIncomeLogs(actionTypes.bulkDestroy, deleteIds))
         props.setCheckedLogs([])
         Notification.successMessage(success.bulkDestroy)
         dispatch(setLoadingMessage(null))
       })
       .catch(response => {
         console.error(response)
-        Notification.errorMessage(success.bulkDestroy)
+        Notification.errorMessage(error.bulkDestroy)
         dispatch(setLoadingMessage(null))
       })
   }
@@ -85,23 +83,7 @@ const IncomeTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <>
-          <Tooltip title="Bulk edit">
-            <IconButton
-              aria-label="edit"
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Bulk delete">
-            <IconButton
-              aria-label="delete"
-              onClick={() => handleBulkDeleteClick(props.incomeLogs)}
-            >
-              <DeleteForeverIcon />
-            </IconButton>
-          </Tooltip>
-        </>
+        <BulkDeleteAlert logs={props.incomeLogs} handleDeleteClick={handleBulkDeleteClick} />
       ) : (
         <>
           <CreateIncomeLogModal />

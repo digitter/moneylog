@@ -11,22 +11,12 @@ interface tableData {
   amount: number;
   earnedAt: Date;
   tag: string;
-  edit?: string;
-  delete?: string;
+  edit: string;
+  delete: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: '100%',
-    },
-    paper: {
-      width: '100%',
-      marginBottom: theme.spacing(2),
-    },
-    table: {
-      minWidth: 750,
-    },
     visuallyHidden: {
       border: 0,
       clip: 'rect(0 0 0 0)',
@@ -38,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 20,
       width: 1,
     },
+    tableHeaderCell: {
+      padding: 0
+    }
   }),
 );
 
@@ -73,22 +66,21 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 }
 
 interface HeadCell {
-  disablePadding: boolean;
   id: keyof tableData;
-  label: string;
   numeric: boolean;
+  disablePadding: boolean;
+  label: string;
 }
 
 const headCells: HeadCell[] = [
-  { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
+  { id: 'title', numeric: false, disablePadding: false, label: 'Title' },
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount (yen)' },
-  { id: 'earnedAt', numeric: true, disablePadding: false, label: 'Income Date' },
+  { id: 'earnedAt', numeric: true, disablePadding: false, label: 'Payment Date' },
   { id: 'tag', numeric: false, disablePadding: false, label: 'Tag' },
   { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];
 interface EnhancedTableProps {
-  classes: ReturnType<typeof useStyles>;
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof tableData) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -97,8 +89,9 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
-const IncomeTableHead: React.FC<EnhancedTableProps> = (props) => {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
+const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
+  const classes = useStyles()
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property: keyof tableData) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
@@ -106,7 +99,10 @@ const IncomeTableHead: React.FC<EnhancedTableProps> = (props) => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell
+          className={classes.tableHeaderCell}
+          align='center'
+        >
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
@@ -116,9 +112,9 @@ const IncomeTableHead: React.FC<EnhancedTableProps> = (props) => {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
+            className={classes.tableHeaderCell}
             key={headCell.id}
-            align='left'
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            align='center'
             sortDirection={orderBy === headCell.id ? order : false}
           >
             {headCell.numeric
@@ -136,7 +132,9 @@ const IncomeTableHead: React.FC<EnhancedTableProps> = (props) => {
                   ) : null}
                 </TableSortLabel>
               :
-                <TableSortLabel hideSortIcon={true}>
+                <TableSortLabel
+                  hideSortIcon={true}
+                >
                   {headCell.label}
                 </TableSortLabel>
               }
@@ -147,4 +145,4 @@ const IncomeTableHead: React.FC<EnhancedTableProps> = (props) => {
   );
 }
 
-export default IncomeTableHead
+export default EnhancedTableHead

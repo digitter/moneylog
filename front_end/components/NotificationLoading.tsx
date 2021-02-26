@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       // backgroundColor: theme.palette.background.paper,
       background: '#edf3ff',
+      opacity: 0.9,
       width: 250,
+      height: 250,
       borderRadius: 5,
     },
     msg: {

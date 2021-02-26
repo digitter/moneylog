@@ -27,23 +27,12 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     padding: '0px 10px',
     display: 'flex',
     flexDirection: 'column',
+    height: 300,
   },
-  item: {
-    marginTop: '10px',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
-}))
-
-const customStyles = {
-  content : {
+  modal: {
     width: 350,
-    height: 400,
+    height: 290,
     background: '#fff',
-    backgroundColor: '#fff',
     padding: 0,
     marginTop: 50,
     position: 'absolute',
@@ -55,20 +44,52 @@ const customStyles = {
     overflow: 'auto',
     borderRadius: '4px',
     outline: 'none',
+    zIndex: 1000,
   },
-  overlay: {zIndex: 1000}
-};
+  item: {
+    marginTop: '10px',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+  textarea: {
+    minHeight: 100,
+    width: 200,
+  },
+  editing: {
+    color: 'green',
+  },
+}))
+
+const customStyles = {
+  overlay: {
+    zIndex: 1000,
+    backgroundColor: 'none',
+  }
+}
 
 Modal.setAppElement('#root')
 
 export default function EdtingIncomeLog(props){
-  const classes = useStyles();
-  const dispatch = useDispatch();
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const { useState } = React
+
+  const [isEditing, setIsEditing] = useState(false)
+  const [modalIsOpen,setIsOpen] = useState(false)
+
+  const [id] = React.useState(props.incomeLog.id)
+  const [title, setTitle] = useState(props.incomeLog.title)
+  const [amount, setAmount] = useState(props.incomeLog.amount)
+  const [content, setContent] = useState(props.incomeLog.content)
+  const [earnedAt, setEarnedAt] = useState(props.incomeLog.earnedAt)
 
   var subtitle;
-  const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
-    setIsOpen(true);
+    setIsEditing(true)
+    setIsOpen(true)
   }
 
   function afterOpenModal() {
@@ -76,14 +97,9 @@ export default function EdtingIncomeLog(props){
   }
 
   function closeModal(){
-    setIsOpen(false);
+    setIsEditing(false)
+    setIsOpen(false)
   }
-
-  const [id] = React.useState(props.incomeLog.id);
-  const [title, setTitle] = React.useState(props.incomeLog.title);
-  const [amount, setAmount] = React.useState(props.incomeLog.amount);
-  const [content, setContent] = React.useState(props.incomeLog.content);
-  const [earnedAt, setEarnedAt] = React.useState(props.incomeLog.earnedAt)
 
   const handleIncomeLogChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     switch (event.currentTarget.name) {
@@ -121,7 +137,9 @@ export default function EdtingIncomeLog(props){
       <React.Fragment>
         <Tooltip title="Edit log">
           <IconButton aria-label="update" onClick={openModal} >
-            <EditIcon />
+            {isEditing
+              ? <EditIcon className={classes.editing} />
+              : <EditIcon/>}
           </IconButton>
         </Tooltip>
 
@@ -131,6 +149,7 @@ export default function EdtingIncomeLog(props){
           onRequestClose={closeModal}
           style={customStyles}
           contentLabel="Example Modal"
+          className={classes.modal}
         >
 
           <div
@@ -162,16 +181,16 @@ export default function EdtingIncomeLog(props){
               </Grid>
               <Grid item className={classes.item}>
                 <TextareaAutosize
-                  style={{height: 130, width: 300}}
                   name='content'
                   rowsMax={4}
                   aria-label="maximum height"
                   placeholder='Content'
                   defaultValue={content}
                   onChange={handleIncomeLogChange}
+                  className={classes.textarea}
                 />
               </Grid>
-              <Grid item className={classes.item}>
+              {/* <Grid item className={classes.item}>
                 <TextField
                   name="earnedAt"
                   label="earned at"
@@ -183,7 +202,7 @@ export default function EdtingIncomeLog(props){
                   }}
                   onChange={handleIncomeLogChange}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
 
             <Grid container spacing={2} justify="flex-start">

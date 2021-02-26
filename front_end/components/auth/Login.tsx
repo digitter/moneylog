@@ -4,8 +4,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
-// import FormControlLabel from '@material-ui/core/FormControlLabel'
-// import Checkbox from '@material-ui/core/Checkbox'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
@@ -30,6 +28,7 @@ import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../.
 import { history } from '../../modules/store'
 import { Link } from 'react-router-dom'
 import { editTags, tagActionTypes } from '../../modules/TagModule'
+import Header from '../Header'
 
 const { useState } = React
 
@@ -113,6 +112,8 @@ const Login: React.FC<Props> = () => {
 
   return (
     <React.Fragment>
+      <Header />
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -147,10 +148,6 @@ const Login: React.FC<Props> = () => {
               autoComplete="current-password"
               onChange={handleChange}
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
               type="submit"
               fullWidth
@@ -161,13 +158,7 @@ const Login: React.FC<Props> = () => {
               Sign In
             </Button>
             <Grid container>
-              {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
               <Grid item>
-                {/* <Link href="/signup" variant="body2"> */}
                 <Link to="/signup">
                   {"Don't have an account? Sign Up"}
                 </Link>

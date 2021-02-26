@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 20,
       width: 1,
     },
+    tableHeaderCell: {
+      padding: 0
+    }
   }),
 );
 
@@ -70,7 +73,7 @@ interface HeadCell {
 }
 
 const headCells: HeadCell[] = [
-  { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
+  { id: 'title', numeric: false, disablePadding: false, label: 'Title' },
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount (yen)' },
   { id: 'paidAt', numeric: true, disablePadding: false, label: 'Payment Date' },
   { id: 'tag', numeric: false, disablePadding: false, label: 'Tag' },
@@ -78,7 +81,6 @@ const headCells: HeadCell[] = [
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];
 interface EnhancedTableProps {
-  classes: ReturnType<typeof useStyles>;
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof tableData) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -88,7 +90,8 @@ interface EnhancedTableProps {
 }
 
 const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
+  const classes = useStyles()
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property: keyof tableData) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
@@ -96,7 +99,10 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell
+          className={classes.tableHeaderCell}
+          align='center'
+        >
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
@@ -106,9 +112,9 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
+            className={classes.tableHeaderCell}
             key={headCell.id}
-            align='left'
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            align='center'
             sortDirection={orderBy === headCell.id ? order : false}
           >
             {headCell.numeric
@@ -126,7 +132,9 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
                   ) : null}
                 </TableSortLabel>
               :
-                <TableSortLabel hideSortIcon={true}>
+                <TableSortLabel
+                  hideSortIcon={true}
+                >
                   {headCell.label}
                 </TableSortLabel>
               }

@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { Chart } from "react-google-charts";
 import { useTypedSelector } from '../../../../modules/Reducers';
-import Tag, { pendingChartData } from '../../../../models/Tag';
+import Tag from '../../../../models/Tag';
 import ExpenditureLog from '../../../../models/ExpenditureLog';
 import { Grid, makeStyles, createStyles } from '@material-ui/core';
 
 const { useState } = React
 
-const useStyles = makeStyles(() => createStyles({
+const useStyles = makeStyles((theme) => createStyles({
   chartTitle: {
     padding: 10,
     background: '#e2e2e2',
@@ -18,6 +18,12 @@ const useStyles = makeStyles(() => createStyles({
     margin: 10,
     color: '#535353',
     borderBottom: '1px solid black'
+  },
+  chartSize: {
+    [theme.breakpoints.down('sm')]: {
+      width: 200,
+      height: 200,
+    }
   },
   contentsTitle: {
     background: '#263238',
@@ -63,54 +69,52 @@ const ExpenditurePieChart: React.FC<Props> = (props) => {
 
   return (
     <React.Fragment>
-      <div style={{padding: 10}}>
-        <Grid container direction='column'>
-          <Grid item>
-            {props.title ?
-              <strong className={classes.contentsTitle}>
-                {props.title}
-              </strong>
-            : null}
-          </Grid>
-
-          {expenditureLogs && props.logs.length ?
-            <Grid item>
-              <Chart
-                graph_id={props.graphID}
-                width={props.width || 360}
-                height={props.height || 360}
-                chartType="PieChart"
-                loader={<div>Loading Chart</div>}
-                data={[
-                  ['Total amount', 'classified by tag'],
-                  ...data
-                ]}
-                options={{
-                  legend: 'none',
-                  pieSliceText: props.pieSliceText || 'label',
-                  title: props.title ? `${props.title}` : '',
-                  tooltip: { trigger: props.tooltip || 'OK' },
-                  pieHole: 0.4,
-                  pieStartAngle: 100,
-                  slices: {
-                    ...tagColor
-                  },
-                  backgroundColor: '#edf3ff'
-                }}
-                rootProps={{ 'data-testid': '4' }}
-              />
-            </Grid>
+      <Grid container direction='column'>
+        <Grid item>
+          {props.title ?
+            <strong className={classes.contentsTitle}>
+              {props.title}
+            </strong>
           : null}
-
-          <Grid item>
-            total:<strong className={classes.chartAmount}>{expenditureLogs.length ? totalAmount : 0}¥</strong>
-            <br />
-            <p>lorem ipsum lorem ipsum</p>
-            <strong>lorem ipsum lorem ipsum</strong>
-            <div>lorem ipsum lorem ipsum lorem ipsum</div>
-          </Grid>
         </Grid>
-      </div>
+
+        {expenditureLogs && props.logs.length ?
+          <Grid item>
+            <Chart
+              graph_id={props.graphID}
+              width={props.width || 360}
+              height={props.height || 360}
+              chartType="PieChart"
+              loader={<div>Loading Chart</div>}
+              data={[
+                ['Total amount', 'classified by tag'],
+                ...data
+              ]}
+              options={{
+                legend: 'none',
+                pieSliceText: props.pieSliceText || 'label',
+                title: props.title ? `${props.title}` : '',
+                tooltip: { trigger: props.tooltip || 'OK' },
+                pieHole: 0.4,
+                pieStartAngle: 100,
+                slices: {
+                  ...tagColor
+                },
+                backgroundColor: '#edf3ff'
+              }}
+              rootProps={{ 'data-testid': '4' }}
+            />
+          </Grid>
+        : null}
+
+        <Grid item>
+          total:<strong className={classes.chartAmount}>{expenditureLogs.length ? totalAmount : 0}¥</strong>
+          <br />
+          <p>lorem ipsum lorem ipsum</p>
+          <strong>lorem ipsum lorem ipsum</strong>
+          <div>lorem ipsum lorem ipsum lorem ipsum</div>
+        </Grid>
+      </Grid>
     </React.Fragment>
   )
 }

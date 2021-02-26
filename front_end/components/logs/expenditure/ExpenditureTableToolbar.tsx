@@ -14,13 +14,12 @@ import { setLoadingMessage } from '../../../modules/CommonModule';
 import Notification, { progress, success, error } from '../../../models/Notification';
 import { editExpenditureLogs, actionTypes } from '../../../modules/ExpenditureLogModule';
 import CreateExpenditureLogModal from './CreateExpenditureLogModal';
+import BulkDeleteAlert from '../common/BulkDeleteAlert';
 
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      minWidth: 1000,
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(1),
+      minWidth: 360,
     },
     highlight:
       theme.palette.type === 'light'
@@ -84,23 +83,7 @@ const ExpenditureTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => 
         </Typography>
       )}
       {numSelected > 0 ? (
-        <>
-          <Tooltip title="Bulk edit">
-            <IconButton
-              aria-label="edit"
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Bulk delete">
-            <IconButton
-              aria-label="delete"
-              onClick={() => handleBulkDeleteClick(props.expenditureLogs)}
-            >
-              <DeleteForeverIcon />
-            </IconButton>
-          </Tooltip>
-        </>
+        <BulkDeleteAlert logs={props.expenditureLogs} handleDeleteClick={handleBulkDeleteClick} />
       ) : (
         <>
           <CreateExpenditureLogModal />

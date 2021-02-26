@@ -1,4 +1,6 @@
-import * as React from 'react';
+import * as React from 'react'
+import ExpenditureLog from 'front_end/models/ExpenditureLog'
+import IncomeLog from 'front_end/models/IncomeLog'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -7,17 +9,15 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import IconButton from '@material-ui/core/IconButton';
-import IncomeLog from '../../../models/IncomeLog';
-import ExpenditureLog from '../../../models/ExpenditureLog';
 import Tooltip from '@material-ui/core/Tooltip';
 
 interface Props {
-  row: IncomeLog | ExpenditureLog
-  handleDeleteClick: (row: IncomeLog | ExpenditureLog) => void
+  logs: ExpenditureLog[] | IncomeLog[]
+  handleDeleteClick: (logs: IncomeLog[] | ExpenditureLog[]) => void
 }
 
-const DeleteAlert: React.FC<Props> = (props) => {
-  const [open, setOpen] = React.useState<boolean>(false);
+const BulkDeleteAlert: React.FC<Props> = (props) => {
+  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,12 +26,11 @@ const DeleteAlert: React.FC<Props> = (props) => {
     setOpen(false);
   };
   const handleAgree = () => {
-    props.handleDeleteClick(props.row)
+    props.handleDeleteClick(props.logs)
     setOpen(false);
   };
-
   return (
-    <div>
+    <React.Fragment>
       <Tooltip title="Delete log">
         <IconButton aria-label="delete" onClick={handleClickOpen}>
           <DeleteForeverIcon />
@@ -51,9 +50,9 @@ const DeleteAlert: React.FC<Props> = (props) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Once deleted, log can't be recovered.
+            Once deleted, logs can't be recovered.
             <br />
-            {props.row.title} のログデータを削除します。
+            ログを一括削除します。
             <br />
             削除すると復元できませんがよろしいですか？
           </DialogContentText>
@@ -67,8 +66,8 @@ const DeleteAlert: React.FC<Props> = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
-  );
+    </React.Fragment>
+  )
 }
 
-export default DeleteAlert
+export default BulkDeleteAlert

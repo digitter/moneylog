@@ -6,7 +6,7 @@ module SystemHelper
   def signin
     visit(Rails.application.credentials.end_point[:front])
 
-    page.find_link('Sign In').click
+    page.find_button('Sign In').click
 
     expect(page).to have_current_path('/signin')
 
@@ -24,7 +24,7 @@ module SystemHelper
   def signup
     visit(Rails.application.credentials.end_point[:front])
 
-    page.find_link('Sign Up').click
+    page.find_button('Sign Up').click
 
     expect(page).to have_current_path('/signup')
 

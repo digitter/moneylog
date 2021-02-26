@@ -23,10 +23,10 @@ import Switch from '@material-ui/core/Switch';
 import DeleteAlert from '../common/DeleteAlert';
 import TagAttachedToIncome from './TagAttachedToIncome';
 import { TextField, Grid } from '@material-ui/core';
-import EarnedAtPickers from './common/EarnedAtPicker';
+import EarnedAtPicker from './common/EarnedAtPicker';
 import IncomePieChart from './common/IncomePieChart';
 import { setLoadingMessage } from '../../../modules/CommonModule';
-import Notification, { progress, success, error } from '../../../models/Notification';
+import Notification, { progress, error, success } from '../../../models/Notification';
 
 interface tableData {
   title: string;
@@ -34,6 +34,11 @@ interface tableData {
   earnedAt: Date;
   edit: string;
   delete: string;
+}
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return { width, height };
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -76,15 +81,32 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '30px auto',
     },
     paper: {
-      minWidth: 1000,
+      minWidth: 360,
       marginBottom: theme.spacing(2),
     },
     tableContainer: {
       maxHeight: 350,
-      minWidth: 1000,
+      minWidth: 360,
+      marginBottom: theme.spacing(2),
     },
     table: {
-      minWidth: 1000,
+      minWidth: 360,
+    },
+    tableBodyCell: {
+      padding: '6px 0 3px 0',
+      [theme.breakpoints.down('sm')]: {
+        padding: 0,
+      }
+    },
+    tableBodyCellSm: {
+      width: 150,
+      whiteSpace: 'nowrap',
+      overflow: 'scroll',
+      [theme.breakpoints.down('sm')]: {
+        width: 100,
+        whiteSpace: 'nowrap',
+        overflow: 'scroll',
+      },
     },
     visuallyHidden: {
       border: 0,
@@ -119,6 +141,7 @@ const IncomeLogsTable: React.FC = () => {
   const incomeLogs = useSelector(state => state.incomeLogs)
   const dispatch = useDispatch()
 
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [order, setOrder] = useState<Order>('desc')
   const [orderBy, setOrderBy] = useState<keyof tableData>('earnedAt')
   const [page, setPage] = useState(0)
@@ -136,7 +159,20 @@ const IncomeLogsTable: React.FC = () => {
     setRowsPerPage(currentMonthLogs.length)
     setRows(currentMonthLogs)
     setTotalAmount(IncomeLog.calculateTotalAmount(currentMonthLogs))
+
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize)
   }, [incomeLogs])
+
+  const chartWidth = () => {
+    const width = windowDimensions.width
+    if (width < 380) { return 350 }
+    else if (width < 670) { return 250 }
+    else { return null }
+  }
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof tableData) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -230,7 +266,7 @@ const IncomeLogsTable: React.FC = () => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <strong className={classes.contentsTitle}>income logs</strong>
+        <strong className={classes.contentsTitle}>Income logs</strong>
 
         <TextField
           type="month"
@@ -242,9 +278,15 @@ const IncomeLogsTable: React.FC = () => {
         <strong style={{paddingLeft: 20}}>{totalAmount} ¥</strong>
 
         <Grid container wrap='wrap'>
-          <Grid item xs={9}>
+          <Grid item xs={12} sm={8} md={9}>
             <Paper className={classes.paper}>
-              <IncomeTableToolbar incomeLogs={checkedLogs} numSelected={checkedLogs.length} setCheckedLogs={setCheckedLogs} />
+
+              <IncomeTableToolbar
+                incomeLogs={checkedLogs}
+                numSelected={checkedLogs.length}
+                setCheckedLogs={setCheckedLogs}
+              />
+
               <TableContainer className={classes.tableContainer}>
                 <Table
                   stickyHeader
@@ -253,9 +295,10 @@ const IncomeLogsTable: React.FC = () => {
                   size={dense ? 'small' : 'medium'}
                   aria-label="enhanced table"
                 >
+
                   <caption>Income Logs</caption>
+
                   <IncomeTableHead
-                    classes={classes}
                     numSelected={checkedLogs.length}
                     order={order}
                     orderBy={orderBy}
@@ -263,6 +306,7 @@ const IncomeLogsTable: React.FC = () => {
                     onRequestSort={handleRequestSort}
                     rowCount={rows.length}
                   />
+
                   <TableBody>
                     {stableSort(rows, getComparator(order, orderBy))
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -280,29 +324,36 @@ const IncomeLogsTable: React.FC = () => {
                             key={row.id}
                             selected={isItemSelected}
                           >
-                            <TableCell padding="checkbox" size='small'>
+                            <TableCell
+                              className={classes.tableBodyCell}
+                              align='center'
+                            >
                               <Checkbox
                                 checked={isItemSelected}
                                 inputProps={{ 'aria-labelledby': labelId }}
                                 onClick={(event) => handleCheckClick(event, row)}
                               />
                             </TableCell>
-                            <TableCell align='left' size='small'>
-                              {row.title}
+                            <TableCell align='center' className={classes.tableBodyCell}>
+                              <div className={classes.tableBodyCellSm}>
+                                {row.title}
+                              </div>
                             </TableCell>
-                            <TableCell align='left' size='small'>
-                              {row.amount}
+                            <TableCell align='center' className={`${classes.tableBodyCell}`}>
+                              <div className={classes.tableBodyCellSm}>
+                                {row.amount}
+                              </div>
                             </TableCell>
-                            <TableCell align='left' size='small'>
-                              <EarnedAtPickers incomeLog={row} />
+                            <TableCell align='center' className={classes.tableBodyCell}>
+                              <EarnedAtPicker incomeLog={row} />
                             </TableCell>
-                            <TableCell align='left' size='small'>
+                            <TableCell align='center' className={classes.tableBodyCell}>
                               <TagAttachedToIncome row={row} />
                             </TableCell>
-                            <TableCell align='left' size='small'>
+                            <TableCell align='center' className={classes.tableBodyCell}>
                               <EdtingIncomeLog incomeLog={row} />
                             </TableCell>
-                            <TableCell align='left' size='small'>
+                            <TableCell align='center' className={classes.tableBodyCell}>
                               <DeleteAlert handleDeleteClick={handleDeleteClick} row={row} />
                             </TableCell>
                           </TableRow>
@@ -334,13 +385,13 @@ const IncomeLogsTable: React.FC = () => {
             />
           </Grid>
 
-          <Grid item>
+          <Grid item xs={12} sm={4} md={3}>
             <IncomePieChart
               graphID='monthlyIncome'
-              width={300}
+              width={chartWidth()}
               height={300}
               logs={rows}
-              title={`${currentYYMM}: income classification`}
+              title={`${currentYYMM}: classification`}
             />
           </Grid>
         </Grid>

@@ -1,49 +1,53 @@
 import * as React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import Header from './Header';
+import { history } from '../modules/store'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    height: '100vh',
+    marginTop: '60px',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '50px',
+    }
   },
   image: {
     // backgroundImage: 'url(https://source.unsplash.com/random)',
+    height: '93vh',
+    position: 'relative',
     backgroundImage: 'url(public/images/moneylog.jpg)',
     backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      height: '270px'
+    }
+  },
+  imageAuhtor: {
+    color: 'white',
+    position: 'absolute',
+    bottom: 5,
+    left: 10,
+  },
+  imageLink: {
+    color: 'white',
+    "&:hover": {
+      color: 'gray',
+      textDecoration: 'none',
+    },
   },
   paper: {
-    margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    margin: theme.spacing(8, 10),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(8, 10),
+    }
   },
   avatar: {
     margin: theme.spacing(1),
@@ -51,84 +55,129 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  button: {
+    margin: theme.spacing(1, 1, 1),
   },
+  topIcon: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  }
 }));
+
+function Copyright() {
+  return (
+    <Typography variant="overline" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        lifelog
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 export default function Top() {
   const classes = useStyles();
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('click !')
+    switch (event.currentTarget.name) {
+      case 'signin':
+        history.push('/signin')
+        break;
+      case 'signup':
+        history.push('/signup')
+        break;
+      case 'about':
+        // history.push('/')
+        break;
+      case 'reference':
+        // history.push('/')
+        break;
+    }
+  }
+
   return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} >
-        <span>Photo by <a href="https://unsplash.com/@micheile?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Micheile Henderson</a> on <a href="https://unsplash.com/s/photos/money?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
-            <Grid container>
+    <React.Fragment>
+      <Grid container component="main" className={classes.root}>
+        <Header />
+
+        <Grid item sm={12} md={7} className={classes.image} >
+          <span className={classes.imageAuhtor}>
+            Photo by <a className={classes.imageLink} href="https://unsplash.com/@micheile?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Micheile Henderson </a>
+            on <a className={classes.imageLink} href="https://unsplash.com/s/photos/money?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a>
+          </span>
+        </Grid>
+
+        <Grid item sm={12} md={5}>
+          <div className={classes.paper}>
+            <Grid
+              container
+              justify='space-evenly'
+              direction='column'
+              alignItems='center'
+             >
               <Grid item>
-                <Link href="/signin" variant="body2">
-                  {"Sign In"}
-                </Link>
+                <Button
+                  name="signin"
+                  type="button"
+                  variant="outlined"
+                  color="primary"
+                  className={classes.button}
+                  onClick={handleClick}
+                >
+                  Sign In
+                </Button>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <Button
+                  name="signup"
+                  type="button"
+                  variant="outlined"
+                  color="secondary"
+                  className={classes.button}
+                  onClick={handleClick}
+                >
+                  Sign Up
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  name="about"
+                  type="button"
+                  variant="outlined"
+                  color="default"
+                  className={classes.button}
+                  onClick={handleClick}
+                >
+                  About
+                </Button>
               </Grid>
             </Grid>
-            <Box mt={5}>
+            <Grid item>
+              <Button
+                name="reference"
+                type="button"
+                variant="outlined"
+                color="default"
+                className={classes.button}
+                onClick={handleClick}
+              >
+                Reference
+              </Button>
+            </Grid>
+            <Grid item className={classes.topIcon}>
+              <img src="public/images/loadingp.gif" />
+            </Grid>
+            <Grid item>
               <Copyright />
-            </Box>
-          </form>
-        </div>
+            </Grid>
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </React.Fragment>
   );
 }

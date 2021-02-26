@@ -4,8 +4,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -32,6 +30,7 @@ import { editExpenditureLogs, actionTypes as expenditureActionTypes } from '../.
 import { editIncomeLogs, actionTypes as incomeActionTypes } from '../../modules/IncomeLogModule';
 import { editMonthlyExpenditures, actionTypes as monthlyActionTypes } from '../../modules/MonthlyExpenditureModule';
 import { editTags, tagActionTypes } from '../../modules/TagModule';
+import Header from '../Header';
 
 
 const { useState } = React
@@ -58,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.info.main,
+    backgroundColor: theme.palette.secondary.light
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -127,40 +126,24 @@ const SignUp: React.FC<Props> = () => {
 
   return (
     <React.Fragment>
+      <Header />
+
       <Container component="main" maxWidth="xs">
+
         <CssBaseline />
+
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            {/* <LockOutlinedIcon /> */}
+            <LockOutlinedIcon />
           </Avatar>
+
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="fname"
-                  name="firstName"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid> */}
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
-                />
-              </Grid> */}
+
+
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
@@ -210,18 +193,12 @@ const SignUp: React.FC<Props> = () => {
                   onChange={handleChange}
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
             </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
+              color="secondary"
               className={classes.submit}
             >
               Sign Up

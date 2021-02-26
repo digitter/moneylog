@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexWrap: 'wrap',
     },
-    textField: {
-      width: 135,
-    },
   }),
 );
 
@@ -24,7 +21,7 @@ interface Props {
   expenditureLog: ExpenditureLog
 }
 
-export default function PaidAtPickers(props: Props) {
+export default function PaidAtPicker(props: Props) {
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -49,7 +46,6 @@ export default function PaidAtPickers(props: Props) {
         label="paid at"
         type="date"
         value={moment(props.expenditureLog.paidAt).format('YYYY-MM-DD')}
-        className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}

@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      marginBottom: '85px',
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: '65px'
+      }
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -32,12 +36,14 @@ export default function Header() {
   const user = useSelector(state => state.user)
 
   return (
-    <div className={classes.root} style={{marginBottom: "65px"}}>
+    <div className={classes.root}>
       <AppBar position="fixed" style={{ backgroundColor: '#263238' }}>
         <Toolbar>
-          <Typography variant="h6" className={classes.menuButton}>
-            <ToggleSideBar />
-          </Typography>
+          {Object.keys(user).length ?
+            <Typography variant="h6" className={classes.menuButton}>
+              <ToggleSideBar />
+            </Typography>
+          : null}
 
           <Typography variant="h6" className={classes.title}>
             <Box letterSpacing={5}>
@@ -52,9 +58,11 @@ export default function Header() {
             </Link>
           </Typography>
           <Typography variant="subtitle1" className={classes.menuButton}>
-            <Link to={`/settings`}>
-              <Avatar alt="Remy Sharp" src="public/images/hello.png" className={classes.avatar} />
-            </Link>
+            {Object.keys(user).length ?
+              <Link to={`/settings`}>
+                <Avatar alt="Remy Sharp" src="public/images/hello.png" className={classes.avatar} />
+              </Link>
+            : null}
           </Typography>
         </Toolbar>
       </AppBar>

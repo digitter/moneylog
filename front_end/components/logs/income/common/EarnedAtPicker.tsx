@@ -6,16 +6,13 @@ import TextField from '@material-ui/core/TextField';
 import { updateIncomeLog } from '../../../../services/IncomeLogService';
 import IncomeLog from '../../../../models/IncomeLog';
 import { actionTypes, editIncomeLog } from '../../../../modules/IncomeLogModule';
-import Notification, { success, error } from '../../../../models/Notification';
+import Notification, { error, success } from '../../../../models/Notification';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       display: 'flex',
       flexWrap: 'wrap',
-    },
-    textField: {
-      width: 135,
     },
   }),
 );
@@ -25,7 +22,7 @@ interface Props {
 }
 
 export default function EarnedAtPickers(props: Props) {
-  const classes = useStyles();
+  const classes = useStyles()
   const dispatch = useDispatch()
 
   const handleDateChange = event => {
@@ -49,7 +46,6 @@ export default function EarnedAtPickers(props: Props) {
         label="earned at"
         type="date"
         value={moment(props.incomeLog.earnedAt).format('YYYY-MM-DD')}
-        className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}

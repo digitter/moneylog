@@ -11,13 +11,13 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { useForm } from 'react-hook-form'
+import { Grid } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
+    formItem: {
       '& > *': {
         margin: theme.spacing(0.5),
-        width: '20ch',
       },
     },
     modal: {
@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
+      [theme.breakpoints.down('sm')]: {
+        width: 300,
+      }
     },
     contentsTitle: {
       background: '#263238',
@@ -43,6 +46,21 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight:  10,
       borderLeft: '5px solid #818ed3',
       borderRight: '5px solid #818ed3',
+      fontSize: 10,
+    },
+    createButton: {
+      width: 60,
+      margin: theme.spacing(0.5),
+      background: '#547599',
+      color: 'white',
+      fontSize: 10,
+    },
+    closeButton: {
+      width: 60,
+      margin: theme.spacing(0.5),
+      background: '#525355',
+      color: 'white',
+      fontSize: 10,
     },
   }),
 );
@@ -114,32 +132,43 @@ const CreateIncomeLogModal: React.FC<Props> = props => {
           <Fade in={open}>
             <div className={classes.paper}>
               <h3 id="transition-modal-title" className={classes.contentsTitle}>Create Income Log</h3>
-              <p id="transition-modal-description">fill in blank</p>
 
-              <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} >
-                <TextField type="text" id="filled-basic" label="Title" variant="filled" name="title" inputRef={register} />
-                <TextField type="number" id="outlined-basic" label="Amount" variant="outlined" name="amount" inputRef={register} />
-                <TextField type="text" id="outlined-basic" label="Content" variant="outlined" name="content" inputRef={register} />
+              <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+                <Grid className={classes.formItem} container justify='center'>
+                  <Grid item>
+                    <TextField fullWidth type="text" id="filled-basic" label="Title" variant="filled" name="title" inputRef={register} />
+                  </Grid>
+                  <Grid item>
+                    <TextField fullWidth type="number" id="outlined-basic" label="Amount" variant="outlined" name="amount" inputRef={register} />
+                  </Grid>
+                  <Grid item>
+                    <TextField fullWidth type="text" id="outlined-basic" label="Content" variant="outlined" name="content" inputRef={register} />
+                  </Grid>
+                </Grid>
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="inherit"
-                  style={{width: 60, background: '#547599', color: 'white', fontSize: 10}}
-                >
-                  CREATE
-                </Button>
-
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="inherit"
-                  style={{width: 60, background: '#525355', color: 'white', fontSize: 10}}
-                  onClick={handleClose}
-                >
-                  CLOSE
-                </Button>
+                <Grid container justify='center'>
+                  <Grid item>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="inherit"
+                      className={classes.createButton}
+                    >
+                      CREATE
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      color="inherit"
+                      onClick={handleClose}
+                      className={classes.closeButton}
+                    >
+                      CLOSE
+                    </Button>
+                  </Grid>
+                </Grid>
               </form>
             </div>
           </Fade>
