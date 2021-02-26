@@ -1,5 +1,5 @@
 class ExpenditureLogSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
   attributes :id, :title, :amount, :content, :paid_at
 
   # custom attributes

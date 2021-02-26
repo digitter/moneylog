@@ -1,5 +1,5 @@
 class IncomeLogSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
   attributes :id, :title, :amount, :content, :earned_at
 
   # custom attributes

@@ -1,5 +1,5 @@
 class MonthlyExpenditureSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
   attributes :id, :title, :amount, :content, :is_active, :will_create_at
 
   belongs_to :user
