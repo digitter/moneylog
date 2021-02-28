@@ -254,13 +254,13 @@ const ExpenditureLogsTable: React.FC = () => {
   }
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const yymm: string = event.currentTarget.value
-    const selectedLogs: ExpenditureLog[] = ExpenditureLog.selectLogsByMonth(expenditureLogs, yymm)
+    const yyyymm: string = event.currentTarget.value
+    const selectedLogs: ExpenditureLog[] = ExpenditureLog.selectLogsByMonth(expenditureLogs, yyyymm)
 
     setRowsPerPage(selectedLogs.length)
     setRows(selectedLogs)
     setTotalAmount(ExpenditureLog.calculateTotalAmount(selectedLogs))
-    setCurrentYYMM(yymm)
+    setCurrentYYMM(yyyymm)
   }
 
   return (

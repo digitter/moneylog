@@ -254,13 +254,13 @@ const IncomeLogsTable: React.FC = () => {
   }
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const yymm: string = event.currentTarget.value
-    const selectedLogs: IncomeLog[] = IncomeLog.selectLogsByMonth(incomeLogs, yymm)
+    const yyyymm: string = event.currentTarget.value
+    const selectedLogs: IncomeLog[] = IncomeLog.selectLogsByMonth(incomeLogs, yyyymm)
 
     setRowsPerPage(selectedLogs.length)
     setRows(selectedLogs)
     setTotalAmount(IncomeLog.calculateTotalAmount(selectedLogs))
-    setCurrentYYMM(yymm)
+    setCurrentYYMM(yyyymm)
   }
 
   return (
