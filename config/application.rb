@@ -34,6 +34,7 @@ module MoneyLog
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    config.middleware.use ActionDispatch::Cookies
     config.time_zone = 'Asia/Tokyo'
 
     config.hosts << Rails.application.credentials.host
