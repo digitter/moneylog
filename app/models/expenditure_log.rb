@@ -17,4 +17,5 @@ class ExpenditureLog < ApplicationRecord
   belongs_to :monthly_expenditure, optional: true
 
   # method
+  scope :this_month, -> { where(paid_at: Time.current.all_month) }
 end

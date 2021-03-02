@@ -16,4 +16,5 @@ class IncomeLog < ApplicationRecord
   belongs_to :user
 
   # method
+  scope :this_month, -> { where(earned_at: Time.current.all_month) }
 end
