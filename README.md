@@ -39,6 +39,8 @@ secret_key_base:
 
 # application.rbのhostに記載するもの
 host:
+  front:
+  api:
 
 # エンドポイント
 end_point:

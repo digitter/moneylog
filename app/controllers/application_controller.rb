@@ -21,6 +21,9 @@ class ApplicationController < ActionController::API
     # 新しいトークンをsession storeのcookieで管理しつつ、べつのcookieでset cookieする
     def set_csrf_token
       session[:auth_token] = SecureRandom.urlsafe_base64
-      cookies['csrf-token'] = session[:auth_token]
+      cookies['csrf-token'] = {
+        value: session[:auth_token],
+        domain: Rails.env.staging? ? 'digitter.info' : 'moneylog.com'
+      }
     end
 end

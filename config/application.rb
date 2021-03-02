@@ -37,6 +37,6 @@ module MoneyLog
     config.middleware.use ActionDispatch::Cookies
     config.time_zone = 'Asia/Tokyo'
 
-    config.hosts << Rails.application.credentials.host
+    config.hosts << Rails.application.credentials.dig(:host, :api)
   end
 end
