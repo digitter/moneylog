@@ -88,6 +88,10 @@ GEM
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    graphiql-rails (1.7.0)
+      railties
+      sprockets-rails
+    graphql (1.11.6)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     jsonapi-serializer (2.1.0)
@@ -214,6 +218,8 @@ DEPENDENCIES
   capybara
   factory_bot_rails
   faker
+  graphiql-rails
+  graphql
   jsonapi-serializer
   listen (~> 3.2)
   mysql2
