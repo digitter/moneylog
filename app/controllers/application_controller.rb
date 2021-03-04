@@ -1,25 +1,37 @@
 class ApplicationController < ActionController::API
+  include ActionController::Cookies
   include CurrentUserConcern
+  include ResponseHelper
+
   before_action :verify_csrf_token
   after_action :set_csrf_token
 
-  def verify_csrf_token
-    # 認証トークンが不一致ならばセッションをリセット
-    # セッションがリセットされた後
-    # 認可チェックが必要な場合は authorize_user! で制御する。
-    reset_session unless session[:auth_token] == request.headers['X-CSRF-Token']
-  end
+  private
+    # 認証トークン検証をし、不一致ならばセッションをリセット
+    def verify_csrf_token
+      unless session[:auth_token] == request.headers['X-CSRF-Token']
+        reset_session
 
-  def authorize_user!
-    # ユーザーがログインしていないならばリダイレクト
-    redirect_to api_v1_logged_in_path unless @current_user
-  end
+        # 400、500番台レスポンスエラー時には
+        # after_action が動作しない為、新しいトークンを送る必要がある.
+        set_csrf_token
 
-  def set_csrf_token
-    # カスタムヘッダが送信されるレスポンス成功時 (200~300) のみに新しいトークンの付与をする
-    if response.successful?
-      session[:auth_token] = SecureRandom.urlsafe_base64
-      response.set_header('X-CSRF-Token', session[:auth_token])
+        response_unauthorized
+      end
     end
-  end
+
+    # 新しいトークンをsession storeのcookieで管理しつつ、べつのcookieでset cookieする
+    def set_csrf_token
+      session[:auth_token] = SecureRandom.urlsafe_base64
+      cookies['csrf-token'] = {
+        value: session[:auth_token],
+        domain: Rails.application.credentials.dig(:host, :front)
+      }
+    end
+
+    # 認可チェック
+    def authorize_user!
+      # ユーザーがログインしていないならば401
+      response_unauthorized unless @current_user
+    end
 end

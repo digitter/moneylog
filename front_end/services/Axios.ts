@@ -1,20 +1,20 @@
 import axios from 'axios'
 
+function getCookie(name: string): string {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 const Axios = axios.create({ withCredentials: true })
 
 Axios.interceptors.request.use((config) => {
-  const token = window.localStorage.getItem('auth-token')
+  const token = getCookie('csrf-token')
   config.headers['X-CSRF-Token'] = token
   config.headers['Content-Type'] = 'application/json'
 
   return config
-})
-
-Axios.interceptors.response.use((response) => {
-  const token = response.headers['x-csrf-token']
-  window.localStorage.setItem('auth-token', token)
-
-  return response
 })
 
 export default Axios
