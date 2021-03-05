@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
   private
     # 認証トークン検証をし、不一致ならばセッションをリセット
     def verify_csrf_token
-      unless session[:auth_token] == request.headers['X-CSRF-Token']
+      unless request.xhr? && session[:auth_token] == cookies['csrf-token']
         reset_session
 
         # 400、500番台レスポンスエラー時には
@@ -20,11 +20,14 @@ class ApplicationController < ActionController::API
       end
     end
 
-    # 新しいトークンをsession storeのcookieで管理しつつ、べつのcookieでset cookieする
+    # 新しいトークンをsession storeのcookieで管理しつつ、別のcookieでset cookieする。
     def set_csrf_token
       session[:auth_token] = SecureRandom.urlsafe_base64
+      # リクエスト毎に新しいトークンを送信する。
       cookies['csrf-token'] = {
         value: session[:auth_token],
+        httponly: true,
+        same_site: :strict,
         domain: Rails.application.credentials.dig(:host, :front)
       }
     end
