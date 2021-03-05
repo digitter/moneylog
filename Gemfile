@@ -56,6 +56,3 @@ gem 'jsonapi-serializer'
 gem 'whenever', require: false
 
 gem 'graphql'
-
-
-gem 'graphiql-rails', group: :development
