@@ -1,13 +1,21 @@
 module Types
   class QueryType < Types::BaseObject
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
+    field :income_logs_for_this_month, [IncomeLogType], null: true do
+      description 'find income logs which current user registerd for this month'
+    end
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :expenditure_logs_for_this_month, [ExpenditureLogType], null: true do
+      description 'find expenditure logs which current user registerd for this month'
+    end
+
+    def income_logs_for_this_month
+      current_user = context[:current_user]
+      current_user.income_logs.this_month
+    end
+
+    def expenditure_logs_for_this_month
+      current_user = context[:current_user]
+      current_user.expenditure_logs.this_month
     end
   end
 end
